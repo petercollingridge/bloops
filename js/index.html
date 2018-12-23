@@ -7,10 +7,46 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://unpkg.com/vue/dist/vue.js"></script>
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="bloops.css">
     </head>
     <body>
-        
-        <script src="bloops.js"></script>
+
+    <script src="bloops.js"></script>
+
+        <div style="width:600px;">
+            <svg id="bloop-world" class="bloop-world" xmlns="http://www.w3.org/2000/svg" :width="width" :height="height">
+                <rect class="background" :width="width" :height="height"/>
+                <g class="food">
+                    <circle
+                        v-for="f in food"
+                        :cx="f.x" :cy="f.y" :r="f.r"
+                    />
+                </g>
+            </svg>
+        </div>
+
+<script type="text/javascript">
+    // Set up world
+    World.init({
+        width: 1000,
+        height: 600,
+    });
+
+    World.addFood(100);
+</script>
+
+<script type="text/javascript">
+    //Code for displaying world
+
+    var vm = new Vue({
+        el: '#bloop-world',
+        data: {
+            width: World.width,
+            height: World.height,
+            food: World.food,
+        }
+    });
+</script>
+
     </body>
 </html>

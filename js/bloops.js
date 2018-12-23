@@ -1,11 +1,15 @@
-var Food = function(position, energy) {
+var Food = function(position, radius, energy) {
     this.position = position;
+    this.x = position.x;
+    this.y = position.y;
+    this.r = radius;
     this.energy = energy;
 };
 
 
-var Creature = function(position, energy, genome) {
+var Creature = function(position, radius, energy, genome) {
     this.position = position;
+    this.r = radius;
     this.energy = energy;
     this.genome = genome;
 };
@@ -18,7 +22,10 @@ var World = {
     // Default values
     width: 100,
     height: 100,
+
+    foodR: 2,
     foodEnergy: 100,
+    foodGrowthRate: 0.1,
 
     creatures: [],
     food: [],
@@ -32,7 +39,7 @@ var World = {
     addFood: function(n) {
         n = n || 1;
         for (var i = 0; i < n; i++) {
-            var newFood = new Food(this.getRandomPosition(), this.foodEnergy);
+            var newFood = new Food(this.getRandomPosition(), this.foodR, this.foodEnergy);
             this.food.push(newFood);
         }
     },
@@ -49,18 +56,14 @@ var World = {
     },
 
     update: function() {
+        // Grow food
+        while (Math.random() < this.foodGrowthRate) {
+            this.addFood();
+        }
+
+        // Update creatures
         for (var i = 0; i < this.creatures.length; i++) {
             this.creatures[i].update();
         }
     }
 };
-
-// Example
-World.init({
-    width: 400,
-    height: 400,
-});
-
-World.addFood(100);
-
-console.log(World.food)
