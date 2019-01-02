@@ -22,6 +22,12 @@
                         :cx="f.x" :cy="f.y" :r="f.r"
                     />
                 </g>
+                <g class="creatures">
+                    <circle
+                        v-for="c in creatures"
+                        :cx="c.x" :cy="c.y" :r="c.r"
+                    />
+                </g>
             </svg>
         </div>
 
@@ -33,6 +39,7 @@
     });
 
     World.addFood(100);
+    World.addCreature("");
 </script>
 
 <script type="text/javascript">
@@ -44,6 +51,7 @@
             width: World.width,
             height: World.height,
             food: World.food,
+            creatures: World.creatures,
         }
     });
 </script>
