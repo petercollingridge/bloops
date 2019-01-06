@@ -5,3 +5,8 @@
 .bloop-world .food {
     fill: green;
 }
+
+.bloop-world .creatures {
+    fill: blue;
+    opacity: 0.8;
+}

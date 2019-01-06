@@ -1,22 +1,39 @@
-var Food = function(position, radius, energy) {
-    this.position = position;
+// Generic organism.
+// Has a position and energy.
+// Any other properties are part of its genome
+var Organism = function(position, energy, genome) {
     this.x = position.x;
     this.y = position.y;
-    this.r = radius;
-    this.energy = energy;
-};
-
-
-var Creature = function(position, radius, energy, genome) {
-    this.position = position;
-    this.x = position.x;
-    this.y = position.y;
-    this.r = radius;
     this.energy = energy;
     this.genome = genome;
+    this.calculatePhenotype();
+};
+Organism.prototype.calculatePhenotype = function() {};
+
+
+// Food is an organism whose genome determines its size.
+var Food = function(position, energy, genome) {
+    Organism.call(this, position, energy, genome);
+};
+Food.prototype = Object.create(Organism.prototype);
+
+Food.prototype.calculatePhenotype = function() {
+    this.r = this.genome;
 };
 
-Creature.prototype.update = function() {
+
+// Bloops have a speed and a size.
+// 
+var Bloop = function(position, energy, genome) {
+    Organism.call(this, position, energy, genome);
+};
+Bloop.prototype = Object.create(Organism.prototype);
+
+Bloop.prototype.calculatePhenotype = function() {
+    this.r = this.genome;
+    this.speed = (50 - this.r) * 0.01;
+    console.log(this.r)
+    console.log(this.genome)
 };
 
 
@@ -32,6 +49,7 @@ var World = {
     foodEnergy: 100,
     foodGrowthRate: 0.1,
 
+    creatureType: Bloop,
     creatureR: 5,
     creatureEnergy: 100,
 
@@ -46,15 +64,14 @@ var World = {
         n = n || 1;
 
         for (var i = 0; i < n; i++) {
-            var newFood = new Food(this.getRandomPosition(), this.foodR, this.foodEnergy);
+            var newFood = new Food(this.getRandomPosition(), this.foodEnergy, this.foodR);
             this.food.push(newFood);
         }
     },
 
     addCreature: function(genome, position) {
         position = position || this.getRandomPosition();
-        console.log(position)
-        var newCreature = new Creature(position, this.creatureR, this.creatureEnergy, genome);
+        var newCreature = new this.creatureType(position, this.creatureEnergy, genome);
         this.creatures.push(newCreature);
     },
 
