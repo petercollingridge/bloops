@@ -32,8 +32,20 @@ Bloop.prototype = Object.create(Organism.prototype);
 Bloop.prototype.calculatePhenotype = function() {
     this.r = this.genome;
     this.speed = (50 - this.r) * 0.01;
-    console.log(this.r)
-    console.log(this.genome)
+    this.angle = Math.PI * Math.random();
+};
+
+Bloop.prototype.update = function() {
+    this.move();
+};
+
+Bloop.prototype.move = function() {
+    this.x += this.speed * Math.cos(this.angle);
+    this.y += this.speed * Math.sin(this.angle);
+
+    if (Math.random() < 0.05) {
+        this.angle += (Math.random() - 0.5);
+    }
 };
 
 
