@@ -104,5 +104,21 @@ var World = {
         for (var i = 0; i < this.creatures.length; i++) {
             this.creatures[i].update();
         }
+    },
+
+    setTimeout: function() {
+        this.update();
+        this.animation = setTimeout(this.setTimeout.bind(this), 20);
+    },
+
+    run: function() {
+        if (!this.animation) {
+            this.setTimeout();
+        }
+    },
+
+    stop: function() {
+        clearTimeout(this.animation);
+        this.animation = false;
     }
 };
