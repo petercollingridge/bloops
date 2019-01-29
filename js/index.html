@@ -23,10 +23,10 @@
                     />
                 </g>
                 <g class="creatures">
-                    <circle
-                        v-for="c in creatures"
-                        :cx="c.x" :cy="c.y" :r="c.r"
-                    />
+                    <g v-for="c in creatures">
+                        <circle :cx="c.x" :cy="c.y" :r="c.r" />
+                        <text fill="white" :x="c.x" :y="c.y">{{ c.energy }}</text>
+                    </g>
                 </g>
             </svg>
         </div>
