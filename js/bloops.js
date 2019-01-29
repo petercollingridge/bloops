@@ -35,19 +35,42 @@ Bloop.prototype.calculatePhenotype = function() {
     this.angle = Math.PI * Math.random();
 };
 
-Bloop.prototype.update = function() {
-    this.move();
+Bloop.prototype.update = function(world) {
+    this.energy -= 0.2;
+    this.eat(world.food);
+    this.move(world);
 };
 
-Bloop.prototype.move = function() {
+Bloop.prototype.move = function(world) {
     this.x += this.speed * Math.cos(this.angle);
     this.y += this.speed * Math.sin(this.angle);
+
+    // Wrap around world
+    if (this.x > world.width) { this.x -= world.width; }
+    else if (this.x < 0) { this.x += world.width; }
+    if (this.y > world.height) { this.y -= world.height; }
+    else if (this.y < 0) { this.y += world.height; }
 
     if (Math.random() < 0.05) {
         this.angle += (Math.random() - 0.5);
     }
 };
 
+Bloop.prototype.eat = function(food) {
+    for (var i = 0; i < food.length; i++) {
+        if (collide(this, food[i])) {
+            this.energy += food[i].energy;
+            food.splice(i, 1);
+            break;
+        }
+    }
+};
+
+function collide(a, b) {
+    var dx = a.x - b.x;
+    var dy = a.y - b.y;
+    return dx * dx + dy * dy <= (a.r + b.r) * (a.r + b.r);
+}
 
 var World = {
     food: [],
@@ -102,7 +125,7 @@ var World = {
 
         // Update creatures
         for (var i = 0; i < this.creatures.length; i++) {
-            this.creatures[i].update();
+            this.creatures[i].update(this);
         }
     },
 
@@ -120,5 +143,5 @@ var World = {
     stop: function() {
         clearTimeout(this.animation);
         this.animation = false;
-    }
+    },
 };
