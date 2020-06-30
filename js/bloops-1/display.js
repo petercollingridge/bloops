@@ -9,7 +9,10 @@ function drawCircle(obj) {
 }
 
 World.display = function() {
-    ctx.clearRect(0, 0, this.width, this.height);
+    const panelHeight = 25;
+
+    ctx.clearRect(0, 0, this.width, this.height + panelHeight);
+    ctx.translate(0, panelHeight);
 
     // Draw food
     ctx.fillStyle = 'rgb(40, 120, 10)';
@@ -26,10 +29,27 @@ World.display = function() {
         drawCircle(this.creatures[i]);
     }
 
+    ctx.translate(0, -panelHeight);
+    
+    // Information panel
+    ctx.clearRect(0, 0, this.width, panelHeight);
+
+    ctx.beginPath();
+    ctx.moveTo(0, panelHeight - 0.5);
+    ctx.lineTo(this.width, panelHeight - 0.5);
+    ctx.lineWidth = '0.5';
+    ctx.strokeStyle = '#666';
+    ctx.stroke();
+    
     // Display count of creatures
-    ctx.font = "16px Arial";
+    ctx.font = "15px Arial";
     ctx.fillStyle = 'rgb(20, 20, 20)';
-    ctx.fillText(this.creatures.length, 8, 20);
+    ctx.fillText(`Creatures: ${ this.creatures.length }`, 5, 19);
+    ctx.fillText(`Food: ${ this.food.length }`, 130, 19);
+
+    let energy = this.food.length * this.foodEnergy;
+    energy += this.creatures.reduce((currentValue, creature) => currentValue + creature.energy, 0)
+    ctx.fillText(`Energy: ${ Math.round(energy).toLocaleString() }`, 250, 19);
 };
 
 // Add play / pause button
