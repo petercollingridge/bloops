@@ -32,13 +32,29 @@ Bloop.prototype.calculatePhenotype = function() {
     this.r = this.genome;
     this.speed = 0.2;
     this.angle = Math.PI * Math.random();
-    this.metabolism = 0.2;
+    this.metabolism = 1;
 };
 
 Bloop.prototype.update = function(world) {
     this.energy -= this.metabolism;
     this.eat(world.food);
     this.move(world);
+
+    if (this.energy < 0) {
+        this.dead = true;
+    } else if (this.energy > 1000) {
+        this.reproduce(world);
+    }
+};
+
+Bloop.prototype.eat = function(food) {
+    for (let i = 0; i < food.length; i++) {
+        if (collide(this, food[i])) {
+            this.energy += food[i].energy;
+            food.splice(i, 1);
+            break;
+        }
+    }
 };
 
 Bloop.prototype.move = function(world) {
@@ -56,12 +72,9 @@ Bloop.prototype.move = function(world) {
     }
 };
 
-Bloop.prototype.eat = function(food) {
-    for (let i = 0; i < food.length; i++) {
-        if (collide(this, food[i])) {
-            this.energy += food[i].energy;
-            food.splice(i, 1);
-            break;
-        }
-    }
+Bloop.prototype.reproduce = function(world) {
+    this.energy /= 2;
+    const position = { x: this.x, y: this.y };
+    const newCreature = new Bloop(position, this.energy, this.genome);
+    world.creatures.push(newCreature);
 };
