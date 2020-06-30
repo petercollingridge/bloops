@@ -18,8 +18,11 @@ World.display = function() {
     }
 
     // Draw creatures
-    ctx.fillStyle = 'rgba(20, 60, 180, 160)';
     for (let i = 0; i < this.creatures.length; i++) {
+        const energy = Math.max(0, Math.min(1, this.creatures[i].energy / 200));
+        const red = 255 * (1 - energy);
+        const blue = 255 * energy;
+        ctx.fillStyle = `rgba(${red}, 60, ${blue}, 160)`;
         drawCircle(this.creatures[i]);
     }
 
