@@ -7,12 +7,12 @@ const World = {
     height: 400,
 
     foodR: 1,
-    foodEnergy: 100,
+    foodEnergy: 500,
     foodGrowthRate: 0.1,
 
     creatureType: Bloop,
     creatureR: 5,
-    creatureEnergy: 100,
+    creatureEnergy: 500,
 
     init: function(params) {
         // Overwrite default values
@@ -34,6 +34,12 @@ const World = {
         this.creatures.push(newCreature);
     },
 
+    addCreatures: function(n, genome, position) {
+        for (let i = 0; i < n; i++) {
+            this.addCreature(genome, position);
+        }
+    },
+
     getRandomPosition: function() {
         return {
             x: Math.random() * this.width,
@@ -50,6 +56,13 @@ const World = {
         // Update creatures
         for (let i = 0; i < this.creatures.length; i++) {
             this.creatures[i].update(this);
+        }
+
+        // Remove dead creatures
+        for (let i = this.creatures.length; i--;) {
+            if (this.creatures[i].dead) {
+                this.creatures.splice(i, 1);
+            }
         }
 
         if (this.display) {
