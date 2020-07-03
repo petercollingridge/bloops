@@ -1,0 +1,15 @@
+<svg width="200" height="110" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <marker id="arrow3" viewBox="0 0 4 4" refX="2" refY="2" fill="rgb(0, 0, 180)"
+            markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+            <path d="M0,0L4,2L0,4z" />
+        </marker>
+    </defs>
+
+    <circle cx="100" cy="17" r="10" fill="rgb(40, 120, 10)"/>
+    <rect x="60" y="20" width="70" height="80" fill="rgb(80, 60, 160)" opacity="0.4"/>
+    <circle cx="60" cy="60" r="39" stroke="rgb(120, 95, 200)" stroke-width="2" fill="white"/>
+    <circle cx="130" cy="60" r="40" fill="rgb(120, 95, 200)" />
+
+    <path stroke="rgb(0, 0, 180)" stroke-width="3" marker-end="url(#arrow3)" d="M60,58h70" />
+</svg>

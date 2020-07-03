@@ -1,0 +1,32 @@
+<svg width="300" height="140" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <marker id="arrow" viewBox="0 0 4 4" refX="2" refY="2"
+            markerWidth="3" markerHeight="3" orient="auto-start-reverse"
+            fill="green">
+            <path d="M0,0L4,2L0,4z" />
+        </marker>
+
+        <path id="wave" stroke="#e52" stroke-width="2" fill="none" d="M0 0c4,8 8,0 8,0s4,-8 8 0" />
+        <g id="wave-line">
+            <use href="#wave" />
+            <use href="#wave" x="16"/>
+            <use href="#wave" x="32"/>
+            <use href="#wave" x="48"/>
+            <use href="#wave" x="64"/>
+            <path stroke="#e52" stroke-width="2"  fill="none" d="M80,0q2,4 8 4"/>
+            <path stroke="none" fill="#e52" d="M86,12v-4l10-4l-10-4z" />
+        </g>
+    </defs>
+
+    <rect x="70" y="10" width="120" height="120" rx="3" ry="3" fill="rgb(206, 236, 246)"/>
+
+    <line x1="10" y1="70" x2="120" y2="70" marker-end="url(#arrow)" stroke="green" stroke-width="8"/>
+
+    <use href="#wave-line" transform="translate(160, 40) rotate(-20)"/>
+    <use href="#wave-line" transform="translate(170, 70) rotate(10)"/>
+    <use href="#wave-line" transform="translate(150, 85) rotate(30)"/>
+
+    <text x="40" y="60" text-anchor="middle" fill="green" font-weight="bold">Food</text>
+    <text x="130" y="20" text-anchor="middle" alignment-baseline="hanging" fill="#34d" font-weight="bold">World</text>
+    <text x="165" y="58" fill="#e52" font-weight="bold">Metabolism</text>
+</svg>
