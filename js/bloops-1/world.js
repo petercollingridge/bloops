@@ -14,6 +14,9 @@ const World = {
     creatureR: 5,
     creatureEnergy: 500,
 
+    numTicks: 0,
+    saveData: [],
+
     init: function(params) {
         // Overwrite default values
         for (const param in params) {
@@ -48,6 +51,7 @@ const World = {
     },
 
     update: function() {
+        for (let i = 0; i < 10; i++) {
         // Grow food
         while (Math.random() < this.foodGrowthRate) {
             this.addFood();
@@ -63,6 +67,22 @@ const World = {
             if (this.creatures[i].dead) {
                 this.creatures.splice(i, 1);
             }
+        }
+
+        // Save number of creatures every second for 10 minutes
+        if (this.numTicks % 50 === 0) {
+            this.saveData.push([this.creatures.length, this.food.length]);
+            
+            if (this.saveData.length === 601) {
+                download(this.saveData
+                    .map(([creatures, food]) => `${creatures}\t${food}`)
+                    .join('\n'));
+            } else {
+                console.log(this.saveData.length);
+
+            }
+        }
+        this.numTicks++
         }
 
         if (this.display) {
