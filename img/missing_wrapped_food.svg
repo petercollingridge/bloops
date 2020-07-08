@@ -1,0 +1,5 @@
+<svg width="200" height="150" xmlns="http://www.w3.org/2000/svg" style="border: 1px solid black">
+    <circle cx="180" cy="30" r="10" fill="rgb(40, 120, 10)"/>
+    <circle cx="10" cy="60" r="40" fill="rgb(120, 95, 200)"/>
+    <circle cx="210" cy="60" r="39" stroke="rgb(120, 95, 200)" stroke-width="2" fill="none"/>
+</svg>
