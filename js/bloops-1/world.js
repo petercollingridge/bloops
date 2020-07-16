@@ -3,7 +3,7 @@ const World = {
     creatures: [],
 
     // Default values
-    width: 400,
+    width: 600,
     height: 400,
 
     foodR: 1,
@@ -51,7 +51,6 @@ const World = {
     },
 
     update: function() {
-        for (let i = 0; i < 10; i++) {
         // Grow food
         while (Math.random() < this.foodGrowthRate) {
             this.addFood();
@@ -83,26 +82,5 @@ const World = {
             }
         }
         this.numTicks++
-        }
-
-        if (this.display) {
-            this.display();
-        }
-    },
-
-    setTimeout: function() {
-        this.update();
-        this.animation = setTimeout(this.setTimeout.bind(this), 20);
-    },
-
-    run: function() {
-        if (!this.animation) {
-            this.setTimeout();
-        }
-    },
-
-    stop: function() {
-        clearTimeout(this.animation);
-        this.animation = false;
     },
 };
