@@ -105,3 +105,6 @@ venv.bak/
 
 # OS files
 .DS_Store
+
+# npm
+node_modules/
