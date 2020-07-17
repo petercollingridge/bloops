@@ -12,6 +12,7 @@
     <div id="bloop-sim"></div>
 
 <script src="utils.js"></script>
+<script src="Recorder.js"></script>
 <script src="simulation.js"></script>
 <script src="bloops.js"></script>
 <script src="world.js"></script>
@@ -22,6 +23,10 @@
     World.addFood(200);
     World.addCreatures(10, 3);
     const sim = new Simulation('bloop-sim', World);
+    sim.addRecorder([
+        world => world.food.length,
+        world => world.creatures.length,
+    ]);
 </script>
 
     </body>

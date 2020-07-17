@@ -7,7 +7,9 @@ const Simulation = function(id, world) {
         return;
     }
 
-    container.style.cssText = "display:flex; flex-wrap:wrap;";
+    this.world = world;
+
+    
     this._buildControls(container);
 
     // Create canvas
@@ -27,6 +29,8 @@ const Simulation = function(id, world) {
 };
 
 Simulation.prototype._buildControls = function(container) {
+    container.style.cssText = "display:flex; flex-wrap:wrap;";
+
     const controlBox = document.createElement('div');
     controlBox.style.cssText = "width:100px; margin-right: 2rem; margin-bottom: 1rem;display: flex;justify-content: center;flex-direction: column;";
     container.appendChild(controlBox);
@@ -44,6 +48,12 @@ Simulation.prototype._buildControls = function(container) {
         }
     });
     controlBox.appendChild(runButton);
+};
+
+Simulation.prototype.addRecorder = function(keys, interval) {
+    interval = interval || 50;
+    this.recorder = new Recorder(keys, interval, this.world);
+    this.updateListeners.push(this.recorder);
 };
 
 Simulation.prototype.update = function() {
