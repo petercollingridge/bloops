@@ -25,18 +25,26 @@ Toolbar.prototype.display = function(ctx) {
     // Display counts
     ctx.font = "15px Arial";
     ctx.fillStyle = 'rgb(20, 20, 20)';
+    ctx.textAlign = "center";
 
     const food = this.world.food;
     const creatures = this.world.creatures;
-
-    const dx = 125;
-    ctx.fillText(`Time: ${ this.world.numTicks }`, 10, 19);
-    ctx.fillText(`Creatures: ${ creatures.length }`, 10 + dx, 19);
-    ctx.fillText(`Food: ${ food.length }`, 10 + dx * 2, 19);
-
     let energy = food.length * this.world.foodEnergy;
-    energy += creatures.reduce((currentValue, creature) => currentValue + creature.energy, 0)
-    ctx.fillText(`Energy: ${ Math.round(energy).toLocaleString() }`, 10 + dx * 3, 19);
+    energy += creatures.reduce((currentValue, creature) => currentValue + creature.energy, 0);
+
+    const values = {
+        'Time': this.world.numTicks,
+        'Creatures': creatures.length,
+        'Food': food.length,
+        'Energy': Math.round(energy).toLocaleString(),
+    };
+
+    const dx = this.width / Object.keys(values).length;
+    let i = 0.5;
+    for (key in values) {
+        ctx.fillText(`${ key }: ${ values[key] }`, dx * i, 19);
+        i++;
+    }
 };
 
 
