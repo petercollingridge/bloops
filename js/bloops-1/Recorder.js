@@ -11,12 +11,13 @@ const Recorder = function (keys, interval, world) {
 Recorder.prototype.update = function() {
     if (this.world.numTicks % this.interval === 0) {
         this.data.push(this.keys.map(key => key(this.world)));
-        console.log(this.data);
     }
 };
 
 Recorder.prototype.download = function() {
-    download(this.data
-        .map(([creatures, food]) => `${creatures}\t${food}`)
-        .join('\n'));
+    let results = '';
+    for (let i = 0; i < this.data.length; i++) {
+        results += this.data[i].join('\t') + '\n';
+    }
+    download(results);
 };
