@@ -1,5 +1,10 @@
 // Top-level object for running and display the simulation
 
+// require ./Recorder.js
+// require ./world.js
+// require ./display.js
+
+
 const Simulation = function(id, world) {
     const container = document.getElementById(id);
     if (!container) {
@@ -7,9 +12,7 @@ const Simulation = function(id, world) {
         return;
     }
 
-    this.world = world;
-
-    
+    this.world = world;    
     this._buildControls(container);
 
     // Create canvas
@@ -31,9 +34,9 @@ const Simulation = function(id, world) {
 Simulation.prototype._buildControls = function(container) {
     container.style.cssText = "display:flex; flex-wrap:wrap;";
 
-    const controlBox = document.createElement('div');
-    controlBox.style.cssText = "width:100px; margin-right: 2rem; margin-bottom: 1rem;display: flex;justify-content: center;flex-direction: column;";
-    container.appendChild(controlBox);
+    this.controls = document.createElement('div');
+    this.controls.style.cssText = "width:100px; margin-right: 2rem; margin-bottom: 1rem;display: flex;justify-content: center;flex-direction: column;";
+    container.appendChild(this.controls);
     
     // Play / Pause button
     const runButton = document.createElement('button');
@@ -47,13 +50,18 @@ Simulation.prototype._buildControls = function(container) {
             this.stop();
         }
     });
-    controlBox.appendChild(runButton);
+    this.controls.appendChild(runButton);
 };
 
 Simulation.prototype.addRecorder = function(keys, interval) {
     interval = interval || 50;
     this.recorder = new Recorder(keys, interval, this.world);
     this.updateListeners.push(this.recorder);
+    
+    const downloadLink = document.createElement('button');
+    downloadLink.innerHTML = "Download";
+    downloadLink.addEventListener('click', this.recorder.download.bind(this.recorder));
+    this.controls.appendChild(downloadLink);
 };
 
 Simulation.prototype.update = function() {

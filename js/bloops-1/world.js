@@ -1,3 +1,5 @@
+// require ./bloops.js
+
 const World = {
     food: [],
     creatures: [],
