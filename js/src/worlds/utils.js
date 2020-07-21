@@ -21,3 +21,10 @@ function displayObjects(objects, ctx) {
         obj.display(ctx);
     });
 }
+
+// Call the update method for every item in an array
+function updateObjects(objects) {
+    objects.forEach(function(obj) {
+        obj.update();
+    });
+}

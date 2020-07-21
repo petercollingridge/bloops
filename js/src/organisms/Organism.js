@@ -3,7 +3,7 @@
 // Any other properties are part of its genome
 
 // require ../helpers/display.js
-// require .utils.js
+// require ./utils.js
 
 const Organism = function(position, energy, genome) {
     this.x = position.x;

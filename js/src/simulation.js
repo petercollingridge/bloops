@@ -67,9 +67,7 @@ Simulation.prototype.addRecorder = function(keys, interval) {
 
 Simulation.prototype.update = function() {
     for (let i = 0; i < this.updateSpeed; i++) {
-        for (let j = 0; j < this.updateListeners.length; j++) {
-            this.updateListeners[j].update();
-        }
+        updateObjects(this.updateListeners);
     }
     this.display();
 };

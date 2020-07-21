@@ -2,7 +2,6 @@
 
 // require ../simulation.js
 // require ../organisms/bloops/bloops-1.js
-// require ../helpers/utils.js
 // require ./utils.js
 
 
@@ -16,13 +15,20 @@ function getWorld(params) {
         foodEnergy: params.foodEnergy || 500,
         foodGrowthRate: params.foodGrowthRate || 0.1,
 
-        creatures: [],
+        creatureR: params.creatureR || 3,
+
+        numTicks: 0,
         food: [],
+        creatures: [],
 
         update: function() {
             while (Math.random() < this.foodGrowthRate) {
                 addRandomFoodUniform(this);
             }
+
+            updateObjects(this.creatures);
+
+            this.numTicks++;
         },
 
         display: function(ctx) {
