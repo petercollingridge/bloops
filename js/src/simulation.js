@@ -1,8 +1,9 @@
 // Top-level object for running and display the simulation
 
-// require ./Recorder.js
+// require ./interface/Recorder.js
+// require ./interface/Toolbar.js
 // require ./world.js
-// require ./display.js
+// require ./helpers/display.js
 
 
 const Simulation = function(id, world) {
@@ -15,15 +16,15 @@ const Simulation = function(id, world) {
     this.world = world;    
     this._buildControls(container);
 
+    // Create toolbar
+    this.toolbar = new Toolbar(world, 25);
+
     // Create canvas
     const canvas = document.createElement('canvas');
     canvas.setAttribute('width', world.width);
-    canvas.setAttribute('height', world.height);
+    canvas.setAttribute('height', world.height + this.toolbar.height);
     canvas.style.cssText = "border:1px solid #ddd";
     container.appendChild(canvas);
-
-    // Create toolbar
-    this.toolbar = new Toolbar(world, 25);
 
     this.ctx = canvas.getContext('2d');
     this.updateSpeed = 1;
@@ -70,10 +71,16 @@ Simulation.prototype.update = function() {
             this.updateListeners[j].update();
         }
     }
+    this.display();
+};
 
-    for (let i = 0; i < this.displayElements.length; i++) {
-        this.displayElements[i].display(this.ctx);
-    }
+Simulation.prototype.display = function() {
+    this.toolbar.display(this.ctx);
+
+    this.ctx.clearRect(0, this.toolbar.height, this.world.width, this.world.height);
+    this.ctx.translate(0, this.toolbar.height);
+    this.world.display(this.ctx);
+    this.ctx.translate(0, -this.toolbar.height);
 };
 
 Simulation.prototype.setTimeout = function() {

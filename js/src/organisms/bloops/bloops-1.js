@@ -1,32 +1,21 @@
-// Generic organism.
-// Has a position and energy.
-// Any other properties are part of its genome
-const Organism = function(position, energy, genome) {
-    this.x = position.x;
-    this.y = position.y;
-    this.energy = energy;
-    this.genome = genome;
-    this.calculatePhenotype();
-};
-Organism.prototype.calculatePhenotype = function() {};
+// These bloops have a speed and a size.
+// Their genome only determines their size.
+// There is no reproduction
 
+// require ../Organism.js
 
-// Food is an organism whose genome determines its size.
-const Food = function(position, energy, genome) {
-    Organism.call(this, position, energy, genome);
-};
-Food.prototype = Object.create(Organism.prototype);
-
-Food.prototype.calculatePhenotype = function() {
-    this.r = this.genome;
-};
-
-
-// Bloops have a speed and a size.
 const Bloop = function(position, energy, genome) {
     Organism.call(this, position, energy, genome);
 };
 Bloop.prototype = Object.create(Organism.prototype);
+
+Bloop.prototype.getColour = function() {
+    // Colour based on energy/hunger
+    const energy = Math.max(0, Math.min(1, this.energy / 200));
+    const red = 255 * (1 - energy);
+    const blue = 255 * energy;
+    return `rgba(${red}, 60, ${blue}, 160)`;
+};
 
 Bloop.prototype.calculatePhenotype = function() {
     this.r = this.genome;

@@ -1,4 +1,5 @@
-// require ./bloops.js
+// require ./organisms/Food.js
+// require ./organisms/bloops/bloops-1.js
 
 const World = {
     food: [],
@@ -17,7 +18,6 @@ const World = {
     creatureEnergy: 500,
 
     numTicks: 0,
-    saveData: [],
 
     init: function(params) {
         // Overwrite default values

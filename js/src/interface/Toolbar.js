@@ -1,10 +1,3 @@
-
-function drawCircle(ctx, obj) {
-    ctx.beginPath();
-    ctx.arc(obj.x, obj.y, obj.r, 0, TAU, true);
-    ctx.fill();
-}
-
 const Toolbar = function(world, height) {
     this.world = world;
     this.width = world.width;
@@ -45,28 +38,4 @@ Toolbar.prototype.display = function(ctx) {
         ctx.fillText(`${ key }: ${ values[key] }`, dx * i, 19);
         i++;
     }
-};
-
-
-World.display = function(ctx) {
-    const panelHeight = 25;
-    ctx.clearRect(0, 0, this.width, this.height + panelHeight);
-    ctx.translate(0, panelHeight);
-
-    // Draw food
-    ctx.fillStyle = 'rgb(40, 120, 10)';
-    for (let i = 0; i < this.food.length; i++) {
-        drawCircle(ctx, this.food[i]);
-    }
-
-    // Draw creatures
-    for (let i = 0; i < this.creatures.length; i++) {
-        const energy = Math.max(0, Math.min(1, this.creatures[i].energy / 200));
-        const red = 255 * (1 - energy);
-        const blue = 255 * energy;
-        ctx.fillStyle = `rgba(${red}, 60, ${blue}, 160)`;
-        drawCircle(ctx, this.creatures[i]);
-    }
-
-    ctx.translate(0, -panelHeight);
 };

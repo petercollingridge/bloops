@@ -11,13 +11,17 @@
 <body>
     <div id="bloop-sim"></div>
 
-<script src="bundle-1.js"></script>
+<script src="dist/bundle-1.js"></script>
 
 <script>
     // Set-up
-    World.addFood(200);
-    World.addCreatures(10, 3);
-    const sim = new Simulation('bloop-sim', World);
+    const world = getWorld({ width: 400, height: 300 });
+    addRandomFoodUniform(world, 200);
+    // World.addCreatures(10, 3);
+
+    const sim = new Simulation('bloop-sim', world);
+
+    // Record the number of creatures and food
     sim.addRecorder([
         world => world.food.length,
         world => world.creatures.length,

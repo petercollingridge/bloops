@@ -1,5 +1,4 @@
 // Object for recording values about the world and downloading as a tab-delimited file
-// require ./utils.js
 
 
 const Recorder = function (keys, interval, world) {
@@ -22,3 +21,13 @@ Recorder.prototype.download = function() {
     }
     download(results);
 };
+
+function download(data, filename="data.txt") {
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}
