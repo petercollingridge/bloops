@@ -23,8 +23,28 @@ function displayObjects(objects, ctx) {
 }
 
 // Call the update method for every item in an array
-function updateObjects(objects) {
+function updateObjects(objects, args) {
     objects.forEach(function(obj) {
-        obj.update();
+        obj.update(args);
     });
+}
+
+function addCreatures(world, n, energy, genome, position) {
+    for (let i = 0; i < n; i++) {
+        addCreature(world, energy, genome, position);
+    }
+}
+
+function addCreature(world, energy, genome, position) {
+    position = position || getRandomPositionUniform(world);
+    const newCreature = new Bloop(position, energy, genome);
+    world.creatures.push(newCreature);
+}
+
+function removeDeadCreatures(creatures) {
+    for (let i = creatures.length; i--;) {
+        if (creatures[i].dead) {
+            creatures.splice(i, 1);
+        }
+    }
 }

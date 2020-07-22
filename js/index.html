@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
+    <title>Bloop Simulation</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -16,9 +16,6 @@
 <script>
     // Set-up
     const world = getWorld({ width: 400, height: 300 });
-    addRandomFoodUniform(world, 200);
-    // World.addCreatures(10, 3);
-
     const sim = new Simulation('bloop-sim', world);
 
     // Record the number of creatures and food

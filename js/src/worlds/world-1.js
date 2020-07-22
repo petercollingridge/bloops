@@ -6,36 +6,45 @@
 
 
 function getWorld(params) {
+    // Default values
     const world = {
-        // Get parameters or set defaults
-        width: params.width || 600,
-        height: params.height || 400,
-
-        foodR: params.foodR || 1,
-        foodEnergy: params.foodEnergy || 500,
-        foodGrowthRate: params.foodGrowthRate || 0.1,
-
-        creatureR: params.creatureR || 3,
-
+        width: 600,
+        height: 400,
+        foodR: 1,
+        foodEnergy: 500,
+        foodGrowthRate: 0.1,
+        initialFoodNum: 200,
+        creatureR: 3,
+        creatureEnergy: 500,
+        initialCreatureNum: 10,
         numTicks: 0,
         food: [],
         creatures: [],
-
-        update: function() {
-            while (Math.random() < this.foodGrowthRate) {
-                addRandomFoodUniform(this);
-            }
-
-            updateObjects(this.creatures);
-
-            this.numTicks++;
-        },
-
-        display: function(ctx) {
-            displayObjects(this.food, ctx);
-            displayObjects(this.creatures, ctx);
-        },
     };
 
+    // Overwrite default parameters with passed in values
+    for (const key in params) {
+        world[key] = params[key];
+    }
+
+    world.update = function() {
+        this.numTicks++;
+
+        while (Math.random() < this.foodGrowthRate) {
+            addRandomFoodUniform(this);
+        }
+
+        updateObjects(this.creatures, world);
+        removeDeadCreatures(this.creatures);
+    };
+
+    world.display = function(ctx) {
+        displayObjects(this.food, ctx);
+        displayObjects(this.creatures, ctx);
+    };
+
+    // Initialise world
+    addRandomFoodUniform(world, world.initialFoodNum);
+    addCreatures(world, world.initialCreatureNum, world.creatureEnergy, world.creatureR);
     return world;
 };

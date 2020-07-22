@@ -2,7 +2,6 @@
 
 // require ./interface/Recorder.js
 // require ./interface/Toolbar.js
-// require ./world.js
 // require ./helpers/display.js
 
 
