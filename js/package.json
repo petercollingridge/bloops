@@ -1,0 +1,23 @@
+{
+  "name": "bloops",
+  "version": "1.0.0",
+  "description": "Ecology simulation",
+  "main": "bundle-1.js",
+  "dependencies": {
+    "bundle-js": "^1.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/petercollingridge/bloops.git"
+  },
+  "author": "Peter Collingridge",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/petercollingridge/bloops/issues"
+  },
+  "homepage": "https://github.com/petercollingridge/bloops#readme"
+}
