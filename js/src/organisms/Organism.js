@@ -16,6 +16,11 @@ const Organism = function(position, energy, genome) {
 // To be overridden
 Organism.prototype.calculatePhenotype = function() {};
 
+// To be overridden
+Organism.prototype.getChildGenome = function() {
+    return this.genome;
+};
+
 // Draw organisms as a circle
 Organism.prototype.display = function(ctx) {
     ctx.fillStyle = this.getColour();

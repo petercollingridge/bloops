@@ -1,6 +1,5 @@
-// These bloops have a speed and a size.
-// Their genome only determines their size.
-// There is no reproduction
+// These bloops have a speed and a size which is not genetically controlled
+// There are no mutations
 
 // require ../Organism.js
 
@@ -64,6 +63,7 @@ Bloop.prototype.move = function(world) {
 Bloop.prototype.reproduce = function(world) {
     this.energy /= 2;
     const position = { x: this.x, y: this.y };
-    const newCreature = new Bloop(position, this.energy, this.genome);
+    const newGenome = this.getChildGenome();
+    const newCreature = new Bloop(position, this.energy, newGenome);
     world.creatures.push(newCreature);
 };

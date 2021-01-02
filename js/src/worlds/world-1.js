@@ -1,7 +1,7 @@
 // Basic world with food randomly appearing
 
 // require ../simulation.js
-// require ../organisms/bloops/bloops-1.js
+// require ../organisms/bloops/bloop-1.js
 // require ./utils.js
 
 
