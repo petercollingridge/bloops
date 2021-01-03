@@ -98,6 +98,7 @@ const Simulation = function(id, world) {
     this.updateSpeed = 1;
     this.updateListeners = [world];
     this.displayElements = [world, this.toolbar];
+    this.display();
 };
 Simulation.prototype._buildControls = function(container) {
     container.style.cssText = "display:flex; flex-wrap:wrap;";
@@ -130,11 +131,8 @@ Simulation.prototype.addRecorder = function(keys, interval) {
 Simulation.prototype.update = function() {
     for (let i = 0; i < this.updateSpeed; i++) {
         updateObjects(this.updateListeners);
-        console.log(this.recorder.data);
-        if (this.recorder.data.length === 21) {
-            this.stop();
-        }
     }
+    console.log(this.recorder.data.length);
     this.display();
 };
 Simulation.prototype.display = function() {
