@@ -1,5 +1,7 @@
 ## Running the simulation
-Open index.html in a browser.
+Open `index.html` in a browser.
+`index.html` uses the non-bundled js files so is useful for developing.
+The `sim-n.html` files have bundled files for the different worlds.
 
 ## Bundling the js
 The js files are in the /src folder in separate files.
