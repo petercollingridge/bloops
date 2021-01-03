@@ -10,12 +10,9 @@ Bloop.prototype.calculatePhenotype = function() {
 Bloop.prototype.getChildGenome = function() {
     const mutation = Math.random();
     if (mutation < 0.25 && this.genome > 1) {
-        console.log(this.genome - 1);
         return this.genome - 1;
     } else if (mutation > 0.75) {
-        console.log(this.genome + 1);
         return this.genome + 1;
     }
-    console.log(this.genome);
     return this.genome;
 };

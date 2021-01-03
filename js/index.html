@@ -11,19 +11,30 @@
 <body>
     <div id="bloop-sim"></div>
 
-    <script src="dist/bundle-1.js"></script>
+    <script src="src/interface/Recorder.js"></script>
+    <script src="src/interface/Toolbar.js"></script>
+    <script src="src/helpers/utils.js"></script>
+    <script src="src/helpers/display.js"></script>
+    <script src="src/organisms/utils.js"></script>
+    <script src="src/organisms/Organism.js"></script>
+    <script src="src/organisms/Food.js"></script>
+    <script src="src/simulation.js"></script>
+    <script src="src/organisms/bloops/bloop-1.js"></script>
+    <script src="src/worlds/utils.js"></script>
+    <script src="src/worlds/world-1.js"></script>
 
     <script>
         // Create world object
-        const world = getWorld({ width: 400, height: 300 });
+        const world = getWorld();
 
         // Create simulation to run and display the world
         const sim = new Simulation('bloop-sim', world);
+        sim.updateSpeed = 50;
 
         // Record the number of creatures and food so they can be downloaded
         sim.addRecorder([
             world => world.food.length,
-            world => world.creatures.length,
+            world => world.creatures.length
         ]);
     </script>
 

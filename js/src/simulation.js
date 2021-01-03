@@ -2,6 +2,7 @@
 
 // require ./interface/Recorder.js
 // require ./interface/Toolbar.js
+// require ./helpers/utils.js
 // require ./helpers/display.js
 
 
@@ -29,6 +30,7 @@ const Simulation = function(id, world) {
     this.updateSpeed = 1;
     this.updateListeners = [world];
     this.displayElements = [world, this.toolbar];
+    this.display();
 };
 
 Simulation.prototype._buildControls = function(container) {
@@ -68,6 +70,7 @@ Simulation.prototype.update = function() {
     for (let i = 0; i < this.updateSpeed; i++) {
         updateObjects(this.updateListeners);
     }
+    console.log(this.recorder.data.length);
     this.display();
 };
 

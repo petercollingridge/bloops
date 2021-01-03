@@ -62,6 +62,14 @@ Toolbar.prototype.display = function(ctx) {
         i++;
     }
 };
+
+function mean(arr) {
+    let sum = 0;
+    for (let i = 0; i < arr.length; i++) {
+        sum += arr[i];
+    }
+    return sum / arr.length;
+}
 const TAU = 2 * Math.PI;
 
 function drawCircle(ctx, obj) {
@@ -122,6 +130,10 @@ Simulation.prototype.addRecorder = function(keys, interval) {
 Simulation.prototype.update = function() {
     for (let i = 0; i < this.updateSpeed; i++) {
         updateObjects(this.updateListeners);
+        console.log(this.recorder.data);
+        if (this.recorder.data.length === 21) {
+            this.stop();
+        }
     }
     this.display();
 };
@@ -163,6 +175,10 @@ const Organism = function(position, energy, genome) {
 };
 // To be overridden
 Organism.prototype.calculatePhenotype = function() {};
+// To be overridden
+Organism.prototype.getChildGenome = function() {
+    return this.genome;
+};
 // Draw organisms as a circle
 Organism.prototype.display = function(ctx) {
     ctx.fillStyle = this.getColour();
@@ -171,9 +187,8 @@ Organism.prototype.display = function(ctx) {
 Organism.prototype.getColour = function() {
     return 'rgb(50, 60, 210, 160)';
 };
-// These bloops have a speed and a size.
-// Their genome only determines their size.
-// There is no reproduction
+// These bloops have a speed and a size which is not genetically controlled
+// There are no mutations
 const Bloop = function(position, energy, genome) {
     Organism.call(this, position, energy, genome);
 };
@@ -234,7 +249,8 @@ Bloop.prototype.reproduce = function(world) {
         x: this.x,
         y: this.y
     };
-    const newCreature = new Bloop(position, this.energy, this.genome);
+    const newGenome = this.getChildGenome();
+    const newCreature = new Bloop(position, this.energy, newGenome);
     world.creatures.push(newCreature);
 };
 // Food is an organism whose genome determines its size.

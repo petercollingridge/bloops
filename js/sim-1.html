@@ -11,11 +11,11 @@
 <body>
     <div id="bloop-sim"></div>
 
-    <script src="dist/bundle-2.js"></script>
+    <script src="dist/bundle-1.js"></script>
 
     <script>
         // Create world object
-        const world = getWorld({ creatureR: 9 });
+        const world = getWorld();
 
         // Create simulation to run and display the world
         const sim = new Simulation('bloop-sim', world);
@@ -23,8 +23,7 @@
         // Record the number of creatures and food so they can be downloaded
         sim.addRecorder([
             world => world.food.length,
-            world => world.creatures.length,
-            world => mean(world.creatures.map(c => c.genome))
+            world => world.creatures.length
         ]);
     </script>
 
