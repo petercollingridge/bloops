@@ -98,7 +98,6 @@ const Simulation = function(id, world) {
     this.updateSpeed = 1;
     this.updateListeners = [world];
     this.displayElements = [world, this.toolbar];
-    this.display();
 };
 Simulation.prototype._buildControls = function(container) {
     container.style.cssText = "display:flex; flex-wrap:wrap;";
@@ -132,7 +131,6 @@ Simulation.prototype.update = function() {
     for (let i = 0; i < this.updateSpeed; i++) {
         updateObjects(this.updateListeners);
     }
-    console.log(this.recorder.data.length);
     this.display();
 };
 Simulation.prototype.display = function() {
@@ -347,3 +345,19 @@ function getWorld(params) {
     addCreatures(world, world.initialCreatureNum, world.creatureEnergy, world.creatureR);
     return world;
 };
+Bloop.prototype.calculatePhenotype = function() {
+    this.r = Math.sqrt(this.genome);
+    this.speed = 0.2;
+    this.angle = Math.PI * Math.random();
+    this.metabolism = 1;
+};
+Bloop.prototype.getChildGenome = function() {
+    const mutation = Math.random();
+    if (mutation < 0.25 && this.genome > 1) {
+        return this.genome - 1;
+    } else if (mutation > 0.75) {
+        return this.genome + 1;
+    }
+    return this.genome;
+};
+// The same as world-1 but with a different bloop creature
