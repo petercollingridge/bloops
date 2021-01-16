@@ -37,7 +37,7 @@ function addCreatures(world, n, energy, genome, position) {
 
 function addCreature(world, energy, genome, position) {
     position = position || getRandomPositionUniform(world);
-    const newCreature = new Bloop(position, energy, genome);
+    const newCreature = new world.creatureType(position, energy, genome);
     world.creatures.push(newCreature);
 }
 

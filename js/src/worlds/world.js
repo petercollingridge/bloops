@@ -1,7 +1,7 @@
 // Basic world with food randomly appearing
 
-// require ../simulation.js
-// require ../organisms/bloops/bloop-1.js
+// require ../simulations/simulation.js
+// require ../organisms/bloops/Bloop.js
 // require ./utils.js
 
 
@@ -15,6 +15,7 @@ function getWorld(params) {
         foodGrowthRate: 0.1,
         initialFoodNum: 200,
         creatureR: 3,
+        creatureType: Bloop,
         creatureEnergy: 500,
         initialCreatureNum: 10,
         numTicks: 0,

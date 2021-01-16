@@ -18,31 +18,15 @@
     <script src="src/organisms/utils.js"></script>
     <script src="src/organisms/Organism.js"></script>
     <script src="src/organisms/Food.js"></script>
-    <script src="src/simulation.js"></script>
-    <script src="src/organisms/bloops/bloop-1.js"></script>
-    <script src="src/organisms/bloops/bloop-2.js"></script>
+    <script src="src/simulations/simulation.js"></script>
+    <script src="src/organisms/bloops/Bloop.js"></script>
+    <script src="src/organisms/bloops/Bloop2.js"></script>
     <script src="src/worlds/utils.js"></script>
-    <script src="src/worlds/world-1.js"></script>
-    <script src="src/worlds/world-2.js"></script>
+    <script src="src/worlds/world.js"></script>
+    <script src="src/simulations/sim-2.js"></script>
 
     <script>
-        // Create world object
-        const world = getWorld({
-            creatureR: 9,
-            initialFoodNum: 300,
-            initialCreatureNum: 50,
-        });
-
-        // Create simulation to run and display the world
-        const sim = new Simulation('bloop-sim', world);
-        sim.updateSpeed = 50;
-
-        // Record the number of creatures and food so they can be downloaded
-        sim.addRecorder([
-            world => world.food.length,
-            world => world.creatures.length,
-            world => mean(world.creatures.map(c => c.genome))
-        ]);
+        start({ width: 600, height: 400 });
     </script>
 
     </body>

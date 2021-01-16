@@ -1,10 +1,13 @@
 // These bloops have a speed and a size which is not genetically controlled
-// There are no mutations
+// They reproduce by splitting in half, giving each cell half the energy.
+// There are no genes or mutations
 
 // require ../Organism.js
 
+
 const Bloop = function(position, energy, genome) {
     Organism.call(this, position, energy, genome);
+    this.childType = Bloop;
 };
 Bloop.prototype = Object.create(Organism.prototype);
 
@@ -64,6 +67,6 @@ Bloop.prototype.reproduce = function(world) {
     this.energy /= 2;
     const position = { x: this.x, y: this.y };
     const newGenome = this.getChildGenome();
-    const newCreature = new Bloop(position, this.energy, newGenome);
+    const newCreature = new this.childType(position, this.energy, newGenome);
     world.creatures.push(newCreature);
 };
