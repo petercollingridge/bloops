@@ -2,7 +2,18 @@ const Toolbar = function(world, height) {
     this.world = world;
     this.width = world.width;
     this.height = height;
+
+    // Default toolbar values
+    this.values = {
+        Time: world => world.numTicks,
+        Creatures: world => world.creatures.length,
+        Food: world => world.food.length,
+    };
 };
+
+Toolbar.prototype.addValue = function(name, getValue) {
+    this.values[name] = getValue;
+}
 
 Toolbar.prototype.display = function(ctx) {
     // Information panel
@@ -20,22 +31,13 @@ Toolbar.prototype.display = function(ctx) {
     ctx.fillStyle = 'rgb(20, 20, 20)';
     ctx.textAlign = "center";
 
-    const food = this.world.food;
-    const creatures = this.world.creatures;
-    let energy = food.length * this.world.foodEnergy;
-    energy += creatures.reduce((currentValue, creature) => currentValue + creature.energy, 0);
-
-    const values = {
-        'Time': this.world.numTicks,
-        'Creatures': creatures.length,
-        'Food': food.length,
-        'Energy': Math.round(energy).toLocaleString(),
-    };
-
-    const dx = this.width / Object.keys(values).length;
+    const dx = this.width / Object.keys(this.values).length;
     let i = 0.5;
-    for (key in values) {
-        ctx.fillText(`${ key }: ${ values[key] }`, dx * i, 19);
+
+    for (key in this.values) {
+        const getValue = this.values[key];
+        const value = typeof getValue === 'function' ? getValue(this.world) : getValue;
+        ctx.fillText(`${ key }: ${ value }`, dx * i, 19);
         i++;
     }
 };

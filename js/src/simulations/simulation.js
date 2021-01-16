@@ -66,6 +66,11 @@ Simulation.prototype.addRecorder = function(keys, interval) {
     this.controls.appendChild(downloadLink);
 };
 
+Simulation.prototype.addToToolbar = function(name, getValue) {
+    this.toolbar.addValue(name, getValue);
+    this.display();
+}
+
 Simulation.prototype.update = function() {
     for (let i = 0; i < this.updateSpeed; i++) {
         updateObjects(this.updateListeners);

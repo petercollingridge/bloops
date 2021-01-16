@@ -20,4 +20,11 @@ function start(params) {
         world => world.food.length,
         world => world.creatures.length
     ]);
+
+    // Record energy on simulation toolbar
+    sim.addToToolbar('Energy', (world) => {
+        let energy = world.food.length * world.foodEnergy;
+        energy += sum(world.creatures.map(creature => creature.energy));
+        return energy.toFixed(2);
+    });
 }
