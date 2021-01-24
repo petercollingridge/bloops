@@ -29,9 +29,9 @@ function updateObjects(objects, args) {
     });
 }
 
-function addCreatures(world, n, energy, genome, position) {
+function addCreatures(world, n, energy, getGenome) {
     for (let i = 0; i < n; i++) {
-        addCreature(world, energy, genome, position);
+        addCreature(world, energy, getGenome());
     }
 }
 

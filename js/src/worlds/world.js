@@ -46,6 +46,10 @@ function getWorld(params) {
 
     // Initialise world
     addRandomFoodUniform(world, world.initialFoodNum);
-    addCreatures(world, world.initialCreatureNum, world.creatureEnergy, world.creatureR);
+
+    // Function to set initial genome
+    world.getGenome = world.getGenome || (() => world.creatureR);
+    addCreatures(world, world.initialCreatureNum, world.creatureEnergy, world.getGenome);
+
     return world;
 };
