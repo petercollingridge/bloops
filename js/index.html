@@ -25,7 +25,14 @@
     <script src="src/simulations/sim-1.js"></script>
 
     <script>
-        start({ width: 600, height: 400 });
+        // start({ width: 600, height: 400 });
+        start({
+            width: 600,
+            height: 400,
+            foodEnergy: 100,
+            foodGrowthRate: 0.5,
+            initialFoodNum: 1000
+        });
     </script>
 
     </body>
