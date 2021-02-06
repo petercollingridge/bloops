@@ -1,9 +1,9 @@
 // Top-level object for running and display the simulation
 
-// require ./interface/Recorder.js
-// require ./interface/Toolbar.js
-// require ./helpers/utils.js
-// require ./helpers/display.js
+// require ../interface/Recorder.js
+// require ../interface/Toolbar.js
+// require ../helpers/utils.js
+// require ../helpers/display.js
 
 
 const Simulation = function(id, world) {
@@ -29,6 +29,7 @@ const Simulation = function(id, world) {
     this.ctx = canvas.getContext('2d');
     this.updateSpeed = 1;
     this.updateListeners = [world];
+    // TODO: use display elements
     this.displayElements = [world, this.toolbar];
     this.display();
 };
@@ -80,12 +81,11 @@ Simulation.prototype.update = function() {
 };
 
 Simulation.prototype.display = function() {
-    this.toolbar.display(this.ctx);
-
     this.ctx.clearRect(0, this.toolbar.height, this.world.width, this.world.height);
     this.ctx.translate(0, this.toolbar.height);
     this.world.display(this.ctx);
     this.ctx.translate(0, -this.toolbar.height);
+    this.toolbar.display(this.ctx);
 };
 
 Simulation.prototype.setTimeout = function() {

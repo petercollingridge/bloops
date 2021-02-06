@@ -6,13 +6,13 @@
 
 const Bloop3 = function(position, energy, genome) {
     Bloop.call(this, position, energy, genome);
-    this.childType = Bloop2;
+    this.childType = Bloop3;
 };
 Bloop3.prototype = Object.create(Bloop.prototype);
 
 Bloop3.prototype.calculatePhenotype = function() {
     this.r = Math.sqrt(this.genome);
-    this.speed = (101 - this.genome) * 0.01;
+    this.speed = (101 - this.genome) * 0.005;
     this.angle = Math.PI * Math.random();
     this.metabolism = 1;
 };
