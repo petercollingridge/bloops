@@ -15,6 +15,9 @@ function start(params) {
     // Create simulation to run and display the world
     const sim = new Simulation('bloop-sim', world);
 
+    // Run simulation faster
+    // sim.updateSpeed = 50;
+
     // Record the number of creatures and food so they can be downloaded
     sim.addRecorder([
         world => world.food.length,

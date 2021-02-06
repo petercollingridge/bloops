@@ -5,8 +5,8 @@
  * gene to control its size.
 ***********************************************************************/
 
-// require ..worlds/world.js
-// require ..organisms/bloops/Bloop2.js
+// require ../worlds/world.js
+// require ../organisms/bloops/Bloop2.js
 
 function start(params) {
     params.creatureR = params.creatureR || 9;

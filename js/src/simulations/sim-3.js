@@ -5,14 +5,14 @@
  * gene to control its size.
 ***********************************************************************/
 
-// require ..worlds/world.js
-// require ..organisms/bloops/Bloop3.js
+// require ../worlds/world.js
+// require ../organisms/bloops/Bloop3.js
 
 function start(params) {
-    params.creatureR = params.creatureR || 9;
-    params.creatureType = Bloop2;
+    params.creatureType = Bloop3;
     params.initialFoodNum = params.initialFoodNum || 300;
     params.initialCreatureNum = params.initialCreatureNum || 50;
+    params.getGenome = () => Math.ceil(Math.random() * 100);
     
     // Create world object
     const world = getWorld(params);
@@ -27,7 +27,9 @@ function start(params) {
     sim.addRecorder([
         world => world.food.length,
         world => world.creatures.length,
-        world => mean(world.creatures.map(c => c.genome))
+        world => Math.min(...world.creatures.map(c => c.genome)),
+        world => mean(world.creatures.map(c => c.genome)),
+        world => Math.max(...world.creatures.map(c => c.genome)),
     ]);
 
     // Record mean cell size on simulation toolbar
