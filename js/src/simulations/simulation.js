@@ -13,7 +13,7 @@ const Simulation = function(id, world) {
         return;
     }
 
-    this.world = world;    
+    this.world = world;
     this._buildControls(container);
 
     // Create toolbar
