@@ -29,7 +29,8 @@ function updateObjects(objects, args) {
     });
 }
 
-function addCreatures(world, n, energy, getGenome) {
+function addCreatures(world, n, energy) {
+    const getGenome = world.creatureType.getRandomGenome || world.getGenome;
     for (let i = 0; i < n; i++) {
         addCreature(world, energy, getGenome());
     }

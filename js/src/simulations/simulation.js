@@ -58,12 +58,12 @@ Simulation.prototype._buildControls = function(container) {
 
 Simulation.prototype.addRecorder = function(keys, interval) {
     interval = interval || 50;
-    this.recorder = new Recorder(keys, interval, this.world);
-    this.updateListeners.push(this.recorder);
+    const recorder = new Recorder(keys, interval, this.world);
+    this.updateListeners.push(recorder);
     
     const downloadLink = document.createElement('button');
     downloadLink.innerHTML = "Download";
-    downloadLink.addEventListener('click', this.recorder.download.bind(this.recorder));
+    downloadLink.addEventListener('click', recorder.download.bind(recorder));
     this.controls.appendChild(downloadLink);
 };
 
@@ -76,7 +76,6 @@ Simulation.prototype.update = function() {
     for (let i = 0; i < this.updateSpeed; i++) {
         updateObjects(this.updateListeners);
     }
-    console.log(this.recorder.data.length);
     this.display();
 };
 
