@@ -27,7 +27,9 @@ function start(params) {
         world => world.food.length,
         world => world.creatures.length,
         world => mean(world.creatures.map(c => c.genome[0])),
+        world => stdev(world.creatures.map(c => c.genome[0])),
         world => mean(world.creatures.map(c => c.genome[1])),
+        world => stdev(world.creatures.map(c => c.genome[1])),
     ]);
 
     // Record genomes of the whole population every minute
