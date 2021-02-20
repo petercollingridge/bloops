@@ -14,10 +14,15 @@ function randomInRange(a, b) {
 
 function mutate(value, min = 1, max = 100) {
     const mutation = Math.random();
-    if (mutation < 0.25 && value < max) {
-        return value + 1;
-    } else if (mutation < 0.50 && value > min) {
-        return value - 1;
+    if (mutation < 0.01) {
+        return randomInRange(min, max);
+    } else if (mutation < 0.5) {
+        const r = Math.random();
+        if (r < 0.5 && value < max) {
+            return value + 1;
+        } else if (value > min) {
+            return value - 1;
+        }
     }
     return value;
 }
