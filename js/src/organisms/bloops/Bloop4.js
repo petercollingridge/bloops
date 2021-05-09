@@ -1,6 +1,7 @@
-// Bloop3 is like a Bloop except it has a gene controlling its size
+// Bloop4 is a Bloop with genes controlling its size and metabolism
 // Its radius is the square root of its size.
-// Size mutates when Bloop2s reproduce getting +1 or -1 50% of the time.
+// The higher its metabolism, the faster it moves and the more energy it uses each turn.
+// Genes mutate when Bloop4s reproduce getting +1 or -1 50% of the time.
 
 // require ./Bloop.js
 
