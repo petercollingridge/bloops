@@ -14,6 +14,7 @@ const Simulation = function(id, world) {
     }
 
     this.world = world;
+    this.updateSpeed = 1;
     this._buildControls(container);
 
     // Create toolbar
@@ -27,7 +28,6 @@ const Simulation = function(id, world) {
     container.appendChild(canvas);
 
     this.ctx = canvas.getContext('2d');
-    this.updateSpeed = 1;
     this.updateListeners = [world];
     // TODO: use display elements
     this.displayElements = [world, this.toolbar];
@@ -40,7 +40,7 @@ Simulation.prototype._buildControls = function(container) {
     this.controls = document.createElement('div');
     this.controls.style.cssText = "width:100px; margin-right: 2rem; margin-bottom: 1rem;display: flex;justify-content: center;flex-direction: column;";
     container.appendChild(this.controls);
-    
+
     // Play / Pause button
     const runButton = document.createElement('button');
     runButton.innerHTML = 'Run';
@@ -54,6 +54,25 @@ Simulation.prototype._buildControls = function(container) {
         }
     });
     this.controls.appendChild(runButton);
+
+    // Speed slider
+    const sliderLabel = document.createElement('label');
+    sliderLabel.innerHTML = `Speed: ${this.updateSpeed}`;
+    sliderLabel.setAttribute('for', 'speed-control');
+    sliderLabel.style.cssText = 'padding-top: 0.5rem;';
+    this.controls.appendChild(sliderLabel); 
+
+    const speedSlider = document.createElement('input');
+    speedSlider.setAttribute('type', 'range');
+    speedSlider.setAttribute('id', 'speed-control');
+    speedSlider.setAttribute('value', this.updateSpeed);
+
+    speedSlider.style.cssText = 'margin-bottom: 0.5rem;';
+    speedSlider.addEventListener('input', (evt) => {
+        this.updateSpeed = evt.target.value;
+        sliderLabel.innerHTML = `Speed: ${this.updateSpeed}`;
+    });
+    this.controls.appendChild(speedSlider);
 };
 
 Simulation.prototype.addRecorder = function(keys, interval) {
