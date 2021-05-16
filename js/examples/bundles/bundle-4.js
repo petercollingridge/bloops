@@ -421,53 +421,71 @@ function getWorld(params) {
     addCreatures(world, world.initialCreatureNum, world.creatureEnergy, world.getGenome);
     return world;
 };
-// Bloop3 is like a Bloop except it has a gene controlling its size
+// Bloop4 is a Bloop with genes controlling its size and metabolism
 // Its radius is the square root of its size.
-// Size mutates when Bloop2s reproduce getting +1 or -1 50% of the time.
-const Bloop3 = function(position, energy, genome) {
+// The higher its metabolism, the faster it moves and the more energy it uses each turn.
+// Genes mutate when Bloop4s reproduce getting +1 or -1 50% of the time.
+const Bloop4 = function(position, energy, genome) {
     Bloop.call(this, position, energy, genome);
-    this.childType = Bloop3;
+    this.childType = Bloop4;
 };
-Bloop3.prototype = Object.create(Bloop.prototype);
-Bloop3.prototype.calculatePhenotype = function() {
-    this.r = Math.sqrt(this.genome);
-    this.speed = (101 - this.genome) * 0.005;
+Bloop4.prototype = Object.create(Bloop.prototype);
+Bloop4.prototype.calculatePhenotype = function() {
+    this.r = Math.sqrt(this.genome[0]);
+    const energyForSpeed = this.genome[1] * 0.02;
+    this.metabolism = energyForSpeed + 0.02;
+    this.speed = (101 - this.genome[0]) * energyForSpeed * 0.005;
+    // this.reproductionThreshold = 200 + this.genome[2] * 25;
     this.angle = Math.PI * Math.random();
-    this.metabolism = 1;
 };
-Bloop3.prototype.getChildGenome = function() {
-    const mutation = Math.random();
-    if (mutation < 0.25 && this.genome < 100) {
-        return this.genome + 1;
-    } else if (mutation < 0.50 && this.genome > 1) {
-        return this.genome - 1;
-    }
-    return this.genome;
+Bloop4.prototype.getChildGenome = function() {
+    const childGenome = this.genome.map(gene => mutate(gene));
+    return childGenome;
+};
+Bloop4.getRandomGenome = function() {
+    return [50, 50, 50];
+    return [
+        randomInRange(1, 100), // Size
+        randomInRange(1, 100), // Metabolism
+        randomInRange(1, 100), // Energy for reproduction
+    ];
 };
 /**********************************************************************
- * Simulation 3
+ * Simulation 4
  * 
  * Same as simulation 2, but with the Bloop2 creature, which has a
  * gene to control its size.
  ***********************************************************************/
 function start(params) {
-    params.creatureType = Bloop3;
+    params.creatureType = Bloop4;
     params.initialFoodNum = params.initialFoodNum || 300;
     params.initialCreatureNum = params.initialCreatureNum || 50;
-    params.getGenome = () => Math.ceil(Math.random() * 100);
     // Create world object
     const world = getWorld(params);
     // Create simulation to run and display the world
     const sim = new Simulation('bloop-sim', world);
-    // Record the number of creatures and food so they can be downloaded
+    // Record the number of creatures and food every second
     sim.addRecorder([
         world => world.food.length,
         world => world.creatures.length,
-        world => mean(world.creatures.map(c => c.genome)),
+        world => mean(world.creatures.map(c => c.genome[0])),
+        world => stdev(world.creatures.map(c => c.genome[0])),
+        world => mean(world.creatures.map(c => c.genome[1])),
+        world => stdev(world.creatures.map(c => c.genome[1])),
     ]);
+    // Record genomes of the whole population every minute
+    sim.addRecorder([
+        world => world.creatures.map(c => c.genome[0]).join(','),
+        world => world.creatures.map(c => c.genome[1]).join(','),
+    ], 50 * 60);
     // Record mean cell size on simulation toolbar
-    sim.addToToolbar('Mean gene', (world) => {
-        const meanGene = mean(world.creatures.map(creature => creature.genome));
+    sim.addToToolbar('Size', (world) => {
+        const meanGene = mean(world.creatures.map(creature => creature.r * creature.r));
+        return Math.round(meanGene * 10) / 10;
+    });
+    // Record mean cell size on simulation toolbar
+    sim.addToToolbar('Metabolism', (world) => {
+        const meanGene = mean(world.creatures.map(creature => creature.metabolism));
         return Math.round(meanGene * 100) / 100;
     });
 }
