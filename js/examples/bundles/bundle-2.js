@@ -8,6 +8,7 @@ const Recorder = function(keys, interval, world) {
 Recorder.prototype.update = function() {
     if (this.world.numTicks % this.interval === 0) {
         this.data.push(this.keys.map(key => key(this.world)));
+        console.log(this.data.length);
     }
 };
 Recorder.prototype.download = function() {
@@ -31,7 +32,16 @@ const Toolbar = function(world, height) {
     this.world = world;
     this.width = world.width;
     this.height = height;
+    // Default toolbar values
+    this.values = {
+        Time: world => world.numTicks,
+        Creatures: world => world.creatures.length,
+        Food: world => world.food.length,
+    };
 };
+Toolbar.prototype.addValue = function(name, getValue) {
+    this.values[name] = getValue;
+}
 Toolbar.prototype.display = function(ctx) {
     // Information panel
     ctx.clearRect(0, 0, this.width, this.height);
@@ -45,30 +55,45 @@ Toolbar.prototype.display = function(ctx) {
     ctx.font = "15px Arial";
     ctx.fillStyle = 'rgb(20, 20, 20)';
     ctx.textAlign = "center";
-    const food = this.world.food;
-    const creatures = this.world.creatures;
-    let energy = food.length * this.world.foodEnergy;
-    energy += creatures.reduce((currentValue, creature) => currentValue + creature.energy, 0);
-    const values = {
-        'Time': this.world.numTicks,
-        'Creatures': creatures.length,
-        'Food': food.length,
-        'Energy': Math.round(energy).toLocaleString(),
-    };
-    const dx = this.width / Object.keys(values).length;
+    const dx = this.width / Object.keys(this.values).length;
     let i = 0.5;
-    for (key in values) {
-        ctx.fillText(`${ key }: ${ values[key] }`, dx * i, 19);
+    for (key in this.values) {
+        const getValue = this.values[key];
+        const value = typeof getValue === 'function' ? getValue(this.world) : getValue;
+        ctx.fillText(`${ key }: ${ value }`, dx * i, 19);
         i++;
     }
 };
 
-function mean(arr) {
+function sum(arr) {
     let sum = 0;
     for (let i = 0; i < arr.length; i++) {
         sum += arr[i];
     }
-    return sum / arr.length;
+    return sum;
+}
+
+function sumSq(arr) {
+    let sum = 0;
+    for (let i = 0; i < arr.length; i++) {
+        sum += arr[i] * arr[i];
+    }
+    return sum;
+}
+
+function mean(arr) {
+    if (arr.length === 0) {
+        return null;
+    }
+    return sum(arr) / arr.length;
+}
+
+function stdev(arr) {
+    if (arr.length < 1) {
+        return null;
+    }
+    const meanValue = mean(arr);
+    return Math.sqrt(sumSq(arr) / arr.length - meanValue * meanValue);
 }
 const TAU = 2 * Math.PI;
 
@@ -85,6 +110,7 @@ const Simulation = function(id, world) {
         return;
     }
     this.world = world;
+    this.updateSpeed = 1;
     this._buildControls(container);
     // Create toolbar
     this.toolbar = new Toolbar(world, 25);
@@ -95,9 +121,10 @@ const Simulation = function(id, world) {
     canvas.style.cssText = "border:1px solid #ddd";
     container.appendChild(canvas);
     this.ctx = canvas.getContext('2d');
-    this.updateSpeed = 1;
     this.updateListeners = [world];
+    // TODO: use display elements
     this.displayElements = [world, this.toolbar];
+    this.display();
 };
 Simulation.prototype._buildControls = function(container) {
     container.style.cssText = "display:flex; flex-wrap:wrap;";
@@ -117,16 +144,36 @@ Simulation.prototype._buildControls = function(container) {
         }
     });
     this.controls.appendChild(runButton);
+    // Speed slider
+    const sliderLabel = document.createElement('label');
+    sliderLabel.innerHTML = `Speed: ${this.updateSpeed}`;
+    sliderLabel.setAttribute('for', 'speed-control');
+    sliderLabel.style.cssText = 'padding-top: 0.5rem;';
+    this.controls.appendChild(sliderLabel);
+    const speedSlider = document.createElement('input');
+    speedSlider.setAttribute('type', 'range');
+    speedSlider.setAttribute('id', 'speed-control');
+    speedSlider.setAttribute('value', this.updateSpeed);
+    speedSlider.style.cssText = 'margin-bottom: 0.5rem;';
+    speedSlider.addEventListener('input', (evt) => {
+        this.updateSpeed = evt.target.value;
+        sliderLabel.innerHTML = `Speed: ${this.updateSpeed}`;
+    });
+    this.controls.appendChild(speedSlider);
 };
 Simulation.prototype.addRecorder = function(keys, interval) {
     interval = interval || 50;
-    this.recorder = new Recorder(keys, interval, this.world);
-    this.updateListeners.push(this.recorder);
+    const recorder = new Recorder(keys, interval, this.world);
+    this.updateListeners.push(recorder);
     const downloadLink = document.createElement('button');
     downloadLink.innerHTML = "Download";
-    downloadLink.addEventListener('click', this.recorder.download.bind(this.recorder));
+    downloadLink.addEventListener('click', recorder.download.bind(recorder));
     this.controls.appendChild(downloadLink);
 };
+Simulation.prototype.addToToolbar = function(name, getValue) {
+    this.toolbar.addValue(name, getValue);
+    this.display();
+}
 Simulation.prototype.update = function() {
     for (let i = 0; i < this.updateSpeed; i++) {
         updateObjects(this.updateListeners);
@@ -134,11 +181,11 @@ Simulation.prototype.update = function() {
     this.display();
 };
 Simulation.prototype.display = function() {
-    this.toolbar.display(this.ctx);
     this.ctx.clearRect(0, this.toolbar.height, this.world.width, this.world.height);
     this.ctx.translate(0, this.toolbar.height);
     this.world.display(this.ctx);
     this.ctx.translate(0, -this.toolbar.height);
+    this.toolbar.display(this.ctx);
 };
 Simulation.prototype.setTimeout = function() {
     this.update();
@@ -158,6 +205,29 @@ function collide(a, b) {
     const dx = a.x - b.x;
     const dy = a.y - b.y;
     return dx * dx + dy * dy <= (a.r + b.r) * (a.r + b.r);
+}
+
+function randomInRange(a, b) {
+    if (!b) {
+        b = a;
+        a = 0;
+    }
+    return a + Math.floor(Math.random() * (b - a));
+}
+
+function mutate(value, min = 1, max = 100) {
+    const mutation = Math.random();
+    if (mutation < 0.01) {
+        return randomInRange(min, max);
+    } else if (mutation < 0.5) {
+        const r = Math.random();
+        if (r < 0.5 && value < max) {
+            return value + 1;
+        } else if (value > min) {
+            return value - 1;
+        }
+    }
+    return value;
 }
 // Generic organism.
 // Has a position and energy.
@@ -184,9 +254,11 @@ Organism.prototype.getColour = function() {
     return 'rgb(50, 60, 210, 160)';
 };
 // These bloops have a speed and a size which is not genetically controlled
-// There are no mutations
+// They reproduce by splitting in half, giving each cell half the energy.
+// There are no genes or mutations
 const Bloop = function(position, energy, genome) {
     Organism.call(this, position, energy, genome);
+    this.childType = Bloop;
 };
 Bloop.prototype = Object.create(Organism.prototype);
 Bloop.prototype.getColour = function() {
@@ -246,7 +318,7 @@ Bloop.prototype.reproduce = function(world) {
         y: this.y
     };
     const newGenome = this.getChildGenome();
-    const newCreature = new Bloop(position, this.energy, newGenome);
+    const newCreature = new this.childType(position, this.energy, newGenome);
     world.creatures.push(newCreature);
 };
 // Food is an organism whose genome determines its size.
@@ -288,15 +360,16 @@ function updateObjects(objects, args) {
     });
 }
 
-function addCreatures(world, n, energy, genome, position) {
+function addCreatures(world, n, energy) {
+    const getGenome = world.creatureType.getRandomGenome || world.getGenome;
     for (let i = 0; i < n; i++) {
-        addCreature(world, energy, genome, position);
+        addCreature(world, energy, getGenome());
     }
 }
 
 function addCreature(world, energy, genome, position) {
     position = position || getRandomPositionUniform(world);
-    const newCreature = new Bloop(position, energy, genome);
+    const newCreature = new world.creatureType(position, energy, genome);
     world.creatures.push(newCreature);
 }
 
@@ -318,6 +391,7 @@ function getWorld(params) {
         foodGrowthRate: 0.1,
         initialFoodNum: 200,
         creatureR: 3,
+        creatureType: Bloop,
         creatureEnergy: 500,
         initialCreatureNum: 10,
         numTicks: 0,
@@ -342,16 +416,26 @@ function getWorld(params) {
     };
     // Initialise world
     addRandomFoodUniform(world, world.initialFoodNum);
-    addCreatures(world, world.initialCreatureNum, world.creatureEnergy, world.creatureR);
+    // Function to set initial genome
+    world.getGenome = world.getGenome || (() => world.creatureR);
+    addCreatures(world, world.initialCreatureNum, world.creatureEnergy, world.getGenome);
     return world;
 };
-Bloop.prototype.calculatePhenotype = function() {
+// Bloop2 is like a Bloop except it has a gene controlling its size
+// Its radius is the square root of its size.
+// Size mutates when Bloop2s reproduce getting +1 or -1 50% of the time.
+const Bloop2 = function(position, energy, genome) {
+    Bloop.call(this, position, energy, genome);
+    this.childType = Bloop2;
+};
+Bloop2.prototype = Object.create(Bloop.prototype);
+Bloop2.prototype.calculatePhenotype = function() {
     this.r = Math.sqrt(this.genome);
     this.speed = 0.2;
     this.angle = Math.PI * Math.random();
     this.metabolism = 1;
 };
-Bloop.prototype.getChildGenome = function() {
+Bloop2.prototype.getChildGenome = function() {
     const mutation = Math.random();
     if (mutation < 0.25 && this.genome > 1) {
         return this.genome - 1;
@@ -360,4 +444,31 @@ Bloop.prototype.getChildGenome = function() {
     }
     return this.genome;
 };
-// The same as world-1 but with a different bloop creature
+/**********************************************************************
+ * Simulation 2
+ * 
+ * Same as simulation 1, but with the Bloop2 creature, which has a
+ * gene to control its size.
+ ***********************************************************************/
+function start(params) {
+    params.creatureR = params.creatureR || 9;
+    params.creatureType = Bloop2;
+    params.initialFoodNum = params.initialFoodNum || 300;
+    params.initialCreatureNum = params.initialCreatureNum || 50;
+
+    // Create world object
+    const world = getWorld(params);
+    // Create simulation to run and display the world
+    const sim = new Simulation('bloop-sim', world);
+    // Record the number of creatures and food so they can be downloaded
+    sim.addRecorder([
+        world => world.food.length,
+        world => world.creatures.length,
+        world => mean(world.creatures.map(c => c.genome))
+    ]);
+    // Record mean cell size on simulation toolbar
+    sim.addToToolbar('Mean size', (world) => {
+        const meanSize = mean(world.creatures.map(creature => creature.genome));
+        return Math.round(meanSize * 100) / 100;
+    });
+}

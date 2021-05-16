@@ -13,7 +13,7 @@ function start(params) {
     params.creatureType = Bloop2;
     params.initialFoodNum = params.initialFoodNum || 300;
     params.initialCreatureNum = params.initialCreatureNum || 50;
-    
+
     // Create world object
     const world = getWorld(params);
 
