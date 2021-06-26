@@ -36,7 +36,7 @@ function getWorld(params) {
         }
 
         updateObjects(this.creatures, world);
-        removeDeadCreatures(this.creatures);
+        removeDeadCreatures(this.creatures, world);
     };
 
     world.display = function(ctx) {

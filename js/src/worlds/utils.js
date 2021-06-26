@@ -38,9 +38,13 @@ function addCreatures(world, n, energy) {
 
 function addCreature(world, energy, genome, position) {
     position = position || getRandomPositionUniform(world);
+    const newCreature = new world.creatureType(position, energy, genome);
     const creatureId = getNewCreatureId(world);
-    const newCreature = new world.creatureType(position, energy, genome, creatureId);
     world.creatures.push(newCreature);
+
+    // Save some additional data about the creature
+    newCreature.id = creatureId;
+    newCreature.born = world.numTicks;
 }
 
 function getNewCreatureId(world) {
@@ -48,9 +52,10 @@ function getNewCreatureId(world) {
     return world.creatureId;
 }
 
-function removeDeadCreatures(creatures) {
+function removeDeadCreatures(creatures, world) {
     for (let i = creatures.length; i--;) {
         if (creatures[i].dead) {
+            creatures[i].died = world.numTicks;
             creatures.splice(i, 1);
         }
     }

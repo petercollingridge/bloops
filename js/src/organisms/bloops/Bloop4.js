@@ -5,8 +5,8 @@
 
 // require ./Bloop.js
 
-const Bloop4 = function(position, energy, genome, id) {
-    Bloop.call(this, position, energy, genome, id);
+const Bloop4 = function(position, energy, genome) {
+    Bloop.call(this, position, energy, genome);
     this.childType = Bloop4;
 };
 Bloop4.prototype = Object.create(Bloop.prototype);
