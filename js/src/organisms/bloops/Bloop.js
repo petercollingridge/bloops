@@ -5,9 +5,10 @@
 // require ../Organism.js
 
 
-const Bloop = function(position, energy, genome) {
+const Bloop = function(position, energy, genome, id) {
     Organism.call(this, position, energy, genome);
     this.childType = Bloop;
+    this.id = id;
 };
 Bloop.prototype = Object.create(Organism.prototype);
 

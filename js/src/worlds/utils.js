@@ -38,8 +38,14 @@ function addCreatures(world, n, energy) {
 
 function addCreature(world, energy, genome, position) {
     position = position || getRandomPositionUniform(world);
-    const newCreature = new world.creatureType(position, energy, genome);
+    const creatureId = getNewCreatureId(world);
+    const newCreature = new world.creatureType(position, energy, genome, creatureId);
     world.creatures.push(newCreature);
+}
+
+function getNewCreatureId(world) {
+    world.creatureId = (world.creatureId || 0) + 1;
+    return world.creatureId;
 }
 
 function removeDeadCreatures(creatures) {
