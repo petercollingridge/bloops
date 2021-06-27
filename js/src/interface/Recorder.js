@@ -1,5 +1,5 @@
 // Object for recording values about the world and downloading as a tab-delimited file
-
+// Every interval it saves data about the world into an array which can be downloaded
 
 const Recorder = function (keys, interval, world) {
     this.keys = keys;
@@ -22,6 +22,34 @@ Recorder.prototype.download = function() {
     }
     download(results);
 };
+
+
+// Saves creature data into an array.
+// Every tick it tests whether the creature has been saved before
+// Would be more efficient to only save creatures when they are created
+const CreatureRecorder = function(keys, creatures) {
+    this.keys = keys;
+    this.creatures = creatures;
+    this.data = [];
+}
+
+CreatureRecorder.prototype.update = function() {
+    for (let i = 0; i < this.creatures.length; i++) {
+        const creature = this.creatures[i];
+        if (creature.id > this.data.length) {
+            this.data.push(creature);
+        }
+    }
+};
+
+CreatureRecorder.prototype.download = function() {
+    let results = '';
+    this.data.forEach(creature => {
+        results += this.keys.map(key => creature[key]).join('\t') + '\n';
+    });
+    download(results);
+};
+
 
 function download(data, filename="data.txt") {
     const element = document.createElement('a');
