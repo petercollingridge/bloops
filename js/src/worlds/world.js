@@ -55,6 +55,10 @@ function getWorld(params) {
         // Save some additional data about the creature
         newCreature.id = getNewCreatureId();
         newCreature.born = world.numTicks;
+
+        if (this.creatureRecorder) {
+            this.creatureRecorder.record(newCreature);
+        }
     }
 
     function getNewCreatureId() {

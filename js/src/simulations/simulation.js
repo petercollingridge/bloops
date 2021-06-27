@@ -83,6 +83,15 @@ Simulation.prototype.addRecorder = function(name, keys, interval) {
     this.addDownloadButton(name, recorder.download.bind(recorder));
 };
 
+Simulation.prototype.addCreatureRecorder = function(keys) {
+    const recorder = new CreatureRecorder(keys);
+    this.world.creatureRecorder = recorder;
+    this.addDownloadButton('creatures', recorder.download.bind(recorder));
+    // Save initial creatures
+    this.world.creatures.forEach(creature => recorder.record(creature));
+    console.log(recorder);
+}
+
 Simulation.prototype.addDownloadButton = function(name, downloadFunction) {
     const downloadLink = document.createElement('button');
     downloadLink.innerHTML = `Download ${name}`;

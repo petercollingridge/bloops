@@ -35,6 +35,8 @@ function start(params) {
         world => world.creatures.map(c => c.genome[1]).join(','),
     ], 50 * 60);
 
+    sim.addCreatureRecorder(['id', 'born', 'died']);
+
     // Record mean cell size on simulation toolbar
     sim.addToToolbar('Size', (world) => {
         const meanGene = mean(world.creatures.map(creature => creature.r * creature.r));
