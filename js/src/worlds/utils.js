@@ -29,29 +29,6 @@ function updateObjects(objects, args) {
     });
 }
 
-function addCreatures(world, n, energy) {
-    const getGenome = world.creatureType.getRandomGenome || world.getGenome;
-    for (let i = 0; i < n; i++) {
-        addCreature(world, energy, getGenome());
-    }
-}
-
-function addCreature(world, energy, genome, position) {
-    position = position || getRandomPositionUniform(world);
-    const newCreature = new world.creatureType(position, energy, genome);
-    const creatureId = getNewCreatureId(world);
-    world.creatures.push(newCreature);
-
-    // Save some additional data about the creature
-    newCreature.id = creatureId;
-    newCreature.born = world.numTicks;
-}
-
-function getNewCreatureId(world) {
-    world.creatureId = (world.creatureId || 0) + 1;
-    return world.creatureId;
-}
-
 function removeDeadCreatures(creatures, world) {
     for (let i = creatures.length; i--;) {
         if (creatures[i].dead) {
