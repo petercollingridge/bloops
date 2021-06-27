@@ -20,7 +20,7 @@ function start(params) {
     const sim = new Simulation('bloop-sim', world);
 
     // Record the number of creatures and food every second
-    sim.addRecorder([
+    sim.addRecorder('population',[
         world => world.food.length,
         world => world.creatures.length,
         world => mean(world.creatures.map(c => c.genome[0])),
@@ -30,7 +30,7 @@ function start(params) {
     ]);
 
     // Record genomes of the whole population every minute
-    sim.addRecorder([
+    sim.addRecorder('genomes', [
         world => world.creatures.map(c => c.genome[0]).join(','),
         world => world.creatures.map(c => c.genome[1]).join(','),
     ], 50 * 60);

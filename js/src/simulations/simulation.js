@@ -76,16 +76,16 @@ Simulation.prototype._buildControls = function(container) {
     this.controls.appendChild(speedSlider);
 };
 
-Simulation.prototype.addRecorder = function(keys, interval) {
+Simulation.prototype.addRecorder = function(name, keys, interval) {
     interval = interval || 50;
     const recorder = new Recorder(keys, interval, this.world);
     this.updateListeners.push(recorder);
-    this.addDownloadButton(recorder.download.bind(recorder));
+    this.addDownloadButton(name, recorder.download.bind(recorder));
 };
 
-Simulation.prototype.addDownloadButton = function(downloadFunction) {
+Simulation.prototype.addDownloadButton = function(name, downloadFunction) {
     const downloadLink = document.createElement('button');
-    downloadLink.innerHTML = "Download";
+    downloadLink.innerHTML = `Download ${name}`;
     downloadLink.addEventListener('click', downloadFunction);
     this.controls.appendChild(downloadLink);
 }
