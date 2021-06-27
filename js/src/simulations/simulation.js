@@ -1,5 +1,6 @@
 // Top-level object for running and display the simulation
 
+// require ./eventHandler.js
 // require ../interface/Recorder.js
 // require ../interface/Toolbar.js
 // require ../helpers/utils.js
@@ -79,12 +80,15 @@ Simulation.prototype.addRecorder = function(keys, interval) {
     interval = interval || 50;
     const recorder = new Recorder(keys, interval, this.world);
     this.updateListeners.push(recorder);
+    this.addDownloadButton(recorder.download.bind(recorder));
+};
 
+Simulation.prototype.addDownloadButton = function(downloadFunction) {
     const downloadLink = document.createElement('button');
     downloadLink.innerHTML = "Download";
-    downloadLink.addEventListener('click', recorder.download.bind(recorder));
+    downloadLink.addEventListener('click', downloadFunction);
     this.controls.appendChild(downloadLink);
-};
+}
 
 Simulation.prototype.addToToolbar = function(name, getValue) {
     this.toolbar.addValue(name, getValue);
