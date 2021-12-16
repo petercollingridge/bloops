@@ -89,7 +89,6 @@ Simulation.prototype.addCreatureRecorder = function(keys) {
     this.addDownloadButton('creatures', recorder.download.bind(recorder));
     // Save initial creatures
     this.world.creatures.forEach(creature => recorder.record(creature));
-    console.log(recorder);
 }
 
 Simulation.prototype.addDownloadButton = function(name, downloadFunction) {
