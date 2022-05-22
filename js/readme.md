@@ -1,3 +1,8 @@
+# Introduction
+
+Simulation of organisms moving around, eating food and evolving.
+More details and analysis of the reults [on my blog](https://www.petercollingridge.co.uk/blog/alife/ecosystem-simulation/).
+
 # Running the simulation
 
 Open `index.html` in a browser.
