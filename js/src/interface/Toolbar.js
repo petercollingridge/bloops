@@ -1,43 +1,48 @@
-const Toolbar = function(world, height) {
-    this.world = world;
-    this.width = world.width;
-    this.height = height;
+function getToolbarItem(itemName, toolbarElement, getValue) {
+  const itemElement = createElement('span')
+    .addClass('toolbar-item')
+    .text(itemName)
+    .addTo(toolbarElement);
 
-    // Default toolbar values
-    this.values = {
-        Time: world => world.numTicks,
-        Creatures: world => world.creatures.length,
-        Food: world => world.food.length,
-    };
-};
+  const obj = {
+    update: (world) => {
+      const value = getValue(world);
+      itemElement.text(`${itemName}: ${value}`); 
+    }
+  };
 
-Toolbar.prototype.addValue = function(name, getValue) {
-    this.values[name] = getValue;
+  return obj;
 }
 
-Toolbar.prototype.display = function(ctx) {
-    // Information panel
-    ctx.clearRect(0, 0, this.width, this.height);
+function getToolbar(container) {
+  const defaultItems = {
+    Time: world => world.numTicks,
+    Creatures: world => world.creatures.length,
+    Food: world => world.food.length,
+  };
 
-    ctx.beginPath();
-    ctx.moveTo(0, this.height - 0.5);
-    ctx.lineTo(this.width, this.height - 0.5);
-    ctx.lineWidth = '0.5';
-    ctx.strokeStyle = '#666';
-    ctx.stroke();
-    
-    // Display counts
-    ctx.font = "15px Arial";
-    ctx.fillStyle = 'rgb(20, 20, 20)';
-    ctx.textAlign = "center";
+  const toolbarElement = createElement('div')
+    .addClass('toolbar')
+    .addTo(container);
 
-    const dx = this.width / Object.keys(this.values).length;
-    let i = 0.5;
+  const _items = [];
 
-    for (key in this.values) {
-        const getValue = this.values[key];
-        const value = typeof getValue === 'function' ? getValue(this.world) : getValue;
-        ctx.fillText(`${ key }: ${ value }`, dx * i, 19);
-        i++;
+  const obj = {
+    element: toolbarElement,
+    addItem: (name, getValue) => {
+      const newItem = getToolbarItem(name, toolbarElement, getValue);
+      _items.push(newItem);
+    },
+    update: (world) => {
+      _items.forEach((item) => {
+        item.update(world);
+      });
     }
-};
+  }
+
+  for (const item in defaultItems) {
+    obj.addItem(item, defaultItems[item]);
+  }
+
+  return obj;
+}
