@@ -9,6 +9,8 @@
 // require ../organisms/bloops/Bloop4.js
 
 function start(params) {
+    params.width = 1200;
+    params.height = 800;
     params.creatureType = Bloop4;
     params.initialFoodNum = params.initialFoodNum || 300;
     params.initialCreatureNum = params.initialCreatureNum || 50;
@@ -17,7 +19,7 @@ function start(params) {
     const world = getWorld(params);
 
     // Create simulation to run and display the world
-    const sim = new Simulation('bloop-sim', world);
+    const sim = new Simulation('bloop-sim', world, 600, 400);
 
     // Record the number of creatures and food every second
     sim.addRecorder('population',[

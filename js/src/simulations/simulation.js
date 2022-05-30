@@ -8,7 +8,7 @@
 // require ../helpers/display.js
 
 
-const Simulation = function(id, world) {
+const Simulation = function(id, world, width, height) {
     const container = document.getElementById(id);
     if (!container) {
         console.error('No element found with id ' + id);
@@ -18,17 +18,45 @@ const Simulation = function(id, world) {
     this.world = world;
     this.updateSpeed = 1;
     this.toolbar = getToolbar(container, world);
+    this._addCanvas(container, world, width, height);
     this._buildControls(container);
 
-    // Create canvas
-    const canvas = createElement('canvas')
-      .attr({ width: world.width, height: world.height })
-      .addClass('main')
-      .addTo(container);
-
-    this.ctx = canvas.element.getContext('2d');
     this.updateListeners = [world, this.toolbar];
     this.display();
+};
+
+Simulation.prototype._addCanvas = function(container, world, width, height) {
+    this.offsetX = 0;
+    this.offsetY = 0;
+    let dragging = false;
+    let mouseX;
+    let mouseY;
+
+    const canvas = createElement('canvas')
+        .attr({
+            width: width || world.width,
+            height: height || world.height
+        })
+        .addClass('main')
+        .addEventListener('mousedown', (evt) => {
+            dragging = true;
+            mouseX = evt.offsetX;
+            mouseY = evt.offsetY;
+        })
+        .addEventListener('mousemove', (evt) => {
+            if (dragging) {
+                this.offsetX += evt.offsetX - mouseX;
+                this.offsetY += evt.offsetY - mouseY;
+                mouseX = evt.offsetX;
+                mouseY = evt.offsetY;
+            }
+        })
+        .addEventListener('mouseup', () => {
+            dragging = false;
+        })
+        .addTo(container);
+
+    this.ctx = canvas.element.getContext('2d');
 };
 
 Simulation.prototype._buildControls = function(container) {
@@ -99,8 +127,9 @@ Simulation.prototype.update = function() {
 
 Simulation.prototype.display = function() {
     this.ctx.clearRect(0, 0, this.world.width, this.world.height);
-    this.ctx.rect(0, 0, this.world.width, this.world.height);
+    this.ctx.translate(this.offsetX, this.offsetY);
     this.world.display(this.ctx);
+    this.ctx.translate(-this.offsetX, -this.offsetY);
 };
 
 Simulation.prototype.setTimeout = function() {
