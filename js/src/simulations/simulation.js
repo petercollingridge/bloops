@@ -49,12 +49,14 @@ Simulation.prototype._addCanvas = function(container, world, width, height) {
                 this.offsetY += evt.offsetY - mouseY;
                 mouseX = evt.offsetX;
                 mouseY = evt.offsetY;
+                this.display();
             }
         })
-        .addEventListener('mouseup', () => {
-            dragging = false;
-        })
         .addTo(container);
+
+    document.addEventListener('mouseup', () => {
+        dragging = false;
+    });
 
     this.ctx = canvas.element.getContext('2d');
 };
