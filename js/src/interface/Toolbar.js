@@ -1,8 +1,7 @@
 function getToolbarItem(itemName, toolbarElement, getValue, world) {
-  const itemElement = createElement('span')
+  const itemElement = toolbarElement.addElement('span')
     .addClass('toolbar-item')
-    .text(itemName)
-    .addTo(toolbarElement);
+    .text(itemName);
 
   const obj = {
     update: () => {

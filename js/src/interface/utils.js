@@ -13,6 +13,14 @@ function createElement(tag) {
           element.classList.add(className);
           return obj;
         },
+        addElement(tag) {
+            const childElement = createElement(tag).addTo(this);
+            return childElement;
+        },
+        addEventListener: (type, func) => {
+            element.addEventListener(type, func);
+            return obj;
+        },
         text: (text) => {
             element.innerHTML = text;
             return obj;

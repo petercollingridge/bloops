@@ -32,41 +32,36 @@ const Simulation = function(id, world) {
 };
 
 Simulation.prototype._buildControls = function(container) {
-    this.controls = document.createElement('div');
-    this.controls.classList.add('sidebar');
-    container.appendChild(this.controls);
+    this.controls = createElement('div').addClass('sidebar').addTo(container);
 
     // Play / Pause button
-    const runButton = document.createElement('button');
-    runButton.innerHTML = 'Run';
+    const runButton = this.controls.addElement('button').text('Run');
     runButton.addEventListener('click', () => {
         if (!this.animation) {
-            runButton.innerHTML = 'Pause';
+            runButton.text('Pause');
             this.run();
         } else {
-            runButton.innerHTML = 'Run';
+            runButton.text('Run');
             this.stop();
         }
     });
-    this.controls.appendChild(runButton);
 
     // Speed slider
-    const sliderLabel = createElement('label')
+    const sliderLabel = this.controls.addElement('label')
       .attr({ for: 'speed-control' })
       .text(`Speed: ${this.updateSpeed}`)
-      .css({ 'padding-top': '0.5rem' })
-      .addTo(this.controls);
+      .css({ 'padding-top': '0.5rem' });
 
-    const speedSlider = createElement('input').attr({
-      type: 'range',
-      id: 'speed-control',
-      value: this.updateSpeed
-    }).addTo(this.controls);
-
-    speedSlider.element.addEventListener('input', (evt) => {
+      this.controls.addElement('input')
+      .attr({
+        type: 'range',
+        id: 'speed-control',
+        value: this.updateSpeed
+      })
+      .addEventListener('input', (evt) => {
         this.updateSpeed = evt.target.value;
-        sliderLabel.innerHTML = `Speed: ${this.updateSpeed}`;
-    });
+        sliderLabel.text(`Speed: ${this.updateSpeed}`);
+      });
 };
 
 Simulation.prototype.addRecorder = function(name, keys, interval) {
