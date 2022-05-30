@@ -57,17 +57,16 @@ Simulation.prototype._buildControls = function(container) {
       .css({ 'padding-top': '0.5rem' })
       .addTo(this.controls);
 
-    const speedSlider = document.createElement('input');
-    speedSlider.setAttribute('type', 'range');
-    speedSlider.setAttribute('id', 'speed-control');
-    speedSlider.setAttribute('value', this.updateSpeed);
+    const speedSlider = createElement('input').attr({
+      type: 'range',
+      id: 'speed-control',
+      value: this.updateSpeed
+    }).addTo(this.controls);
 
-    speedSlider.style.cssText = 'margin-bottom: 0.5rem;';
-    speedSlider.addEventListener('input', (evt) => {
+    speedSlider.element.addEventListener('input', (evt) => {
         this.updateSpeed = evt.target.value;
         sliderLabel.innerHTML = `Speed: ${this.updateSpeed}`;
     });
-    this.controls.appendChild(speedSlider);
 };
 
 Simulation.prototype.addRecorder = function(name, keys, interval) {
@@ -104,10 +103,9 @@ Simulation.prototype.update = function() {
 };
 
 Simulation.prototype.display = function() {
-    this.ctx.clearRect(0, this.toolbar.height, this.world.width, this.world.height);
-    this.ctx.translate(0, this.toolbar.height);
+    this.ctx.clearRect(0, 0, this.world.width, this.world.height);
+    this.ctx.rect(0, 0, this.world.width, this.world.height);
     this.world.display(this.ctx);
-    this.ctx.translate(0, -this.toolbar.height);
 };
 
 Simulation.prototype.setTimeout = function() {

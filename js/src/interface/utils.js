@@ -2,7 +2,7 @@ function createElement(tag) {
     const element = document.createElement(tag);
 
     const obj = {
-        element: document.createElement(tag),
+        element,
         attr: (attributes) => {
             for (const key in attributes) {
                 element.setAttribute(key, attributes[key]);
