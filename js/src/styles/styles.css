@@ -1,21 +1,37 @@
 #bloop-sim {
-  max-width: 600px;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  width: 750px;
+  grid-template-columns: 150px 600px;
+  grid-template-rows: auto auto;
+  grid-template-areas: 
+  "header header"
+  "sidebar main";
   border: 1px solid #ddd;
 }
 
 .toolbar {
-  width: 100%;
-  height: 1.6rem;
+  grid-area: header;
   border-bottom: 1px solid #ddd;
   display: flex;
   justify-content: space-between;
 }
 
 .toolbar-item {
-  padding: 3px 6px 0 6px;
+  padding: 3px 6px 1px 6px;
   color: #345;
   font-family: Arial;
   font-size: 15px;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  border-right: 1px solid #ddd;
+}
+
+.main {
+  grid-area: main;
 }

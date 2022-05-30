@@ -17,23 +17,23 @@ const Simulation = function(id, world) {
 
     this.world = world;
     this.updateSpeed = 1;
-    this.toolbar = getToolbar(container);
+    this.toolbar = getToolbar(container, world);
     this._buildControls(container);
 
     // Create canvas
     const canvas = createElement('canvas')
       .attr({ width: world.width, height: world.height })
-      .css({ border: '1px solid #ddd' })
+      .addClass('main')
       .addTo(container);
 
     this.ctx = canvas.element.getContext('2d');
-    this.updateListeners = [world];
+    this.updateListeners = [world, this.toolbar];
     this.display();
 };
 
 Simulation.prototype._buildControls = function(container) {
     this.controls = document.createElement('div');
-    this.controls.style.cssText = "width:100px; margin-right: 2rem; margin-bottom: 1rem;display: flex;justify-content: center;flex-direction: column;";
+    this.controls.classList.add('sidebar');
     container.appendChild(this.controls);
 
     // Play / Pause button

@@ -1,11 +1,11 @@
-function getToolbarItem(itemName, toolbarElement, getValue) {
+function getToolbarItem(itemName, toolbarElement, getValue, world) {
   const itemElement = createElement('span')
     .addClass('toolbar-item')
     .text(itemName)
     .addTo(toolbarElement);
 
   const obj = {
-    update: (world) => {
+    update: () => {
       const value = getValue(world);
       itemElement.text(`${itemName}: ${value}`); 
     }
@@ -14,7 +14,7 @@ function getToolbarItem(itemName, toolbarElement, getValue) {
   return obj;
 }
 
-function getToolbar(container) {
+function getToolbar(container, world) {
   const defaultItems = {
     Time: world => world.numTicks,
     Creatures: world => world.creatures.length,
@@ -30,7 +30,7 @@ function getToolbar(container) {
   const obj = {
     element: toolbarElement,
     addItem: (name, getValue) => {
-      const newItem = getToolbarItem(name, toolbarElement, getValue);
+      const newItem = getToolbarItem(name, toolbarElement, getValue, world);
       _items.push(newItem);
     },
     update: (world) => {
