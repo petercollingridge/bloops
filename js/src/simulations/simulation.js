@@ -32,6 +32,9 @@ Simulation.prototype._addCanvas = function(container, world, width, height) {
     let mouseX;
     let mouseY;
 
+    const maxX = world.width - width;
+    const maxY = world.height - height;
+
     const canvas = createElement('canvas')
         .attr({
             width: width || world.width,
@@ -45,10 +48,23 @@ Simulation.prototype._addCanvas = function(container, world, width, height) {
         })
         .addEventListener('mousemove', (evt) => {
             if (dragging) {
-                this.offsetX += evt.offsetX - mouseX;
-                this.offsetY += evt.offsetY - mouseY;
+                this.offsetX += mouseX - evt.offsetX;
+                this.offsetY += mouseY - evt.offsetY;
                 mouseX = evt.offsetX;
                 mouseY = evt.offsetY;
+
+                if (this.offsetX < 0) {
+                    this.offsetX = 0;
+                } else if (this.offsetX > maxX) {
+                    this.offsetX = maxX;
+                }
+
+                if (this.offsetY < 0) {
+                    this.offsetY = 0;
+                } else if (this.offsetY > maxY) {
+                    this.offsetY = maxY;
+                }
+
                 this.display();
             }
         })
@@ -129,9 +145,9 @@ Simulation.prototype.update = function() {
 
 Simulation.prototype.display = function() {
     this.ctx.clearRect(0, 0, this.world.width, this.world.height);
-    this.ctx.translate(this.offsetX, this.offsetY);
-    this.world.display(this.ctx);
     this.ctx.translate(-this.offsetX, -this.offsetY);
+    this.world.display(this.ctx);
+    this.ctx.translate(this.offsetX, this.offsetY);
 };
 
 Simulation.prototype.setTimeout = function() {
