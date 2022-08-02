@@ -61,6 +61,23 @@ function getWorld(params) {
         }
     }
 
+    world.findCreatureAtCoord = function(x, y) {
+      let selectedCreature;
+
+      for (let i = 0; i < world.creatures.length; i++) {
+        const creature = world.creatures[i];
+        const dx = creature.x - x;
+        const dy = creature.y - y;
+        const r = creature.r;
+        if (dx * dx + dy * dy < r * r) {
+          selectedCreature = creature;
+          break;
+        }
+      }
+
+      return selectedCreature;
+    }
+
     function getNewCreatureId() {
         world.creatureId = (world.creatureId || 0) + 1;
         return world.creatureId;

@@ -68,6 +68,13 @@ Simulation.prototype._addCanvas = function(container, world, width, height) {
                 this.display();
             }
         })
+        .addEventListener('mouseup', (evt) => {
+            // Get the coordinates in the world where user clicked
+            const x = evt.offsetX + this.offsetX;
+            const y = evt.offsetY + this.offsetY;
+            const creature = this.world.findCreatureAtCoord(x, y);
+            console.log(creature);
+        })
         .addTo(container);
 
     document.addEventListener('mouseup', () => {
