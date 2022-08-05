@@ -17,7 +17,9 @@ const Simulation = function(id, world, width, height) {
 
     this.world = world;
     this.updateSpeed = 1;
+    this.selectedCreature;
     this.toolbar = getToolbar(container, world);
+
     this._addCanvas(container, world, width, height);
     this._buildControls(container);
 
@@ -72,8 +74,8 @@ Simulation.prototype._addCanvas = function(container, world, width, height) {
             // Get the coordinates in the world where user clicked
             const x = evt.offsetX + this.offsetX;
             const y = evt.offsetY + this.offsetY;
-            const creature = this.world.findCreatureAtCoord(x, y);
-            console.log(creature);
+            this.selectedCreature = this.world.findCreatureAtCoord(x, y);
+            
         })
         .addTo(container);
 
@@ -153,7 +155,19 @@ Simulation.prototype.update = function() {
 Simulation.prototype.display = function() {
     this.ctx.clearRect(0, 0, this.world.width, this.world.height);
     this.ctx.translate(-this.offsetX, -this.offsetY);
+
     this.world.display(this.ctx);
+
+    if (this.selectedCreature) {
+        const {x, y, r} = this.selectedCreature;
+        const s = 2;
+        const width = 2 * (s + r);
+        this.ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+        this.ctx.beginPath();
+        this.ctx.rect(x - r - s, y - r - s, width, width);
+        this.ctx.stroke();
+    }
+
     this.ctx.translate(this.offsetX, this.offsetY);
 };
 
