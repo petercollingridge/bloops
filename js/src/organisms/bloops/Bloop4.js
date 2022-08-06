@@ -25,11 +25,19 @@ Bloop4.prototype.getChildGenome = function() {
     return childGenome;
 };
 
+Bloop.prototype.info = function() {
+  return {
+    energy: this.energy,
+    metabolism: this.metabolism,
+    size: this.genome[0],
+    speed: this.speed,
+  };
+};
+
 Bloop4.getRandomGenome = function() {
-    return [50, 50, 50];
+    // return [50, 50];
     return [
         randomInRange(1, 100),  // Size
         randomInRange(1, 100),  // Metabolism
-        randomInRange(1, 100),  // Energy for reproduction
     ];
 };

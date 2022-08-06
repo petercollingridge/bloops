@@ -32,6 +32,12 @@
   border-right: 1px solid #ddd;
 }
 
+.infobox {
+  min-height: 4rem;
+  border: 1px solid #ddd;
+  margin-bottom: 1rem;;
+}
+
 .main {
   grid-area: main;
 }

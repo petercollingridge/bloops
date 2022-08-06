@@ -69,3 +69,7 @@ Bloop.prototype.reproduce = function(world) {
     const newGenome = this.getChildGenome();
     world.addCreature(this.energy, newGenome, position);
 };
+
+Bloop.prototype.info = function() {
+  return { energy: this.energy };
+};

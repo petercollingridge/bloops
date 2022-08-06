@@ -19,11 +19,13 @@ const Simulation = function(id, world, width, height) {
     this.updateSpeed = 1;
     this.selectedCreature;
     this.toolbar = getToolbar(container, world);
-
     this._addCanvas(container, world, width, height);
-    this._buildControls(container);
 
-    this.updateListeners = [world, this.toolbar];
+    this.controls = createElement('div').addClass('sidebar').addTo(container);
+    this.infobox = getInfobox(this);
+    this._buildControls(this.controls);
+
+    this.updateListeners = [world, this.toolbar, this.infobox];
     this.display();
 };
 
@@ -87,8 +89,6 @@ Simulation.prototype._addCanvas = function(container, world, width, height) {
 };
 
 Simulation.prototype._buildControls = function(container) {
-    this.controls = createElement('div').addClass('sidebar').addTo(container);
-
     // Play / Pause button
     const runButton = this.controls.addElement('button').text('Run');
     runButton.addEventListener('click', () => {
@@ -146,9 +146,11 @@ Simulation.prototype.addToToolbar = function(name, getValue) {
 }
 
 Simulation.prototype.update = function() {
+    // Update the world multiple times before updating the display to speed things up
     for (let i = 0; i < this.updateSpeed; i++) {
-        updateObjects(this.updateListeners);
+        updateObjects([this.world]);
     }
+    updateObjects(this.updateListeners);
     this.display();
 };
 
