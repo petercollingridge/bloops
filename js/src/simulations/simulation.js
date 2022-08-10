@@ -25,7 +25,7 @@ const Simulation = function(id, world, width, height) {
     this.infobox = getInfobox(this);
     this._buildControls(this.controls);
 
-    this.updateListeners = [world, this.toolbar, this.infobox];
+    this.updateListeners = [this.toolbar, this.infobox];
     this.display();
 };
 
