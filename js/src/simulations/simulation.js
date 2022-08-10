@@ -77,6 +77,11 @@ Simulation.prototype._addCanvas = function(container, world, width, height) {
             const x = evt.offsetX + this.offsetX;
             const y = evt.offsetY + this.offsetY;
             this.selectedCreature = this.world.findCreatureAtCoord(x, y);
+
+            // Trigger an update even if the display is not updating
+            if (this.selectedCreature) {
+                this.infobox.update();
+            }
             
         })
         .addTo(container);
