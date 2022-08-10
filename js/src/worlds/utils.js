@@ -32,7 +32,6 @@ function updateObjects(objects, args) {
 function removeDeadCreatures(creatures, world) {
     for (let i = creatures.length; i--;) {
         if (creatures[i].dead) {
-            creatures[i].died = world.numTicks;
             creatures.splice(i, 1);
         }
     }

@@ -27,12 +27,14 @@ Bloop.prototype.calculatePhenotype = function() {
 };
 
 Bloop.prototype.update = function(world) {
+    this.age++;
     this.energy -= this.metabolism;
     this.eat(world.food);
     this.move(world);
 
     if (this.energy < 0) {
         this.dead = true;
+        this.died = world.numTicks;
     } else if (this.energy > 1000) {
         this.reproduce(world);
     }

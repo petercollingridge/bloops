@@ -6,6 +6,7 @@
 // require ./utils.js
 
 const Organism = function(position, energy, genome) {
+    this.age = 0;
     this.x = position.x;
     this.y = position.y;
     this.energy = energy;
