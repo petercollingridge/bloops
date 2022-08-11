@@ -21,7 +21,7 @@ const DEFAULT_PARAMS = {
 };
 
 function getWorld(params) {
-    const world = Object.assign(DEFAULT_PARAMS, params);
+    const world = Object.assign(DEFAULT_PARAMS, params || {});
 
     world.update = function() {
         this.numTicks++;

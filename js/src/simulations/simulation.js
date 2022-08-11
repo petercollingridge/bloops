@@ -3,6 +3,7 @@
 // require ./eventHandler.js
 // require ../interface/Recorder.js
 // require ../interface/Toolbar.js
+// require ../interface/Infobox.js
 // require ../interface/utils.js
 // require ../helpers/utils.js
 // require ../helpers/display.js

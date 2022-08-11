@@ -5,7 +5,7 @@
  * food and reproducing when they have enough energy.
 ***********************************************************************/
 
-// require ..worlds/world.js
+// require ../worlds/world.js
 // require ../organisms/bloops/Bloop.js
 
 function start(params) {

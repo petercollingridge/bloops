@@ -6,6 +6,7 @@
     <title>Bloop Simulation</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../src/styles/styles.css">
 </head>
 
 <body>
@@ -18,7 +19,7 @@
 
     <div id="bloop-sim"></div>
 
-    <script src="../bundles/bundle-1.js"></script>
+    <script src="bundles/bundle-1.js"></script>
 
     <script>
         // Create world object
@@ -28,10 +29,17 @@
         const sim = new Simulation('bloop-sim', world);
 
         // Record the number of creatures and food so they can be downloaded
-        sim.addRecorder([
+        sim.addRecorder('population', [
             world => world.food.length,
-            world => world.creatures.length
+            world => world.creatures.length,
         ]);
+
+        // Record energy on simulation toolbar
+        sim.addToToolbar('Energy', (world) => {
+            let energy = world.food.length * world.foodEnergy;
+            energy += sum(world.creatures.map(creature => creature.energy));
+            return energy.toLocaleString();
+        });
     </script>
 
     </body>
