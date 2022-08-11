@@ -27,6 +27,7 @@ Bloop4.prototype.getChildGenome = function() {
 
 Bloop.prototype.info = function() {
   return {
+    id: this.id,
     age: this.age,
     energy: this.energy,
     metabolism: this.metabolism,
