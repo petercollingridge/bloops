@@ -16,15 +16,15 @@ function start(params) {
     const sim = new Simulation('bloop-sim', world);
 
     // Record the number of creatures and food so they can be downloaded
-    sim.addRecorder([
-        world => world.food.length,
-        world => world.creatures.length
+    sim.addRecorder('population', [
+      world => world.food.length,
+      world => world.creatures.length,
     ]);
 
     // Record energy on simulation toolbar
     sim.addToToolbar('Energy', (world) => {
         let energy = world.food.length * world.foodEnergy;
         energy += sum(world.creatures.map(creature => creature.energy));
-        return energy.toFixed(2);
+        return energy.toLocaleString();
     });
 }
