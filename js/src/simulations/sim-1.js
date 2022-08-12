@@ -17,6 +17,7 @@ function start(params) {
 
     // Record the number of creatures and food so they can be downloaded
     sim.addRecorder('population', [
+      world => world.time,
       world => world.food.length,
       world => world.creatures.length,
     ]);

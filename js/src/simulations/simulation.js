@@ -24,9 +24,15 @@ const Simulation = function(id, world, width, height) {
 
     this.controls = createElement('div').addClass('sidebar').addTo(container);
     this.infobox = getInfobox(this);
-    this._buildControls(this.controls);
+    this._buildControls();
 
-    this.updateListeners = [this.toolbar, this.infobox];
+    // Object update every tick of the simulation
+    this.updateListeners = [this.world];
+
+    // Object update every tick of the simulation
+    this.displayListeners = [this.toolbar, this.infobox];
+
+    // Display now to show simulation before the first update runs
     this.display();
 };
 
@@ -94,7 +100,7 @@ Simulation.prototype._addCanvas = function(container, world, width, height) {
     this.ctx = canvas.element.getContext('2d');
 };
 
-Simulation.prototype._buildControls = function(container) {
+Simulation.prototype._buildControls = function() {
     // Play / Pause button
     const runButton = this.controls.addElement('button').text('Run');
     runButton.addEventListener('click', () => {
@@ -154,13 +160,13 @@ Simulation.prototype.addToToolbar = function(name, getValue) {
 Simulation.prototype.update = function() {
     // Update the world multiple times before updating the display to speed things up
     for (let i = 0; i < this.updateSpeed; i++) {
-        updateObjects([this.world]);
+        updateObjects(this.updateListeners);
     }
-    updateObjects(this.updateListeners);
-    this.display();
 };
 
 Simulation.prototype.display = function() {
+    updateObjects(this.displayListeners);
+
     this.ctx.clearRect(0, 0, this.world.width, this.world.height);
     this.ctx.translate(-this.offsetX, -this.offsetY);
 
@@ -181,6 +187,7 @@ Simulation.prototype.display = function() {
 
 Simulation.prototype.setTimeout = function() {
     this.update();
+    this.display();
     this.animation = setTimeout(this.setTimeout.bind(this), 20);
 };
 

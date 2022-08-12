@@ -34,7 +34,7 @@ Bloop.prototype.update = function(world) {
 
     if (this.energy < 0) {
         this.dead = true;
-        this.died = world.numTicks;
+        this.died = world.time;
     } else if (this.energy > 1000) {
         this.reproduce(world);
     }

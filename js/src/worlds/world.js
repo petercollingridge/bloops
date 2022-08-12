@@ -15,7 +15,7 @@ const DEFAULT_PARAMS = {
     creatureType: Bloop,
     creatureEnergy: 500,
     initialCreatureNum: 10,
-    numTicks: 0,
+    time: 0,
     food: [],
     creatures: [],
 };
@@ -24,7 +24,7 @@ function getWorld(params) {
     const world = Object.assign(DEFAULT_PARAMS, params || {});
 
     world.update = function() {
-        this.numTicks++;
+        this.time++;
 
         while (Math.random() < this.foodGrowthRate) {
             addRandomFoodUniform(this);
@@ -54,7 +54,7 @@ function getWorld(params) {
     
         // Save some additional data about the creature
         newCreature.id = getNewCreatureId();
-        newCreature.born = world.numTicks;
+        newCreature.born = world.time;
 
         if (this.creatureRecorder) {
             this.creatureRecorder.record(newCreature);

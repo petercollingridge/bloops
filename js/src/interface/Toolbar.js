@@ -15,7 +15,7 @@ function getToolbarItem(itemName, toolbarElement, getValue, world) {
 
 function getToolbar(container, world) {
   const defaultItems = {
-    Time: world => world.numTicks.toLocaleString(),
+    Time: world => world.time.toLocaleString(),
     Creatures: world => world.creatures.length,
     Food: world => world.food.length,
   };
