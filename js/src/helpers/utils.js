@@ -1,8 +1,20 @@
-function sum(arr) {
+function extract(arr, accessor) {
+  return arr.map(item => item[accessor]);
+}
+
+function sum(arr, accessor) {
     let sum = 0;
-    for (let i = 0; i < arr.length; i++) {
+
+    if (accessor) {
+      for (let i = 0; i < arr.length; i++) {
+        sum += arr[i][accessor];
+      }
+    } else {
+      for (let i = 0; i < arr.length; i++) {
         sum += arr[i];
+      }
     }
+
     return sum;
 }
 

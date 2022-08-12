@@ -36,8 +36,10 @@
 
         // Record energy on simulation toolbar
         sim.addToToolbar('Energy', (world) => {
+            // Total energy is all the energy in food
             let energy = world.food.length * world.foodEnergy;
-            energy += sum(world.creatures.map(creature => creature.energy));
+            // plus the energy in creatures
+            energy += sum(world.creatures, 'energy');
             return energy.toLocaleString();
         });
     </script>

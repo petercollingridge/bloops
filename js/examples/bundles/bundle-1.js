@@ -186,10 +186,20 @@ function createElement(tag) {
     return obj;
 }
 
-function sum(arr) {
+function extract(arr, accessor) {
+    return arr.map(item => item[accessor]);
+}
+
+function sum(arr, accessor) {
     let sum = 0;
-    for (let i = 0; i < arr.length; i++) {
-        sum += arr[i];
+    if (accessor) {
+        for (let i = 0; i < arr.length; i++) {
+            sum += arr[i][accessor];
+        }
+    } else {
+        for (let i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
     }
     return sum;
 }
@@ -247,11 +257,13 @@ Simulation.prototype._addCanvas = function(container, world, width, height) {
     let dragging = false;
     let mouseX;
     let mouseY;
+    width = width || world.width;
+    height = height || world.height;
     const maxX = world.width - width;
     const maxY = world.height - height;
     const canvas = createElement('canvas').attr({
-        width: width || world.width,
-        height: height || world.height
+        width,
+        height
     }).addClass('main').addEventListener('mousedown', (evt) => {
         dragging = true;
         mouseX = evt.offsetX;
@@ -650,7 +662,7 @@ function start(params) {
     // Record energy on simulation toolbar
     sim.addToToolbar('Energy', (world) => {
         let energy = world.food.length * world.foodEnergy;
-        energy += sum(world.creatures.map(creature => creature.energy));
+        energy += sum(world.creatures, 'energy');
         return energy.toLocaleString();
     });
 }
