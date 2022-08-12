@@ -26,6 +26,6 @@ function start(params) {
     sim.addToToolbar('Energy', (world) => {
         let energy = world.food.length * world.foodEnergy;
         energy += sum(world.creatures, 'energy');
-        return energy.toLocaleString();
+        return Math.round(energy).toLocaleString();
     });
 }
