@@ -37,14 +37,14 @@ Simulation.prototype._addCanvas = function(container, world, width, height) {
     let mouseX;
     let mouseY;
 
+    width = width || world.width;
+    height = height || world.height;
+
     const maxX = world.width - width;
     const maxY = world.height - height;
 
     const canvas = createElement('canvas')
-        .attr({
-            width: width || world.width,
-            height: height || world.height
-        })
+        .attr({ width, height })
         .addClass('main')
         .addEventListener('mousedown', (evt) => {
             dragging = true;

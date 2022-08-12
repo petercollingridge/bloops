@@ -26,7 +26,7 @@
         const world = getWorld();
 
         // Create simulation to run and display the world
-        const sim = new Simulation('bloop-sim', world);
+        const sim = new Simulation('bloop-sim', world, 600, 400);
 
         // Record the number of creatures and food so they can be downloaded
         sim.addRecorder('population', [
