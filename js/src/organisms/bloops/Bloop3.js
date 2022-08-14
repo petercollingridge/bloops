@@ -14,7 +14,6 @@ Bloop3.prototype.calculatePhenotype = function() {
     this.r = Math.sqrt(this.genome);
     this.speed = (101 - this.genome) * 0.005;
     this.angle = Math.PI * Math.random();
-    this.metabolism = 1;
 };
 
 Bloop3.prototype.getChildGenome = function() {

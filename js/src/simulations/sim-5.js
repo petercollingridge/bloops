@@ -1,18 +1,19 @@
 /**********************************************************************
- * Simulation 4
+ * Simulation 5
  * 
- * The Bloop4 creatures have genes to control size and metabolim.
+ * The Bloop5 creatures have genes to control size, metabolim and
+ * the amount of energy required before reproduction.
  * Larger creatures move slower, creatures with higher metabolism
  * use more energy per tick, but can move faster.
 ***********************************************************************/
 
 // require ../worlds/world.js
-// require ../organisms/bloops/Bloop4.js
+// require ../organisms/bloops/Bloop5.js
 
 function start(params) {
     params.width = 1200;
     params.height = 800;
-    params.creatureType = Bloop4;
+    params.creatureType = Bloop5;
     params.initialFoodNum = params.initialFoodNum || 300;
     params.initialCreatureNum = params.initialCreatureNum || 50;
 
@@ -36,6 +37,7 @@ function start(params) {
     sim.addRecorder('genomes', [
         world => world.creatures.map(c => c.genome[0]).join(','),
         world => world.creatures.map(c => c.genome[1]).join(','),
+        world => world.creatures.map(c => c.genome[2]).join(','),
     ], 50 * 60);
 
     // Record when each creature was born and died
@@ -51,5 +53,11 @@ function start(params) {
     sim.addToToolbar('Metabolism', (world) => {
         const meanGene = mean(world.creatures.map(creature => creature.metabolism));
         return Math.round(meanGene * 100) / 100;
+    });
+
+    // Record mean energy threshold on simulation toolbar
+    sim.addToToolbar('Energy', (world) => {
+        const meanGene = mean(world.creatures.map(creature => creature.reproductionThreshold));
+        return Math.round(meanGene);
     });
 }

@@ -12,9 +12,7 @@ Bloop2.prototype = Object.create(Bloop.prototype);
 
 Bloop2.prototype.calculatePhenotype = function() {
     this.r = Math.sqrt(this.genome);
-    this.speed = 0.2;
     this.angle = Math.PI * Math.random();
-    this.metabolism = 1;
 };
 
 Bloop2.prototype.getChildGenome = function() {

@@ -6,6 +6,11 @@
 
 
 const Bloop = function(position, energy, genome) {
+    // Default values
+    this.metabolism = 1;
+    this.speed = 0.2;
+    this.reproductionThreshold = 1000;
+
     Organism.call(this, position, energy, genome);
     this.childType = Bloop;
 };
@@ -13,7 +18,7 @@ Bloop.prototype = Object.create(Organism.prototype);
 
 Bloop.prototype.getColour = function() {
     // Colour based on energy/hunger
-    const energy = Math.max(0, Math.min(1, this.energy / 200));
+    const energy = Math.max(0, Math.min(1, this.energy / 500));
     const red = 255 * (1 - energy);
     const blue = 255 * energy;
     return `rgba(${red}, 60, ${blue}, 160)`;
@@ -21,9 +26,7 @@ Bloop.prototype.getColour = function() {
 
 Bloop.prototype.calculatePhenotype = function() {
     this.r = this.genome;
-    this.speed = 0.2;
     this.angle = Math.PI * Math.random();
-    this.metabolism = 1;
 };
 
 Bloop.prototype.update = function(world) {
@@ -35,7 +38,7 @@ Bloop.prototype.update = function(world) {
     if (this.energy < 0) {
         this.dead = true;
         this.died = world.time;
-    } else if (this.energy > 1000) {
+    } else if (this.energy > this.reproductionThreshold) {
         this.reproduce(world);
     }
 };
@@ -74,11 +77,11 @@ Bloop.prototype.reproduce = function(world) {
 
 Bloop.prototype.info = function() {
   const info = {
-    id: this.id,
-    age: this.age,
-    energy: this.energy,
-    speed: this.speed,
-    metabolism: this.metabolism,
+    Id: this.id,
+    Age: this.age,
+    Energy: this.energy,
+    Speed: this.speed,
+    Metabolism: this.metabolism,
   };
   return Object.assign(info, this._extra_info())
 };

@@ -1,8 +1,8 @@
 /**********************************************************************
  * Simulation 3
  * 
- * Same as simulation 2, but with the Bloop2 creature, which has a
- * gene to control its size.
+ * Same as simulation 2, but with the Bloop3 creature, which has a
+ * gene to control its size. Larger creatures move slower.
 ***********************************************************************/
 
 // require ../worlds/world.js
