@@ -25,14 +25,10 @@ Bloop4.prototype.getChildGenome = function() {
     return childGenome;
 };
 
-Bloop.prototype.info = function() {
+Bloop.prototype._extra_info = function() {
   return {
-    id: this.id,
-    age: this.age,
-    energy: this.energy,
     metabolism: this.metabolism,
     size: this.genome[0],
-    speed: this.speed,
   };
 };
 

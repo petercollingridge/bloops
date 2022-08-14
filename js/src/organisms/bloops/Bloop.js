@@ -73,11 +73,16 @@ Bloop.prototype.reproduce = function(world) {
 };
 
 Bloop.prototype.info = function() {
-  return {
+  const info = {
     id: this.id,
     age: this.age,
     energy: this.energy,
     speed: this.speed,
     metabolism: this.metabolism,
   };
+  return Object.assign(info, this._extra_info())
 };
+
+Bloop.prototype._extra_info = function() {
+  return {};
+}
