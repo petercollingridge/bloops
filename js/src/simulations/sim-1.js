@@ -20,7 +20,7 @@ function start(params) {
         Time: world => world.time,
         Food: world => world.food.length,
         Creatures: world => world.creatures.length,
-    });
+    }, 100);
 
     // Record energy on simulation toolbar
     sim.addToToolbar('Energy', (world) => {
