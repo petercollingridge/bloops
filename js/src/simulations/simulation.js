@@ -131,9 +131,9 @@ Simulation.prototype._buildControls = function() {
       });
 };
 
-Simulation.prototype.addRecorder = function(name, keys, interval) {
+Simulation.prototype.addRecorder = function(name, fields, interval) {
     interval = interval || 50;
-    const recorder = new Recorder(keys, interval, this.world);
+    const recorder = new Recorder(fields, interval, this.world);
     this.updateListeners.push(recorder);
     this.addDownloadButton(name, recorder.download.bind(recorder));
 };

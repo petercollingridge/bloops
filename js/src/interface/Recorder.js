@@ -1,24 +1,35 @@
 // Object for recording values about the world and downloading as a tab-delimited file
 // Every interval it saves data about the world into an array which can be downloaded
 
-const Recorder = function (keys, interval, world) {
-    this.keys = keys;
+const Recorder = function (fields, interval, world) {
+    this.fields = fields;
+    this.fieldNames = Object.keys(fields);
     this.interval = interval;
     this.world = world;
-    this.data = [];
+
+    // Map field name to an array of data
+    this.data = {};
+    this.fieldNames.forEach(fieldName => {
+        this.data[fieldName] = [];
+    })
+    this.dataLength = 0;
 };
 
 Recorder.prototype.update = function() {
     if (this.world.time % this.interval === 0) {
-        this.data.push(this.keys.map(key => key(this.world)));
-        console.log(this.data.length);
+        this.dataLength++;
+        this.fieldNames.forEach(fieldName => {
+            const value = this.fields[fieldName](this.world);
+            this.data[fieldName].push(value);
+        });
     }
 };
 
 Recorder.prototype.download = function() {
-    let results = '';
-    for (let i = 0; i < this.data.length; i++) {
-        results += this.data[i].join('\t') + '\n';
+    let results = this.fieldNames.join('\t') + '\n';
+    for (let i = 0; i < this.dataLength; i++) {
+        const values = this.fieldNames.map(fieldName => this.data[fieldName][i]);
+        results += values.join('\t') + '\n';
     }
     download(results);
 };
