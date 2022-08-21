@@ -92,7 +92,7 @@ class SVG(SVG_Element):
         self.styleDict = style_element.children
         self.children.append(style_element)
 
-    def addStyle(self, element, attributes):
+    def add_style(self, element, attributes):
         """
             Add style to element in self.style.children using a dictionary in
             form {selector: value}
@@ -125,7 +125,7 @@ class SVG_Style_Element(SVG_Element):
     def __init__(self):
         self.children = {}
 
-    def output(self, nesting=0):
+    def output(self):
         if not self.children:
             return ''
 

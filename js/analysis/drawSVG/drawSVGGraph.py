@@ -65,14 +65,14 @@ class Graph(SVG):
     def _addDefaultStyles(self):
         """ Set default styles to style dictionary"""
     
-        self.addStyle('.background', {'fill':'none'})
-        self.addStyle('.axis', {'stroke': '#111', 'stroke-width': 1})
-        self.addStyle('.axis-label', {'font-size': '14px', 'font-family': 'Arial', 'text-anchor': 'middle'})
-        self.addStyle('.axis-units', {'font-size':'10px', 'font-family':'Arial'})
-        self.addStyle('.y-axis-text', {'text-anchor': 'end'})
-        self.addStyle('.x-axis-text', {'text-anchor': 'middle'})
-        self.addStyle('.gridlines', {'stroke':'black', 'stroke-width':0.3, 'fill':'none', 'opacity':0.5})
-        self.addStyle('.data-series', {'stroke-width':1.8, 'fill':'none', 'opacity':1})
+        self.add_style('.background', {'fill':'none'})
+        self.add_style('.axis', {'stroke': '#111', 'stroke-width': 1})
+        self.add_style('.axis-label', {'font-size': '14px', 'font-family': 'Arial', 'text-anchor': 'middle'})
+        self.add_style('.axis-units', {'font-size':'10px', 'font-family':'Arial'})
+        self.add_style('.y-axis-text', {'text-anchor': 'end'})
+        self.add_style('.x-axis-text', {'text-anchor': 'middle'})
+        self.add_style('.gridlines', {'stroke':'black', 'stroke-width':0.3, 'fill':'none', 'opacity':0.5})
+        self.add_style('.data-series', {'stroke-width':1.8, 'fill':'none', 'opacity':1})
 
     def addData(self, series_dict):
         """ Add a dictionary of data in the form of series_dict[name] = list_of_data. """
