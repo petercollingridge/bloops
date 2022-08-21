@@ -52,6 +52,15 @@ class SVG_Element:
 
         return child
 
+    def text(self, text, x, y, **kwargs):
+        kwargs['x'] = x
+        kwargs['y'] = y
+
+        child = SVG_Element('rect', kwargs, text)
+        self.children.append(child)
+
+        return child
+
     def output(self, nesting=0):
         indent = ' ' * nesting * self.indent
 

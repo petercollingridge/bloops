@@ -331,4 +331,9 @@ class Graph(SVG):
         # Filter to prevent drawing lines that exceed boundaries
         
         path = 'M' + ' '.join('%.1f,%.1f' % (self.f_x(x), self.f_y(y)) for x, y in zip(x_data, y_data))
-        self.addChildElement('path', {'class': 'data-series', 'stroke': self.colours[series_n], 'd': path})
+        self.add('path', {'class': 'data-series', 'stroke': self.colours[series_n], 'd': path})
+
+    def add_label(self, text, x, y, options):
+        options['x'] = x
+        options['y'] = y
+        self.add('text', options, text)
