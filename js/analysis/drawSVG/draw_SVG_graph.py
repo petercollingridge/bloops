@@ -1,9 +1,6 @@
-import os
-import sys
 import math
 
 from collections import defaultdict
-
 from drawSVG import SVG
 
 #       *** To Do **
@@ -60,9 +57,9 @@ class Graph(SVG):
         self.format_x_ticks = None
         self.format_y_ticks = None
         
-        self._addDefaultStyles()
+        self._add_default_styles()
 
-    def _addDefaultStyles(self):
+    def _add_default_styles(self):
         """ Set default styles to style dictionary"""
     
         self.add_style('.background', {'fill':'none'})
@@ -74,14 +71,14 @@ class Graph(SVG):
         self.add_style('.gridlines', {'stroke':'black', 'stroke-width':0.3, 'fill':'none', 'opacity':0.5})
         self.add_style('.data-series', {'stroke-width':1.8, 'fill':'none', 'opacity':1})
 
-    def addData(self, series_dict):
+    def add_data(self, series_dict):
         """ Add a dictionary of data in the form of series_dict[name] = list_of_data. """
         
         for series_name, series_data in series_dict.items():
             self.series.append(series_name)
             self.data[series_name] = series_data
 
-    def addDataFromFile(self, filename, limit=None):
+    def add_data_from_file(self, filename, limit=None):
         """ Read in a tab-delimited file with a heading row and add to self.data dictionary """
     
         try:
@@ -101,7 +98,7 @@ class Graph(SVG):
             for key, value in self.data.items():
                 self.data[key] = value[:limit]
 
-    def addDataToSecondAxis(self, series_name):
+    def _add_data_to_second_axis(self, series_name):
         try:
             idx = self.series.index(series_name)
         except ValueError:
@@ -121,7 +118,7 @@ class Graph(SVG):
 
         x_series = range(max(len(self.data[series]) for series in y_series))
 
-        self._createGraph(x_series, y_series)
+        self._create_graph(x_series, y_series)
         
     def plot_x_on_y(self, x_series, *args):
         """ Given a list plots the first item in the list against all subsequent items in the list
@@ -132,21 +129,21 @@ class Graph(SVG):
         else:
             y_series = args
         
-        self._createGraph(self.data[x_series], y_series)
+        self._create_graph(self.data[x_series], y_series)
 
-    def _createGraph(self, x_series, y_series):
+    def _create_graph(self, x_series, y_series):
         self._calculate_axis_properties(x_series, y_series)
         x_divisions = self._calculate_divisions(self.min_x, self.max_x, self.div_x)
         y_divisions = self._calculate_divisions(self.min_y, self.max_y, self.div_y)
         
         self._determine_plotting_functions(x_divisions, y_divisions)
-        self._addBackground()
-        self._addAxes()
-        self._drawAxisUnits(x_divisions, y_divisions)
-        self._drawGridlines(x_divisions, y_divisions)
+        self._add_background()
+        self._add_axes()
+        self._draw_axis_units(x_divisions, y_divisions)
+        self._draw_gridlines(x_divisions, y_divisions)
         
         for i, series in enumerate(y_series):
-            self._plotData(x_series, self.data[series], i)
+            self._plot_data(x_series, self.data[series], i)
 
     def _calculate_axis_properties(self, x_series, y_series):
         if self.min_x is None:
@@ -219,7 +216,7 @@ class Graph(SVG):
         self.f_x = lambda x: self.origin_x + x_scaling_factor * (x - x_divisions[0])
         self.f_y = lambda y: self.attributes['height'] - self.origin_y - y_scaling_factor * (y - y_divisions[0])
 
-    def _addBackground(self):
+    def _add_background(self):
         if self.children[0].children['.background'].get('fill', 'none') != 'none':
             self.addChildElement(
                 'rect',
@@ -232,7 +229,7 @@ class Graph(SVG):
                 }
             )
 
-    def _addAxes(self):    
+    def _add_axes(self):    
         if self.x_axis_label:
             x = 0.5 * (self.origin_x + self.attributes['width'] - self.right_pad)
             y = self.attributes['height'] - self.lower_pad
@@ -267,7 +264,7 @@ class Graph(SVG):
                                 'x2': self.origin_x,
                                 'y2': self.upper_pad})
 
-    def _drawAxisUnits(self, x_divisions, y_divisions):
+    def _draw_axis_units(self, x_divisions, y_divisions):
         if self.x_axis_units or self.y_axis_units:
             axis_group = self.addChildElement('g', {'class': 'axis-units'})
     
@@ -293,7 +290,7 @@ class Graph(SVG):
                     self.format_y_ticks(y)
                 )
 
-    def _drawGridlines(self, x_divisions, y_divisions):
+    def _draw_gridlines(self, x_divisions, y_divisions):
         if self.x_gridlines or self.y_gridlines:
             gridline_group = self.addChildElement('g', {'class': 'gridlines'})
 
@@ -315,7 +312,7 @@ class Graph(SVG):
                                                 'x2': self.origin_x + self.chart_width,
                                                 'y2': gridline_y})
 
-    def _plotData(self, x_data, y_data, series_n):
+    def _plot_data(self, x_data, y_data, series_n):
         """ Create <path> of straight lines for each series of data """
        
         # If there's too much data, such that there would be < 1 px between points on the chart

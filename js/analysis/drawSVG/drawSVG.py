@@ -125,7 +125,7 @@ class SVG_Style_Element(SVG_Element):
     def __init__(self):
         self.children = {}
 
-    def output(self):
+    def output(self, nesting=None):
         if not self.children:
             return ''
 

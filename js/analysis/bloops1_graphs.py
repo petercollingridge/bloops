@@ -1,5 +1,5 @@
 import os
-from drawSVG.drawSVGGraph import Graph
+from drawSVG.draw_SVG_graph import Graph
 
 def basic_sim(folder, filename):
     """ Graph population of food and creatures """
@@ -8,7 +8,7 @@ def basic_sim(folder, filename):
     svg_file = os.path.join(folder, filename + '.svg')
 
     g = Graph({'width': 660, 'height': 300})
-    g.addDataFromFile(data_file, limit=1000)
+    g.add_data_from_file(data_file, limit=1000)
     g.div_x = 10000
     g.div_y = 100
     g.format_x_ticks = lambda n: int(n / 1000)
