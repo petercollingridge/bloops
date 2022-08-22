@@ -36,15 +36,12 @@ const Simulation = function(id, world, width, height) {
     this.display();
 };
 
-Simulation.prototype._addCanvas = function(container, world, width, height) {
+Simulation.prototype._addCanvas = function(container, world, width=600, height=400) {
     this.offsetX = 0;
     this.offsetY = 0;
     let dragging = false;
     let mouseX;
     let mouseY;
-
-    width = width || world.width;
-    height = height || world.height;
 
     const maxX = world.width - width;
     const maxY = world.height - height;

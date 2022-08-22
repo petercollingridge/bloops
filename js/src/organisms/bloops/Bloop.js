@@ -8,7 +8,7 @@
 const Bloop = function(position, energy, genome) {
     // Default values
     this.metabolism = 1;
-    this.speed = 0.2;
+    this.speed = 0.1;
     this.reproductionThreshold = 1000;
 
     Organism.call(this, position, energy, genome);
