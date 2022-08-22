@@ -31,7 +31,30 @@
     <!-- <script src="src/simulations/sim-5.js"></script> -->
 
     <script>
-        start({ width: 600, height: 400 });
+        // Initial
+        // start({ width: 600, height: 400 });
+
+        // Stable
+        // /start({ width: 600, height: 400, initialFoodNum: 312, initialCreatureNum: 50, });
+
+        // Fast food
+        // start({
+        //     width: 600,
+        //     height: 400,
+        //     initialFoodNum: 1560,
+        //     initialCreatureNum: 50,
+        //     foodEnergy: 100,
+        //     foodGrowthRate: 0.5,
+        // });
+
+        // Slow creatures in a big world
+        start({
+            width: 1200,
+            height: 800,
+            initialFoodNum: 300,
+            initialCreatureNum: 50,
+        });
+        
     </script>
 
     </body>

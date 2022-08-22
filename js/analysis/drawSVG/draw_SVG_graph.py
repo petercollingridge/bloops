@@ -189,7 +189,7 @@ class Graph(SVG):
             f = ':.{}f'.format(-magnitude)
             return lambda n: f.format(n)
         else:
-            return lambda n: '{:d}'.format(n)
+            return lambda n: '{:d}'.format(int(n))
 
     def _determine_plotting_functions(self, x_divisions, y_divisions):
         """ Find where origin of graph should start and determine mapping from data to that region """
