@@ -17,7 +17,7 @@ from drawSVG import SVG
 class Graph(SVG):
     """ Plots series of (x,y) data on a SVG line graph. """
     
-    def __init__(self, attributes=None):
+    def __init__(self, attributes=None, **kwargs):
         SVG.__init__(self, attributes)
         
         self.data = defaultdict(list)
@@ -47,12 +47,12 @@ class Graph(SVG):
         self.y_axis_label = None
         
         # These are automatically generated based on the data but can be overriden before plotting data
-        self.min_x = None
-        self.max_x = None
-        self.div_x = None
-        self.min_y = None
-        self.max_y = None
-        self.div_y = None
+        self.min_x = kwargs.get('min_x')
+        self.max_x = kwargs.get('max_x')
+        self.div_x = kwargs.get('div_x')
+        self.min_y = kwargs.get('min_y')
+        self.max_y = kwargs.get('max_y')
+        self.div_y = kwargs.get('div_y')
 
         self.format_x_ticks = None
         self.format_y_ticks = None
