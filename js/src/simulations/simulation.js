@@ -1,4 +1,4 @@
-// Top-level object for running and display the simulation
+// Top-level object for handling the running and display the simulation
 
 // require ./eventHandler.js
 // require ../interface/Recorder.js
