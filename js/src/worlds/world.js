@@ -88,7 +88,7 @@ function getWorld(params) {
 
     // Function to set initial genome
     world.getGenome = world.getGenome || (() => world.creatureR);
-    world.addCreatures(world.initialCreatureNum, world.creatureEnergy, world.getGenome);
+    world.addCreatures(world.initialCreatureNum, world.creatureEnergy);
 
     return world;
 };
