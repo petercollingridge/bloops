@@ -1,6 +1,7 @@
 // Bloop3 is like a Bloop except it has a gene controlling its size
 // Its radius is the square root of its size.
-// Size mutates when Bloop2s reproduce getting +1 or -1 50% of the time.
+// The larger they are, the slower they move
+// Size mutates when Bloop3s reproduce getting +1 or -1 50% of the time.
 
 // require ./Bloop.js
 
