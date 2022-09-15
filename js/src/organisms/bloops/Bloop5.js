@@ -26,17 +26,13 @@ Bloop5.prototype.getChildGenome = function() {
 };
 
 Bloop5.prototype._extra_info = function() {
-  return {
-    Metabolism: this.metabolism,
-    Size: this.genome[0],
-    'Repro energy': this.reproductionThreshold,
-  };
+    return {
+        Metabolism: this.metabolism,
+        Size: this.genome[0],
+        'Repro energy': this.reproductionThreshold,
+    };
 };
 
 Bloop5.getRandomGenome = function() {
-    return [
-        randomInRange(1, 100),  // Size
-        randomInRange(1, 100),  // Metabolism
-        randomInRange(1, 100),  // Reproduction threshold
-    ];
+    return getRandomGenome(3);
 };
