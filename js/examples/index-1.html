@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Bloop Simulation</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../src/styles/styles.css">
+</head>
+
+<body>
+    <h2>1. The basic simulation</h2>
+    <p>
+        Basic simulation with creatures moving at random,
+        eating food and dividing when they have enough energy.
+        They burn energy at a constant rate, and when they run out of energy they die.
+        These Bloops do not have any genes.
+    </p>
+
+        
+    <div id="bloop-sim"></div>
+
+    <script src="../src/interface/Recorder.js"></script>
+    <script src="../src/interface/Toolbar.js"></script>
+    <script src="../src/interface/Infobox.js"></script>
+    <script src="../src/interface/utils.js"></script>
+    <script src="../src/helpers/utils.js"></script>
+    <script src="../src/helpers/display.js"></script>
+    <script src="../src/organisms/utils.js"></script>
+    <script src="../src/organisms/Organism.js"></script>
+    <script src="../src/organisms/Food.js"></script>
+    <script src="../src/simulations/simulation.js"></script>
+    <script src="../src/organisms/bloops/Bloop.js"></script>
+    <script src="../src/worlds/utils.js"></script>
+    <script src="../src/worlds/world.js"></script>
+    
+    <script src="../src/simulations/sim-1.js"></script>
+
+    <script>
+        // Initial
+        // start({ width: 600, height: 400 });
+
+        // Stable
+        // /start({ width: 600, height: 400, initialFoodNum: 312, initialCreatureNum: 50, });
+
+        // Fast food
+        // start({
+        //     width: 600,
+        //     height: 400,
+        //     initialFoodNum: 1560,
+        //     initialCreatureNum: 50,
+        //     foodEnergy: 100,
+        //     foodGrowthRate: 0.5,
+        // });
+
+        // Slow creatures in a big world
+        start({
+            width: 1200,
+            height: 800,
+            initialFoodNum: 1200,
+            initialCreatureNum: 200,
+            foodGrowthRate: 0.4,
+        });
+        
+    </script>
+
+    </body>
+</html>
