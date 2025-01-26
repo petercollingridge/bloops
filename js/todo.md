@@ -7,4 +7,5 @@
 
 ## Interface
 
+  - Add a restart button
   - Show where the world viewer is
