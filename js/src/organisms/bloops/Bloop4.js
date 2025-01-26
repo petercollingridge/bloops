@@ -5,36 +5,33 @@
 
 // require ./Bloop.js
 
-const Bloop4 = function(position, energy, genome) {
-    Bloop.call(this, position, energy, genome);
-    this.childType = Bloop4;
-};
-Bloop4.prototype = Object.create(Bloop.prototype);
-
-Bloop4.prototype.calculatePhenotype = function() {
-    this.r = Math.sqrt(this.genome[0]);
-    const energyForSpeed = this.genome[1] * 0.02;
-    this.metabolism = energyForSpeed + 0.02;
-    this.speed = (101 - this.genome[0]) * energyForSpeed * 0.005;
-    this.angle = Math.PI * Math.random();
-};
-
-Bloop4.prototype.getChildGenome = function() {
-    const childGenome = this.genome.map(gene => mutate(gene));
-    return childGenome;
-};
-
-Bloop4.prototype._extra_info = function() {
-  return {
-    Metabolism: this.metabolism,
-    Size: this.genome[0],
-  };
-};
-
-Bloop4.getRandomGenome = function() {
-    // return [50, 50];
-    return [
-        randomInRange(1, 100),  // Size
-        randomInRange(1, 100),  // Metabolism
-    ];
-};
+class Bloop4 extends Bloop {
+    constructor(position, energy, genome) {
+        super(position, energy, genome);
+        this.childType = Bloop4;
+    }
+    static getRandomGenome() {
+        // return [50, 50];
+        return [
+            randomInRange(1, 100), // Size
+            randomInRange(1, 100), // Metabolism
+        ];
+    }
+    calculatePhenotype() {
+        this.r = Math.sqrt(this.genome[0]);
+        const energyForSpeed = this.genome[1] * 0.02;
+        this.metabolism = energyForSpeed + 0.02;
+        this.speed = (101 - this.genome[0]) * energyForSpeed * 0.005;
+        this.angle = Math.PI * Math.random();
+    }
+    getChildGenome() {
+        const childGenome = this.genome.map(gene => mutate(gene));
+        return childGenome;
+    }
+    _extra_info() {
+        return {
+            Metabolism: this.metabolism,
+            Size: this.genome[0],
+        };
+    }
+}

@@ -8,7 +8,7 @@
 // require ../worlds/world.js
 // require ../organisms/bloops/Bloop3.js
 
-function start(params) {
+function start(params = {}) {
     params.creatureType = Bloop3;
     params.initialFoodNum = params.initialFoodNum || 300;
     params.initialCreatureNum = params.initialCreatureNum || 50;
