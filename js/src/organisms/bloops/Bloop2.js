@@ -4,23 +4,22 @@
 
 // require ./Bloop.js
 
-const Bloop2 = function(position, energy, genome) {
-    Bloop.call(this, position, energy, genome);
-    this.childType = Bloop2;
-};
-Bloop2.prototype = Object.create(Bloop.prototype);
-
-Bloop2.prototype.calculatePhenotype = function() {
-    this.r = Math.sqrt(this.genome);
-    this.angle = Math.PI * Math.random();
-};
-
-Bloop2.prototype.getChildGenome = function() {
-    const mutation = Math.random();
-    if (mutation < 0.25 && this.genome > 1) {
-        return this.genome - 1;
-    } else if (mutation > 0.75) {
-        return this.genome + 1;
+class Bloop2 extends Bloop {
+    constructor(position, energy, genome) {
+        super(position, energy, genome);
+        this.childType = Bloop2;
     }
-    return this.genome;
-};
+    calculatePhenotype() {
+        this.r = Math.sqrt(this.genome);
+        this.angle = Math.PI * Math.random();
+    }
+    getChildGenome() {
+        const mutation = Math.random();
+        if (mutation < 0.25 && this.genome > 1) {
+            return this.genome - 1;
+        } else if (mutation > 0.75) {
+            return this.genome + 1;
+        }
+        return this.genome;
+    }
+}
