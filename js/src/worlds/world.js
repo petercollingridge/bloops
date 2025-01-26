@@ -20,8 +20,8 @@ const DEFAULT_PARAMS = {
     creatures: [],
 };
 
-function getWorld(params) {
-    const world = Object.assign(DEFAULT_PARAMS, params || {});
+function getWorld(params = {}) {
+    const world = Object.assign(DEFAULT_PARAMS, params);
 
     world.update = function() {
         this.time++;
