@@ -12,7 +12,7 @@ def basic_sim(folder, filename, **kwargs):
 
     g = Graph({'width': width, 'height': height}, div_x=10000, **kwargs)
     g.add_data_from_file(data_file, limit=1000)
-  
+
     g.format_x_ticks = lambda n: "{}K".format(int(n / 1000)) if n else n
     g.x_axis_label = 'Time (ticks)'
     g.y_axis_label = 'Population size'
