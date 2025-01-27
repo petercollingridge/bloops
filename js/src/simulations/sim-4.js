@@ -9,7 +9,7 @@
 // require ../worlds/world.js
 // require ../organisms/bloops/Bloop4.js
 
-function start(params) {
+function start(params = {}) {
     params.width = 1200;
     params.height = 800;
     params.creatureType = Bloop4;

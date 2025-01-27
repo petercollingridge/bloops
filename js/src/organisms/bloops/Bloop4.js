@@ -2,6 +2,8 @@
 // Its radius is the square root of its size.
 // The higher its metabolism, the faster it moves and the more energy it uses each turn.
 // Genes mutate when Bloop4s reproduce getting +1 or -1 50% of the time.
+//  - Gene 0: size (radius)
+//  - Gene 1: metabolism (energy consumption)
 
 // require ./Bloop.js
 
