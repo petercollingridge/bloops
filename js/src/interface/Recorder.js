@@ -1,6 +1,8 @@
 // Object for recording values about the world and downloading as a tab-delimited file
 // Every interval it saves data about the world into an array which can be downloaded
 
+const writeLine = (arr) => arr.join('\t') + '\n';
+
 class Recorder {
     constructor(fields, interval, world) {
         this.fields = fields;
@@ -25,10 +27,10 @@ class Recorder {
         }
     }
     download() {
-        let results = this.fieldNames.join('\t') + '\n';
+        let results = writeLine(this.fieldNames);
         for (let i = 0; i < this.dataLength; i++) {
             const values = this.fieldNames.map(fieldName => this.data[fieldName][i]);
-            results += values.join('\t') + '\n';
+            results += writeLine(values);
         }
         download(results);
     }
@@ -44,9 +46,10 @@ class CreatureRecorder {
         this.data.push(creature);
     }
     download() {
-        let results = '';
+        let results = writeLine(this.keys);
         this.data.forEach(creature => {
-            results += this.keys.map(key => creature[key]).join('\t') + '\n';
+            const values = this.keys.map(key => creature[key]);
+            results += writeLine(values)
         });
         download(results);
     }
