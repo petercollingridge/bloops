@@ -22,6 +22,7 @@ const DEFAULT_PARAMS = {
 
 function getWorld(params = {}) {
     const world = Object.assign(DEFAULT_PARAMS, params);
+    world.creatureId = 0;
 
     world.update = function() {
         this.time++;
@@ -53,7 +54,7 @@ function getWorld(params = {}) {
         world.creatures.push(newCreature);
     
         // Save some additional data about the creature
-        newCreature.id = getNewCreatureId();
+        newCreature.id = world.creatureId++;
         newCreature.born = world.time;
 
         if (this.creatureRecorder) {
@@ -61,6 +62,8 @@ function getWorld(params = {}) {
         }
     }
 
+    // Detect if there is a creature at a coordinate
+    // Used to select a creature
     world.findCreatureAtCoord = function(x, y) {
       let selectedCreature;
 
@@ -76,11 +79,6 @@ function getWorld(params = {}) {
       }
 
       return selectedCreature;
-    }
-
-    function getNewCreatureId() {
-        world.creatureId = (world.creatureId || 0) + 1;
-        return world.creatureId;
     }
 
     // Initialise world
