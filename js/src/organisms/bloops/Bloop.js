@@ -25,6 +25,8 @@ class Bloop extends Organism {
     calculatePhenotype() {
         this.r = this.genome;
         this.angle = Math.PI * Math.random();
+        this.dx = Math.cos(this.angle);
+        this.dy = Math.sin(this.angle);
     }
     update(world) {
         this.age++;
@@ -49,8 +51,8 @@ class Bloop extends Organism {
         }
     }
     move(world) {
-        this.x += this.speed * Math.cos(this.angle);
-        this.y += this.speed * Math.sin(this.angle);
+        this.x += this.speed * this.dx;
+        this.y += this.speed * this.dy;
 
         // Wrap around world
         if (this.x > world.width) { this.x -= world.width; }
@@ -60,6 +62,8 @@ class Bloop extends Organism {
 
         if (Math.random() < 0.05) {
             this.angle += (Math.random() - 0.5);
+            this.dx = Math.cos(this.angle);
+            this.dy = Math.sin(this.angle);
         }
     }
     reproduce(world) {
