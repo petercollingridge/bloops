@@ -18,3 +18,4 @@
   - Show where the world viewer is
   - Show the number of children a Bloop has
   - Show generation of a Bloop
+  - See if it's more efficient to use Phaser for collisions
