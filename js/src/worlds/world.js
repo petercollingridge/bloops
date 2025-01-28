@@ -15,78 +15,93 @@ const DEFAULT_PARAMS = {
     creatureType: Bloop,
     creatureEnergy: 500,
     initialCreatureNum: 10,
-    time: 0,
-    food: [],
-    creatures: [],
 };
 
-function getWorld(params = {}) {
-    const world = Object.assign(DEFAULT_PARAMS, params);
-    world.creatureId = 0;
+class World {
+    constructor(params) {
+        // Assign each key-value pair from params to the class instance
+        const allParams = Object.assign(DEFAULT_PARAMS, params);
 
-    world.update = function() {
-        this.time++;
-
-        while (Math.random() < this.foodGrowthRate) {
-            addRandomFoodUniform(this);
+        for (const [key, value] of Object.entries(allParams)) {
+            this[key] = value;
         }
 
-        updateObjects(this.creatures, world);
-        removeDeadCreatures(this.creatures, world);
-    };
+        this.creatureId = 0;
+        this.time = 0;
+        this.food = [];
+        this.creatures = []
+        this.getGenome = this.getGenome || (() => this.creatureR);
 
-    world.display = function(ctx) {
-        displayObjects(this.food, ctx);
-        displayObjects(this.creatures, ctx);
-    };
+        // Populate world with initial food and creatures
+        this.addFood(this.initialFoodNum);
+        this.addCreatures(this.initialCreatureNum, this.creatureEnergy);
+    }
 
-    // Add n randomly-positioned created with the same energy level
-    world.addCreatures = function(n, energy) {
-        const getGenome = world.creatureType.getRandomGenome || world.getGenome;
+    update() {
+        this.growFood();
+
+        updateObjects(this.creatures, this);
+        removeDeadCreatures(this.creatures, this);
+    }
+
+    addFood(n = 1) {
         for (let i = 0; i < n; i++) {
-            world.addCreature(energy, getGenome());
+            const position = getRandomPositionUniform(this);
+            const newFood = new Food(position, this.foodEnergy, this.foodR);
+            this.food.push(newFood);
         }
     }
 
-    world.addCreature = function(energy, genome, position) {
-        position = position || getRandomPositionUniform(world);
-        const newCreature = new world.creatureType(position, energy, genome);
-        world.creatures.push(newCreature);
+    growFood() {
+        while (Math.random() < this.foodGrowthRate) {
+            this.addFood();
+        }
+    }
+
+    addCreature(energy, genome, position) {
+        position = position || getRandomPositionUniform(this);
+        const newCreature = new this.creatureType(position, energy, genome);
+        this.creatures.push(newCreature);
     
         // Save some additional data about the creature
-        newCreature.id = world.creatureId++;
-        newCreature.born = world.time;
+        newCreature.id = this.creatureId++;
+        newCreature.born = this.time;
 
         if (this.creatureRecorder) {
             this.creatureRecorder.record(newCreature);
         }
     }
 
-    // Detect if there is a creature at a coordinate
-    // Used to select a creature
-    world.findCreatureAtCoord = function(x, y) {
-      let selectedCreature;
-
-      for (let i = 0; i < world.creatures.length; i++) {
-        const creature = world.creatures[i];
-        const dx = creature.x - x;
-        const dy = creature.y - y;
-        const r = creature.r;
-        if (dx * dx + dy * dy < r * r) {
-          selectedCreature = creature;
-          break;
+    // Add n randomly-positioned created with the same energy level
+    addCreatures(n, energy) {
+        const getGenome = this.creatureType.getRandomGenome || this.getGenome;
+        for (let i = 0; i < n; i++) {
+            this.addCreature(energy, getGenome());
         }
-      }
-
-      return selectedCreature;
+        
     }
 
-    // Initialise world
-    addRandomFoodUniform(world, world.initialFoodNum);
+    display(ctx) {
+        displayObjects(this.food, ctx);
+        displayObjects(this.creatures, ctx);
+    }
 
-    // Function to set initial genome
-    world.getGenome = world.getGenome || (() => world.creatureR);
-    world.addCreatures(world.initialCreatureNum, world.creatureEnergy);
-
-    return world;
-};
+    // Detect if there is a creature at a coordinate
+    // Used to select a creature
+    findCreatureAtCoord(x, y) {
+        let selectedCreature;
+  
+        for (let i = 0; i < this.creatures.length; i++) {
+            const creature = this.creatures[i];
+            const dx = creature.x - x;
+            const dy = creature.y - y;
+            const r = creature.r;
+            if (dx * dx + dy * dy < r * r) {
+                selectedCreature = creature;
+                break;
+            }
+        }
+  
+        return selectedCreature;
+    }
+}
