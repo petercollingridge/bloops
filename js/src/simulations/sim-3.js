@@ -15,7 +15,7 @@ function start(params = {}) {
     params.getGenome = () => Math.ceil(Math.random() * 100);
 
     // Create world object
-    const world = getWorld(params);
+    const world = new World(params);
 
     // Create simulation to run and display the world
     const sim = new Simulation('bloop-sim', world);
