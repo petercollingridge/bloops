@@ -24,9 +24,7 @@ function displayObjects(objects, ctx) {
 
 // Call the update method for every item in an array
 function updateObjects(objects, args) {
-    objects.forEach(function(obj) {
-        obj.update(args);
-    });
+    objects.forEach((obj) => obj.update(args));
 }
 
 function removeDeadCreatures(creatures, world) {
