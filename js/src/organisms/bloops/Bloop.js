@@ -65,9 +65,7 @@ class Bloop extends Organism {
         else if (this.y < 0) { this.y += world.height; }
 
         if (Math.random() < 0.05) {
-            this.setAngle(this.angle + Math.random() - 0.5);
-            this.dx = Math.cos(this.angle);
-            this.dy = Math.sin(this.angle);
+            this.setAngle(this.angle + Math.random() - 0.5)
         }
     }
     reproduce(world) {
