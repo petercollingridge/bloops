@@ -14,6 +14,7 @@ class Bloop extends Organism {
         this.metabolism = this.metabolism || 1;
         this.reproductionThreshold = this.reproductionThreshold || 1000;
         this.speed = this.speed || 0.1;
+        this.setAngle(Math.PI * Math.random());
     }
     getColour() {
         // Colour based on energy/hunger
@@ -24,7 +25,10 @@ class Bloop extends Organism {
     }
     calculatePhenotype() {
         this.r = this.genome;
-        this.angle = Math.PI * Math.random();
+
+    }
+    setAngle(angle) {
+        this.angle = angle;
         this.dx = Math.cos(this.angle);
         this.dy = Math.sin(this.angle);
     }
@@ -61,7 +65,7 @@ class Bloop extends Organism {
         else if (this.y < 0) { this.y += world.height; }
 
         if (Math.random() < 0.05) {
-            this.angle += (Math.random() - 0.5);
+            this.setAngle(this.angle + Math.random() - 0.5);
             this.dx = Math.cos(this.angle);
             this.dy = Math.sin(this.angle);
         }

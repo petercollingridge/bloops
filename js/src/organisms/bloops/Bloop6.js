@@ -27,7 +27,7 @@ class Bloop6 extends Bloop {
         const red = energy * 255 * Math.min(1, this.spikiness / 50);
         const blue = energy * 255 * Math.min(1, (100 - this.spikiness) / 50);
 
-        return `rgba(${red}, 0, ${blue}, 160)`;
+        return `rgba(${red}, 0, ${blue}, 128)`;
     }
     _extra_info() {
         return { Spikiness: this.genome[0] };
