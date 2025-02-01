@@ -33,28 +33,56 @@ class World {
         this.getGenome = this.getGenome || (() => this.creatureR);
 
         // Populate world with initial food and creatures
-        this.addFood(this.initialFoodNum);
+        this._addFood(this.initialFoodNum);
         this.addCreatures(this.initialCreatureNum, this.creatureEnergy);
     }
 
     update() {
         this.growFood();
-
+        this._detectBloopCollisions();
         updateObjects(this.creatures, this);
-        removeDeadCreatures(this.creatures, this);
+        this.removeDeadCreatures();
     }
 
-    addFood(n = 1) {
+    // Functions called during world.update
+    growFood() {
+        while (Math.random() < this.foodGrowthRate) {
+            this._addFood();
+        }
+    }
+
+    _detectBloopCollisions() {
+        const n = this.creatures.length;
+
+        for (let i = 0; i < n; i++) {
+            this.creatures[i].hitBloops = [];
+        }
+
+        // Create empty arrays on each bloop for each other bloop they collide with
+        for (let i = 0; i < n - 1; i++) {
+            const thisCreature = this.creatures[i];
+            for (let j = i + 1; j < n; j++) {
+                if (collide(thisCreature, this.creatures[j])) {
+                    thisCreature.hitBloops.append(this.creatures[j]);
+                    this.creatures[j].hitBloops.append(thisCreature);
+                }
+            }
+        }
+    }
+
+    removeDeadCreatures() {
+        for (let i = this.creatures.length; i--;) {
+            if (this.creatures[i].dead) {
+                this.creatures.splice(i, 1);
+            }
+        }
+    }
+
+    _addFood(n = 1) {
         for (let i = 0; i < n; i++) {
             const position = getRandomPositionUniform(this);
             const newFood = new Food(position, this.foodEnergy, this.foodR);
             this.food.push(newFood);
-        }
-    }
-
-    growFood() {
-        while (Math.random() < this.foodGrowthRate) {
-            this.addFood();
         }
     }
 

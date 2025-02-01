@@ -26,11 +26,3 @@ function displayObjects(objects, ctx) {
 function updateObjects(objects, args) {
     objects.forEach((obj) => obj.update(args));
 }
-
-function removeDeadCreatures(creatures, world) {
-    for (let i = creatures.length; i--;) {
-        if (creatures[i].dead) {
-            creatures.splice(i, 1);
-        }
-    }
-}
