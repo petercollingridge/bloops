@@ -63,8 +63,8 @@ class World {
             const thisCreature = this.creatures[i];
             for (let j = i + 1; j < n; j++) {
                 if (collide(thisCreature, this.creatures[j])) {
-                    thisCreature.hitBloops.append(this.creatures[j]);
-                    this.creatures[j].hitBloops.append(thisCreature);
+                    thisCreature.hitBloops.push(this.creatures[j]);
+                    this.creatures[j].hitBloops.push(thisCreature);
                 }
             }
         }

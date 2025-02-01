@@ -14,6 +14,7 @@ class Bloop6 extends Bloop {
     }
     calculatePhenotype() {
         this.r = 3;
+        this.speed = 1.5;
         this.spikiness = this.genome[0];
     }
     getChildGenome() {

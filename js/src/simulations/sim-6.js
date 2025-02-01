@@ -10,7 +10,12 @@
 
 function start(params = {}) {
     // Create world object
+    params.width = 1200;
+    params.height = 800;
     params.creatureType = Bloop6;
+    params.initialFoodNum = params.initialFoodNum || 300;
+    params.initialCreatureNum = params.initialCreatureNum || 50;
+
     const world = new World(params);
 
     // Create simulation to run and display the world
