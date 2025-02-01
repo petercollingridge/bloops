@@ -11,6 +11,7 @@
 
  - Add spikes that damage other bloops
  - Add armour to protect against spikes
+ - Make bloop-bloop collision function more efficient
 
 ## Interface
 
