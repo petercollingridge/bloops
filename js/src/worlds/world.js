@@ -38,6 +38,7 @@ class World {
     }
 
     update() {
+        this.time++;
         this.growFood();
         this._detectBloopCollisions();
         updateObjects(this.creatures, this);
@@ -98,6 +99,8 @@ class World {
         if (this.creatureRecorder) {
             this.creatureRecorder.record(newCreature);
         }
+
+        return newCreature;
     }
 
     // Add n randomly-positioned created with the same energy level
