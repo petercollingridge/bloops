@@ -1,7 +1,7 @@
 import math
 
 from collections import defaultdict
-from drawSVG import SVG
+from .draw_svg import SVG
 
 #       *** To Do **
 #   Don't plot lines that exceed a given min or max
@@ -16,15 +16,15 @@ from drawSVG import SVG
 
 class Graph(SVG):
     """ Plots series of (x,y) data on a SVG line graph. """
-    
+
     def __init__(self, attributes=None, **kwargs):
         SVG.__init__(self, attributes)
-        
+
         self.data = defaultdict(list)
         self.series = []
         self.second_series = []
         self.colours = ['green', '#0060e5', '#e52060', '#a00030', '#00c020', '#006010']
-        
+
         self.left_pad  = 10
         self.right_pad = 16
         self.upper_pad = 10
@@ -73,22 +73,22 @@ class Graph(SVG):
 
     def add_data(self, series_dict):
         """ Add a dictionary of data in the form of series_dict[name] = list_of_data. """
-        
+
         for series_name, series_data in series_dict.items():
             self.series.append(series_name)
             self.data[series_name] = series_data
 
     def add_data_from_file(self, filename, limit=None):
         """ Read in a tab-delimited file with a heading row and add to self.data dictionary """
-    
+
         try:
             fin = open(filename, 'r')
         except IOError:
             print("Could not open file",  filename)
             return
-        
+
         self.series = fin.readline().rstrip().split('\t')
-        
+
         for line in fin.readlines():
             values = line.rstrip('\n').split('\t')
             for i, series_name in enumerate(self.series):
