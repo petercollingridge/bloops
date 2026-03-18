@@ -11,7 +11,7 @@ class Organism {
         this.x = position.x;
         this.y = position.y;
         this.energy = energy;
-        this.genome = genome;
+        this.genome = genome || this.getRandomGenome();
         this.calculatePhenotype();
     }
 
@@ -22,6 +22,9 @@ class Organism {
     getChildGenome() {
         return this.genome;
     }
+
+    // To be overridden
+    getRandomGenome() {}
 
     // Draw organisms as a circle
     display(ctx) {

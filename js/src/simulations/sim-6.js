@@ -13,7 +13,7 @@ function start(params = {}) {
     params.width = 1200;
     params.height = 800;
     params.creatureType = Bloop6;
-    params.initialFoodNum = params.initialFoodNum || 300;
+    params.initialFoodNum = params.initialFoodNum || 1200;
     params.initialCreatureNum = params.initialCreatureNum || 50;
 
     const world = new World(params);
@@ -26,6 +26,7 @@ function start(params = {}) {
         Time: world => world.time,
         Food: world => world.food.length,
         Creatures: world => world.creatures.length,
+        Spikiness: world => mean(world.creatures.map(c => c.genome[0])),
     }, 100);
 
     // Record energy on simulation toolbar
@@ -33,5 +34,11 @@ function start(params = {}) {
         let energy = world.food.length * world.foodEnergy;
         energy += sum(world.creatures, 'energy');
         return Math.round(energy).toLocaleString();
+    });
+
+    // Record mean cell size on simulation toolbar
+    sim.addToToolbar('Mean spikiness', (world) => {
+        const meanGene = mean(world.creatures.map(creature => creature.genome[0]));
+        return Math.round(meanGene * 100) / 100;
     });
 }

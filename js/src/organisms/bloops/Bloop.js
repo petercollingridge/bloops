@@ -4,18 +4,22 @@
 
 // require ../Organism.js
 
+const creatureProps = ['energy', 'metabolism', 'reproductionThreshold', 'size', 'speed'];
 
 class Bloop extends Organism {
-    constructor(position, energy, genome) {
+    constructor(position, energy, genome, params = {}) {
         super(position, energy, genome);
         this.childType = Bloop;
 
         // Default values
-        this.metabolism = this.metabolism || 1;
-        this.reproductionThreshold = this.reproductionThreshold || 1000;
-        this.speed = this.speed || 0.1;
+        creatureProps.forEach((prop) => {
+            this[prop] = this[prop] || params[prop] || BLOOP_DEFAULTS[prop];
+        });
+
+        this.r = this.r || this.size;
         this.setAngle(Math.PI * Math.random());
     }
+
     getColour() {
         // Colour based on energy/hunger
         const energy = Math.max(0, Math.min(1, this.energy / 500));
@@ -23,20 +27,22 @@ class Bloop extends Organism {
         const blue = 255 * energy;
         return `rgba(${red}, 60, ${blue}, 160)`;
     }
-    calculatePhenotype() {
-        this.r = this.genome;
 
-    }
+    calculatePhenotype() {}
+
     setAngle(angle) {
         this.angle = angle;
         this.dx = Math.cos(this.angle);
         this.dy = Math.sin(this.angle);
     }
+
     update(world) {
         this.age++;
         this.energy -= this.metabolism;
-        this.eat(world.food);
+
         this.move(world);
+        this.eat(world.food);
+        this._update(world);
 
         if (this.energy < 0) {
             this.dead = true;
@@ -45,6 +51,7 @@ class Bloop extends Organism {
             this.reproduce(world);
         }
     }
+
     eat(food) {
         for (let i = 0; i < food.length; i++) {
             if (collide(this, food[i])) {
@@ -54,6 +61,7 @@ class Bloop extends Organism {
             }
         }
     }
+
     move(world) {
         this.x += this.speed * this.dx;
         this.y += this.speed * this.dy;
@@ -68,12 +76,20 @@ class Bloop extends Organism {
             this.setAngle(this.angle + Math.random() - 0.5)
         }
     }
+
     reproduce(world) {
         this.energy /= 2;
         const position = { x: this.x, y: this.y };
         const newGenome = this.getChildGenome();
-        world.addCreature(this.energy, newGenome, position);
+        const child = world.addCreature(this.energy, newGenome, position);
+        // Move child outside of parent
+        const dr = 1 + this.r + child.r;
+        child.x -= dr * this.dx;
+        child.y -= dr * this.dy;
+        child.dx = -this.dx
+        child.dy = -this.dy
     }
+
     info() {
         const info = {
             Id: this.id,
@@ -84,7 +100,10 @@ class Bloop extends Organism {
         };
         return Object.assign(info, this._extra_info());
     }
+
     _extra_info() {
         return {};
     }
+
+    _update(world) {}
 }

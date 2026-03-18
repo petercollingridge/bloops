@@ -13,7 +13,7 @@ The `sim-n.html` files have bundled files for the different worlds.
 
 - Basic simulation: creatures eating food
   - Look at stable population size
-  - Investigate chaning world size and creature speed
+  - Investigate changing world size and creature speed
 - Gene for size
   - Creatures evolve to get bigger
   - Investigate mutation rate and selection pressure
@@ -22,7 +22,10 @@ The `sim-n.html` files have bundled files for the different worlds.
 - Add gene for metabolism
   - Two (or more) possible stable populations
 - Add gene for spikes
-  - Prisoner's Dilemma - everyone evolves spikes
+  - Do spiky parents hurt their children?
+- Spikes allow creatures steal energy
+  - Prisoner's Dilemma - everyone evolves spikes?
+  - Does changing speed make a difference?
 - Add cost for spikes
   - What happens?
 - Add shields

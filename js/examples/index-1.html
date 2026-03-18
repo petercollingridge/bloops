@@ -25,6 +25,7 @@
     <script src="../src/interface/Toolbar.js"></script>
     <script src="../src/interface/Infobox.js"></script>
     <script src="../src/interface/utils.js"></script>
+    <script src="../src/helpers/defaults.js"></script>
     <script src="../src/helpers/utils.js"></script>
     <script src="../src/helpers/display.js"></script>
     <script src="../src/organisms/utils.js"></script>
@@ -42,7 +43,7 @@
         // start({ width: 600, height: 400 });
 
         // Stable
-        // /start({ width: 600, height: 400, initialFoodNum: 312, initialCreatureNum: 50, });
+        // start({ width: 600, height: 400, initialFoodNum: 312, initialCreatureNum: 50, });
 
         // Fast food
         // start({
@@ -55,12 +56,27 @@
         // });
 
         // Slow creatures in a big world
+        // start({
+        //     width: 1200,
+        //     height: 800,
+        //     initialFoodNum: 1200,
+        //     initialCreatureNum: 200,
+        //     foodGrowthRate: 0.4,
+        // });
+
+        // Slow creatures in a standard world
+        // start({
+        //     initialFoodNum: 1200,
+        //     initialCreatureNum: 100,
+        //     foodGrowthRate: 0.2,
+        //     creature: { speed: 0.05 },
+        // });
+
         start({
-            width: 1200,
-            height: 800,
             initialFoodNum: 1200,
-            initialCreatureNum: 200,
-            foodGrowthRate: 0.4,
+            initialCreatureNum: 50,
+            foodGrowthRate: 0.1,
+            creature: { reproductionThreshold: 2000, speed: 0.05 },
         });
         
     </script>

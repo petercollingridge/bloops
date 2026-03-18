@@ -14,8 +14,8 @@ class Bloop6 extends Bloop {
     }
     calculatePhenotype() {
         this.r = 3;
-        this.speed = 1.5;
         this.spikiness = this.genome[0];
+        this.damage = this.spikiness * this.spikiness * 0.05;
     }
     getChildGenome() {
         const childGenome = this.genome.map(gene => mutate(gene));
@@ -24,7 +24,7 @@ class Bloop6 extends Bloop {
     getColour() {
         // Colour varies from blue (not spiky) to red (most spiky)
         // The less energy the bloop has, the darker the colour
-        const energy = Math.max(0, Math.min(1, this.energy / 500));
+        const energy = Math.sqrt(Math.max(0, Math.min(1, this.energy / 500)));
         const red = energy * 255 * Math.min(1, this.spikiness / 50);
         const blue = energy * 255 * Math.min(1, (100 - this.spikiness) / 50);
 
@@ -32,5 +32,10 @@ class Bloop6 extends Bloop {
     }
     _extra_info() {
         return { Spikiness: this.genome[0] };
+    }
+    _update() {
+        this.hitBloops.forEach((bloop) => {
+            bloop.energy -= this.damage;
+        })
     }
 }

@@ -30,4 +30,6 @@ if __name__ == '__main__':
     # basic_sim('bloops1', 'bloops1_stable')
     # basic_sim('bloops1', 'bloops1_fast_food_2', max_y=700, div_y=100)
     # basic_sim('bloops1', 'bloops1_big_world_slow')
-    basic_sim('bloops1', 'Bloops1_big_world')
+    # basic_sim('bloops1', 'Bloops1_big_world')
+    # basic_sim('bloops1', 'bloops_repro_2000')
+    basic_sim('bloops1', 'data (12)')

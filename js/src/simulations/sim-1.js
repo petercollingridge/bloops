@@ -8,7 +8,7 @@
 // require ../worlds/world.js
 // require ../organisms/bloops/Bloop.js
 
-function start(params) {
+function start(params = {}) {
     // Create world object
     const world = new World(params);
 
