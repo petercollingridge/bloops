@@ -26,9 +26,9 @@ function sumSq(arr) {
     return sum;
 }
 
-function mean(arr) {
+function mean(arr, accessor) {
     if (arr.length === 0) { return null; }
-    return sum(arr) / arr.length;
+    return sum(arr, accessor) / arr.length;
 }
 
 function stdev(arr) {

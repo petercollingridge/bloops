@@ -30,7 +30,7 @@ function start(params) {
 
     // Record mean cell size on simulation toolbar
     sim.addToToolbar('Mean size', (world) => {
-        const meanSize = mean(world.creatures.map(creature => creature.genome));
+        const meanSize = mean(world.creatures, 'size');
         return Math.round(meanSize * 100) / 100;
     });
 }
