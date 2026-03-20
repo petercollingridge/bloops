@@ -73,10 +73,8 @@
         // });
 
         start({
-            initialFoodNum: 1200,
-            initialCreatureNum: 50,
-            foodGrowthRate: 0.1,
-            creature: { reproductionThreshold: 2000, speed: 0.05 },
+            food: { initialCount: 1200, growthRate: 0.1 },
+            creatures: { initialCount: 50, reproductionThreshold: 2000, speed: 0.05 },
         });
         
     </script>

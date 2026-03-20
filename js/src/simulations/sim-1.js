@@ -9,6 +9,9 @@
 // require ../organisms/bloops/Bloop.js
 
 function start(params = {}) {
+    params.creatures = params.creatures || {};
+    params.creatures.type = Bloop;
+
     // Create world object
     const world = new World(params);
 
