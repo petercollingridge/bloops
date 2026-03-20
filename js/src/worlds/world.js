@@ -6,22 +6,21 @@
 
 class World {
     constructor(params) {
-        // Assign each key-value pair from params to the class instance
-        const allParams = Object.assign(WORLD_DEFAULTS, params);
-
-        for (const [key, value] of Object.entries(allParams)) {
-            this[key] = value;
-        }
+        this.width = params.width || WORLD_DEFAULTS.width;
+        this.height = params.height || WORLD_DEFAULTS.height;
 
         this.creatureId = 0;
         this.time = 0;
+        
+        // Populate world with initial food
         this.food = [];
+        this.foodProps = Object.assign(FOOD_DEFAULTS, params.food || {});
+        this._addFood();
+        
+        // Populate world with initial creatures
         this.creatures = [];
-        this.creatureType = params.creatureType || Bloop;
-
-        // Populate world with initial food and creatures
-        this._addFood(this.initialFoodNum);
-        this.addCreatures(this.initialCreatureNum);
+        this.creatureProps = Object.assign(BLOOP_DEFAULTS, params.creatures || {});
+        this._addCreatures();
     }
 
     update() {
@@ -66,17 +65,29 @@ class World {
         }
     }
 
-    _addFood(n = 1) {
-        for (let i = 0; i < n; i++) {
+    _addFood() {
+        for (let i = 0; i < this.foodProps.initialCount; i++) {
             const position = getRandomPositionUniform(this);
-            const newFood = new Food(position, this.foodEnergy, this.foodR);
+            const newFood = new Food(position, this.foodProps.energy, this.foodProps.r);
             this.food.push(newFood);
+        }
+    }
+
+    _addCreatures() {
+        this.addCreatures(this.creatureProps.initialCount);
+    }
+
+    // Add n randomly-positioned created with the same energy level
+    addCreatures(n, energy) {
+        for (let i = 0; i < n; i++) {
+            this.addCreature(energy);
         }
     }
 
     addCreature(energy, genome, position) {
         position = position || getRandomPositionUniform(this);
-        const newCreature = new this.creatureType(position, energy, genome, this.creature);
+        const creatureType = this.creatureProps.type;
+        const newCreature = new creatureType(position, energy, genome, this.creatureProps);
         this.creatures.push(newCreature);
     
         // Save some additional data about the creature
@@ -88,13 +99,6 @@ class World {
         }
 
         return newCreature;
-    }
-
-    // Add n randomly-positioned created with the same energy level
-    addCreatures(n, energy) {
-        for (let i = 0; i < n; i++) {
-            this.addCreature(energy);
-        }
     }
 
     display(ctx) {

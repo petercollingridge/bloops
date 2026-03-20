@@ -9,10 +9,8 @@
 // require ../organisms/bloops/Bloop2.js
 
 function start(params) {
-    params.creatureR = params.creatureR || 9;
-    params.creatureType = Bloop2;
-    params.initialFoodNum = params.initialFoodNum || 300;
-    params.initialCreatureNum = params.initialCreatureNum || 50;
+    params.creatures = params.creatures || {};
+    params.creatures.type = Bloop2;
 
     // Create world object
     const world = new World(params);
