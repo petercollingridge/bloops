@@ -74,7 +74,7 @@ class World {
     }
 
     _addCreatures() {
-        this.addCreatures(this.creatureProps.initialCount);
+        this.addCreatures(this.creatureProps.initialCount, this.creatureProps.energy);
     }
 
     // Add n randomly-positioned created with the same energy level
