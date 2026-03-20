@@ -16,8 +16,8 @@ class World {
         this.creatureId = 0;
         this.time = 0;
         this.food = [];
-        this.creatures = []
-        this.creatureType = params.creature?.type || Bloop
+        this.creatures = [];
+        this.creatureType = params.creatureType || Bloop;
 
         // Populate world with initial food and creatures
         this._addFood(this.initialFoodNum);
