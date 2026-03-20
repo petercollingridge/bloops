@@ -9,10 +9,8 @@
 // require ../organisms/bloops/Bloop3.js
 
 function start(params = {}) {
-    params.creatureType = Bloop3;
-    params.initialFoodNum = params.initialFoodNum || 300;
-    params.initialCreatureNum = params.initialCreatureNum || 50;
-    params.getGenome = () => Math.ceil(Math.random() * 100);
+    params.creatures = params.creatures || {};
+    params.creatures.type = Bloop3;
 
     // Create world object
     const world = new World(params);
@@ -21,18 +19,17 @@ function start(params = {}) {
     const sim = new Simulation('bloop-sim', world);
 
     // Record the number of creatures and food so they can be downloaded
-    sim.addRecorder('world', [
-        world => world.food.length,
-        world => world.creatures.length,
-        world => mean(world.creatures.map(c => c.genome)),
-        world => stdev(world.creatures.map(c => c.genome)),
-    ]);
-
-    sim.addCreatureRecorder(['id', 'born', 'died', 'genome']);
+    sim.addRecorder('world', {
+        Time: world => world.time,
+        Food: world => world.food.length,
+        Creatures: world => world.creatures.length,
+        Size: world => mean(world.creatures, 'size'),
+        'Size std': world => stdev(world.creatures.map(creature => creature.genome[0])),
+    }, 100);
 
     // Record mean cell size on simulation toolbar
-    sim.addToToolbar('Mean gene', (world) => {
-        const meanGene = mean(world.creatures.map(creature => creature.genome));
-        return Math.round(meanGene * 100) / 100;
+    sim.addToToolbar('Mean size', (world) => {
+        const meanSize = mean(world.creatures, 'size');
+        return Math.round(meanSize * 100) / 100;
     });
 }

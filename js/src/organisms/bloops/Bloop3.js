@@ -10,11 +10,17 @@ class Bloop3 extends Bloop {
         super(position, energy, genome);
         this.childType = Bloop3;
     }
+
     calculatePhenotype() {
         this.r = Math.sqrt(this.genome);
         this.speed = (101 - this.genome) * 0.005;
         this.angle = Math.PI * Math.random();
     }
+
+    getRandomGenome() {
+        return [Math.ceil(Math.random() * 100)];
+    }
+
     getChildGenome() {
         const mutation = Math.random();
         if (mutation < 0.25 && this.genome < 100) {
