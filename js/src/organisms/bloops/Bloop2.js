@@ -9,11 +9,19 @@ class Bloop2 extends Bloop {
         super(position, energy, genome);
         this.childType = Bloop2;
     }
+
     calculatePhenotype() {
+        // Bloop2 has one gene that determines it's size
         this.r = Math.sqrt(this.genome);
         this.angle = Math.PI * Math.random();
     }
+
+    getRandomGenome() {
+        return [BLOOP_DEFAULTS.size];
+    }
+
     getChildGenome() {
+        // Mutations 25% chance of getting smaller and 25% chance of getting bigger
         const mutation = Math.random();
         if (mutation < 0.25 && this.genome > 1) {
             return this.genome - 1;
