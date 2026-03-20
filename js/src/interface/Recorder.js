@@ -2,6 +2,10 @@
 // Every interval it saves data about the world into an array which can be downloaded
 
 const writeLine = (arr) => arr.join('\t') + '\n';
+const writeObject = (obj) =>
+    Object.entries(obj)
+        .map(([key, value]) => `${key}: ${typeof value === 'function' ? value.name : value}`)
+        .join(', ') + '\n';
 
 class Recorder {
     constructor(fields, interval, world) {
@@ -10,13 +14,20 @@ class Recorder {
         this.interval = interval;
         this.world = world;
 
+        this.worldConfig = `width: ${world.width}; height: ${world.height}\n`;
+        this.worldConfig += writeObject(world.foodProps);
+        this.worldConfig += writeObject(world.creatureProps);
+
         // Map field name to an array of data
         this.data = {};
         this.fieldNames.forEach(fieldName => {
-            this.data[fieldName] = [];
+            const value = this.fields[fieldName](this.world);
+            this.data[fieldName] = [value];
         });
-        this.dataLength = 0;
+        this.dataLength = 1;
+
     }
+
     update() {
         if (this.world.time % this.interval === 0) {
             this.dataLength++;
@@ -26,8 +37,11 @@ class Recorder {
             });
         }
     }
+
     download() {
-        let results = writeLine(this.fieldNames);
+        let results = this.worldConfig;
+        results += writeLine(this.fieldNames);
+
         for (let i = 0; i < this.dataLength; i++) {
             const values = this.fieldNames.map(fieldName => this.data[fieldName][i]);
             results += writeLine(values);
