@@ -24,27 +24,7 @@
     <script src="bundles/bundle-1.js"></script>
 
     <script>
-        // Create world object
-        const world = getWorld();
-
-        // Create simulation to run and display the world
-        const sim = new Simulation('bloop-sim', world, 600, 400);
-
-        // Record the number of creatures and food so they can be downloaded
-        sim.addRecorder('population', {
-            Time: world => world.time,
-            Food: world => world.food.length,
-            Creatures: world => world.creatures.length,
-        });
-
-        // Record energy on simulation toolbar
-        sim.addToToolbar('Energy', (world) => {
-            // Total energy is all the energy in food
-            let energy = world.food.length * world.foodProps.energy;
-            // plus the energy in creatures
-            energy += sum(world.creatures, 'energy');
-            return energy.toLocaleString();
-        });
+        start();
     </script>
 
     </body>
