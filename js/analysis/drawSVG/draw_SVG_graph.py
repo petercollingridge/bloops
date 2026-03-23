@@ -24,18 +24,19 @@ class Graph(SVG):
         self.series = []
         self.second_series = []
         self.colours = ['green', '#0060e5', '#e52060', '#a00030', '#00c020', '#006010']
+        self.series_classes = ['series-green', 'series-blue', 'series-red']
 
-        self.left_pad  = 10
-        self.right_pad = 16
-        self.upper_pad = 10
-        self.lower_pad = 10
+        self.left_pad  = 15
+        self.right_pad = 20
+        self.upper_pad = 15
+        self.lower_pad = 15
         self.origin_x = self.left_pad
         self.origin_y = self.lower_pad
-        
+
         # Set default values if not already defined
         self.attributes['width'] = self.attributes.get('width', 600)
         self.attributes['height'] = self.attributes.get('height', 400)
-        
+
         # Axis options
         self.x_axis = True
         self.y_axis = True
@@ -45,8 +46,9 @@ class Graph(SVG):
         self.y_axis_units = True
         self.x_axis_label = None
         self.y_axis_label = None
-        
-        # These are automatically generated based on the data but can be overriden before plotting data
+
+        # These are automatically generated based on the data but can be overriden before
+        # plotting data
         self.min_x = kwargs.get('min_x')
         self.max_x = kwargs.get('max_x')
         self.div_x = kwargs.get('div_x')
@@ -56,20 +58,28 @@ class Graph(SVG):
 
         self.format_x_ticks = None
         self.format_y_ticks = None
-        
+
         self._add_default_styles()
 
     def _add_default_styles(self):
         """ Set default styles to style dictionary"""
-    
+
         self.add_style('.background', {'fill':'none'})
         self.add_style('.axis', {'stroke': '#111', 'stroke-width': 1})
-        self.add_style('.axis-label', {'font-size': '14px', 'font-family': 'Arial', 'text-anchor': 'middle'})
+        self.add_style('.axis-label', {'text-anchor': 'middle'})
         self.add_style('.axis-units', {'font-size':'10px', 'font-family':'Arial'})
         self.add_style('.y-axis-text', {'text-anchor': 'end'})
         self.add_style('.x-axis-text', {'text-anchor': 'middle'})
         self.add_style('.gridlines', {'stroke':'black', 'stroke-width':0.3, 'fill':'none', 'opacity':0.5})
-        self.add_style('.data-series', {'stroke-width':1.8, 'fill':'none', 'opacity':1})
+        self.add_style('.series-red', {'color': '#ae5d40'})
+        self.add_style('.series-green', {'color': '#4f7754'})
+        self.add_style('.series-blue', {'color': '#433a60'})
+        self.add_style('.data-series', {
+            'fill': 'none',
+            'opacity': 0.9,
+            'stroke': 'currentColor',
+            'stroke-width': 1.8
+        })
 
     def add_data(self, series_dict):
         """ Add a dictionary of data in the form of series_dict[name] = list_of_data. """
@@ -109,9 +119,12 @@ class Graph(SVG):
         del self.series[idx]
 
     def plot(self, *args):
-        """ Given a list of series' names, plots those series with x values equal data indices i.e. 0 to len(data) - 1. """
-    
-        if not len(args):
+        """
+        Given a list of series' names, plots those series with x values equal data indices
+        i.e. 0 to len(data) - 1.
+        """
+
+        if not args:
             y_series = self.series
         else:
             y_series = args
@@ -119,29 +132,31 @@ class Graph(SVG):
         x_series = range(max(len(self.data[series]) for series in y_series))
 
         self._create_graph(x_series, y_series)
-        
+
     def plot_x_on_y(self, x_series, *args):
-        """ Given a list plots the first item in the list against all subsequent items in the list
-            If not argument is passed then it plots the series """
-    
+        """
+        Given a list plots the first item in the list against all subsequent items in the list
+        If not argument is passed then it plots the series
+        """
+
         if not len(args):
             y_series = [series for series in self.series if series != x_series]
         else:
             y_series = args
-        
+
         self._create_graph(self.data[x_series], y_series)
 
     def _create_graph(self, x_series, y_series):
         self._calculate_axis_properties(x_series, y_series)
         x_divisions = self._calculate_divisions(self.min_x, self.max_x, self.div_x)
         y_divisions = self._calculate_divisions(self.min_y, self.max_y, self.div_y)
-        
+
         self._determine_plotting_functions(x_divisions, y_divisions)
         self._add_background()
         self._add_axes()
         self._draw_axis_units(x_divisions, y_divisions)
         self._draw_gridlines(x_divisions, y_divisions)
-        
+
         for i, series in enumerate(y_series):
             self._plot_data(x_series, self.data[series], i)
 
@@ -170,11 +185,11 @@ class Graph(SVG):
         """ Calculate a nice number of divide an axis into """
 
         division_size = math.pow(10, int(math.log(max([max_value, -min_value]), 10)))
-        if max_value / division_size > 5:
+        if max_value / division_size > 10:
             division_size *= 2
-        elif max_value / division_size < 1:
+        elif max_value / division_size < 2:
             division_size *= 0.2
-        elif max_value / division_size < 3:
+        elif max_value / division_size < 6:
             division_size *= 0.5
         return division_size
 
@@ -192,21 +207,22 @@ class Graph(SVG):
             return lambda n: '{:d}'.format(int(n))
 
     def _determine_plotting_functions(self, x_divisions, y_divisions):
-        """ Find where origin of graph should start and determine mapping from data to that region """
-        
+        """
+        Find where origin of graph should start and determine mapping from data to that region.
+        """
+
         # Make space for label if required
         if self.x_axis_label:
             self.origin_y += 20
         if self.y_axis_label:
             self.origin_x += 20
-        
+
         # Make space for units if required
         if self.x_axis_units:
-            self.origin_y += 12
+            self.origin_y += 15
         if self.y_axis_units:
-            self.origin_x += 5 * max(len(self.format_y_ticks (y)) for y in y_divisions)
-            # self.origin_x = 45
-            
+            self.origin_x += 5 + 5 * max(len(self.format_y_ticks (y)) for y in y_divisions)
+
         self.chart_width  = self.attributes['width'] - self.right_pad - self.origin_x
         self.chart_height = self.attributes['height'] - self.upper_pad - self.origin_y
         x_scaling_factor = self.chart_width  * 1.0 / (x_divisions[-1] - x_divisions[0])
@@ -229,23 +245,19 @@ class Graph(SVG):
                 }
             )
 
-    def _add_axes(self):    
+    def _add_axes(self):
         if self.x_axis_label:
             x = 0.5 * (self.origin_x + self.attributes['width'] - self.right_pad)
             y = self.attributes['height'] - self.lower_pad
-            self.addChildElement('text',
-                                {'class':'axis-label',
-                                 'x': x,
-                                 'y': y},
-                                 self.x_axis_label)
+            props = {'class':'axis-label', 'x': x, 'y': y}
+            self.addChildElement('text', props, self.x_axis_label)
 
         if self.y_axis_label:
             x = self.left_pad
             y = 0.5 * (self.attributes['height'] - self.origin_y + self.upper_pad)
-            self.addChildElement('text',
-                                {'class':'axis-label', 'x': 0, 'y': y,
-                                'transform': 'translate(%.1f) rotate(-90, 0, %.1f)' % (x+5, y)},
-                                self.y_axis_label)
+            transform = f"translate({x+5:.1f}) rotate(-90, 0, {y:.1f})"
+            props = {'class':'axis-label', 'x': 0, 'y': y, 'transform': transform}
+            self.addChildElement('text', props, self.y_axis_label)
 
         # Add tick marks/values
         if self.x_axis:
@@ -267,7 +279,7 @@ class Graph(SVG):
     def _draw_axis_units(self, x_divisions, y_divisions):
         if self.x_axis_units or self.y_axis_units:
             axis_group = self.addChildElement('g', {'class': 'axis-units'})
-    
+
         if self.x_axis_units:
             x_group = axis_group.addChildElement('g', {'class': 'x-axis-text'})
 
@@ -291,30 +303,27 @@ class Graph(SVG):
                 )
 
     def _draw_gridlines(self, x_divisions, y_divisions):
+        x1 = self.origin_x
+        x2 = x1 + self.chart_width
+        y1 = self.attributes['height'] - self.origin_y
+        y2 = y1 - self.chart_height
+
         if self.x_gridlines or self.y_gridlines:
             gridline_group = self.addChildElement('g', {'class': 'gridlines'})
 
         if self.x_gridlines:
             for x in x_divisions[1:]:
-                gridline_x = int(self.f_x(x)) + 0.5
-                gridline_group.addChildElement('line',
-                                               {'x1': gridline_x,
-                                                'y1': self.attributes['height'] - self.origin_y,
-                                                'x2': gridline_x,
-                                                'y2': self.attributes['height'] - self.origin_y - self.chart_height})
+                gx = int(self.f_x(x)) + 0.5
+                gridline_group.addChildElement('line', {'x1': gx, 'y1': y1, 'x2': gx, 'y2': y2})
 
         if self.y_gridlines:
             for y in y_divisions[1:]:
-                gridline_y = int(self.f_y(y)) + 0.5
-                gridline_group.addChildElement('line',
-                                               {'x1': self.origin_x,
-                                                'y1': gridline_y,
-                                                'x2': self.origin_x + self.chart_width,
-                                                'y2': gridline_y})
+                gy = int(self.f_y(y)) + 0.5
+                gridline_group.addChildElement('line', {'x1': x1, 'y1': gy, 'x2': x2, 'y2': gy})
 
     def _plot_data(self, x_data, y_data, series_n):
         """ Create <path> of straight lines for each series of data """
-       
+
         # If there's too much data, such that there would be < 1 px between points on the chart
         # then bin the data
         bin_size = int(len(x_data) / self.chart_width)
@@ -323,17 +332,16 @@ class Graph(SVG):
             max_n = math.floor(len(arr) / bin_size)
             return [float(sum(arr[n * bin_size:(n + 1) * bin_size])) / bin_size for n in range(max_n)]
 
-
         if bin_size > 1:
             x_data = bin_data(x_data)
             y_data = bin_data(y_data)
 
-        # Filter to prevent drawing lines that exceed boundaries
-        
-        path = 'M' + ' '.join('%.1f,%.1f' % (self.f_x(x), self.f_y(y)) for x, y in zip(x_data, y_data))
-        self.add('path', {'class': 'data-series', 'stroke': self.colours[series_n], 'd': path})
+        classname = f'data-series {self.series_classes[series_n]}'
+        path = 'M' + ' '.join(f'{self.f_x(x):.1f},{self.f_y(y):.1f}' for x, y in zip(x_data, y_data))
+        self.add('path', {'class': classname, 'd': path})
 
     def add_label(self, text, x, y, options):
+        """Add a text element at x, y to label a line."""
         options['x'] = x
         options['y'] = y
         self.add('text', options, text)
