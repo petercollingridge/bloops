@@ -20,16 +20,16 @@ def basic_sim(folder, filename, **kwargs):
     g.y_axis_label = 'Population size'
     g.plot_x_on_y('Time', 'Food', 'Creatures')
 
-    label_props = {'text-anchor': 'end', 'fill': 'currentColor'}
-    g.add_label('Food', WIDTH - 24, 140, {**label_props, 'class': g.series_classes[0]})
-    g.add_label('Creatures', WIDTH - 24, 255, {**label_props,'class': g.series_classes[1]})
+    label_props = {'text-anchor': 'end', 'fill': 'currentColor', 'font-weight': 600}
+    g.add_label('Food', WIDTH - 24, 90, {**label_props, 'class': g.series_classes[0]})
+    g.add_label('Creatures', WIDTH - 24, 248, {**label_props,'class': g.series_classes[1]})
 
     g.output_to_file(svg_file)
 
 
 if __name__ == '__main__':
     basic_sim('bloops1', 'bloops1_initial')
-    # basic_sim('bloops1', 'bloops1_stable')
+    basic_sim('bloops1', 'bloops1_stable')
     # basic_sim('bloops1', 'bloops1_fast_food_2', max_y=700, div_y=100)
     # basic_sim('bloops1', 'bloops1_big_world_slow')
     # basic_sim('bloops1', 'Bloops1_big_world')

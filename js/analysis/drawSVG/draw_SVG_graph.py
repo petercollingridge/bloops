@@ -78,7 +78,7 @@ class Graph(SVG):
             'fill': 'none',
             'opacity': 0.9,
             'stroke': 'currentColor',
-            'stroke-width': 1.8
+            'stroke-width': 2
         })
 
     def add_data(self, series_dict):
