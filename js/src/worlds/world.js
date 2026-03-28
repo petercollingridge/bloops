@@ -15,12 +15,12 @@ class World {
         // Populate world with initial food
         this.food = [];
         this.foodProps = Object.assign(FOOD_DEFAULTS, params.food || {});
-        this._addFood();
+        this.addFood(this.foodProps.initialCount);
         
         // Populate world with initial creatures
         this.creatures = [];
         this.creatureProps = Object.assign(BLOOP_DEFAULTS, params.creatures || {});
-        this._addCreatures();
+        this.addCreatures(this.creatureProps.initialCount, this.creatureProps.energy);
     }
 
     update() {
@@ -33,8 +33,8 @@ class World {
 
     // Functions called during world.update
     growFood() {
-        while (Math.random() < this.foodGrowthRate) {
-            this._addFood();
+        while (Math.random() < this.foodProps.growthRate) {
+            this.addFood(1);
         }
     }
 
@@ -65,16 +65,12 @@ class World {
         }
     }
 
-    _addFood() {
-        for (let i = 0; i < this.foodProps.initialCount; i++) {
+    addFood(n) {
+        for (let i = 0; i < n; i++) {
             const position = getRandomPositionUniform(this);
             const newFood = new Food(position, this.foodProps.energy, this.foodProps.r);
             this.food.push(newFood);
         }
-    }
-
-    _addCreatures() {
-        this.addCreatures(this.creatureProps.initialCount, this.creatureProps.energy);
     }
 
     // Add n randomly-positioned created with the same energy level
