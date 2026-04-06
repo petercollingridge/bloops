@@ -12,7 +12,7 @@ class Bloop2 extends Bloop {
 
     calculatePhenotype() {
         // Bloop2 has one gene that determines it's size
-        this.r = Math.sqrt(this.genome);
+        this.size = this.genome[0];
         this.angle = Math.PI * Math.random();
     }
 
@@ -23,11 +23,11 @@ class Bloop2 extends Bloop {
     getChildGenome() {
         // Mutations 25% chance of getting smaller and 25% chance of getting bigger
         const mutation = Math.random();
-        if (mutation < 0.25 && this.genome > 1) {
-            return this.genome - 1;
+        if (mutation < 0.25 && this.genome[0] > 1) {
+            return [this.genome[0] - 1];
         } else if (mutation > 0.75) {
-            return this.genome + 1;
+            return [this.genome[0] + 1];
         }
-        return this.genome;
+        return [this.genome[0]];
     }
 }

@@ -40,10 +40,12 @@
 
     <script>
         // Initial
-        start();
+        // start();
 
         // Stable
-        // start({ width: 600, height: 400, initialFoodNum: 312, initialCreatureNum: 50, });
+        start({
+            width: 600, height: 400, food: {initialCount: 312}, creatures: {initialCount: 50}
+        });
 
         // Fast food
         // start({

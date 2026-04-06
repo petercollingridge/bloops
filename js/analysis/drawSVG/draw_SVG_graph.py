@@ -97,12 +97,19 @@ class Graph(SVG):
             print("Could not open file",  filename)
             return
 
-        self.series = fin.readline().rstrip().split('\t')
-
+        series = False
         for line in fin.readlines():
-            values = line.rstrip('\n').split('\t')
-            for i, series_name in enumerate(self.series):
-                self.data[series_name].append(float(values[i]))
+            # Ignore lines of config
+            if ':' not in line:
+                if not series:
+                    # First non-config line is the series names
+                    series = line.rstrip().split('\t')
+                else:
+                    values = line.rstrip('\n').split('\t')
+                    for i, series_name in enumerate(series):
+                        self.data[series_name].append(float(values[i]))
+
+        self.series = series
 
         if limit:
             for key, value in self.data.items():

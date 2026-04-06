@@ -3,12 +3,13 @@ from drawSVG.draw_SVG_graph import Graph
 
 WIDTH = 720
 HEIGHT = 360
+IMG_FOLDER = 'charts'
 
 def basic_sim(folder, filename, **kwargs):
     """ Graph population of food and creatures """
 
     data_file = os.path.join(folder, filename + '.txt')
-    svg_file = os.path.join(folder, filename + '.svg')
+    svg_file = os.path.join(IMG_FOLDER, filename + '.svg')
 
     g = Graph({'width': WIDTH, 'height': HEIGHT}, div_x=10000, **kwargs)
     g.add_data_from_file(data_file, limit=1000)
@@ -28,8 +29,8 @@ def basic_sim(folder, filename, **kwargs):
 
 
 if __name__ == '__main__':
-    basic_sim('bloops1', 'bloops1_initial')
-    basic_sim('bloops1', 'bloops1_stable')
+    # basic_sim('bloops1', 'bloops1_initial')
+    basic_sim('data', 'bloops1_stable')
     # basic_sim('bloops1', 'bloops1_fast_food_2', max_y=700, div_y=100)
     # basic_sim('bloops1', 'bloops1_big_world_slow')
     # basic_sim('bloops1', 'Bloops1_big_world')
