@@ -32,7 +32,6 @@ const Recorder = function(keys, interval, world) {
 Recorder.prototype.update = function() {
     if (this.world.numTicks % this.interval === 0) {
         this.data.push(this.keys.map(key => key(this.world)));
-        console.log(this.data.length);
     }
 };
 Recorder.prototype.download = function() {

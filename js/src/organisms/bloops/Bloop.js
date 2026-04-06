@@ -16,7 +16,7 @@ class Bloop extends Organism {
             this[prop] = this[prop] || params[prop] || BLOOP_DEFAULTS[prop];
         });
 
-        this.r = this.size / 2;
+        this.r = Math.sqrt(this.size);
         this.setAngle(Math.PI * Math.random());
     }
 

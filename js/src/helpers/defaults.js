@@ -8,7 +8,7 @@ const BLOOP_DEFAULTS = {
   energy: 500,
   metabolism: 1,
   reproductionThreshold: 1000,
-  size: 6,
+  size: 9,
   speed: 0.2,
 };
 
