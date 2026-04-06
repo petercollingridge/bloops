@@ -6,6 +6,7 @@
     <title>Bloop Simulation</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../src/styles/styles.css">
 </head>
 
 <body>
@@ -18,10 +19,10 @@
 
     <div id="bloop-sim"></div>
 
-    <script src="../bundles/bundle-2.js"></script>
+    <script src="bundles/bundle-2.js"></script>
 
     <script>
-        start({ width: 600, height: 400 });
+        start({ food: { initialCount: 312 }, creatures: { initialCount: 50 } });
     </script>
 
     </body>

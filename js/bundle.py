@@ -35,11 +35,12 @@ def bundle_scripts(filenames, output_filename):
 
 
 if __name__ == '__main__':
-    filename = 'index-1.html'
+    n = 2
+    filename = f'index-{n}.html'
     script_folder = 'src'
 
     filepath = os.path.join('examples', filename)
     filenames = get_script_filenames(filepath)
     filepaths = [os.path.join(script_folder, filename) for filename in filenames]
 
-    bundle_scripts(filepaths, 'bundle-1.js')
+    bundle_scripts(filepaths, f'bundle-{n}.js')

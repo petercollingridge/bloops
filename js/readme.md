@@ -35,6 +35,8 @@ The `sim-n.html` files have bundled files for the different worlds.
 
 Note. I'm no longer using bundle.js to bundle code.
 
+Now I use bundle.py in the js folder, which is a very crude way to concatenate all the JS files.
+
 The js files are in the /src folder in separate files.
 To bundle them into a single js file,
 run `npx bundle-js ./src/simulations/sim-1.js -o ./examples/bundles/bundle-1.js`
