@@ -146,12 +146,28 @@ class Graph(SVG):
         If not argument is passed then it plots the series
         """
 
-        if not len(args):
+        if len(args) == 0:
             y_series = [series for series in self.series if series != x_series]
         else:
             y_series = args
 
         self._create_graph(self.data[x_series], y_series)
+
+    def plot_area(self, x_series, y_series_1, y_series_2):
+        """ Plot area between two series. Assumes that y_series_1 is always above y_series_2. """
+
+        x_series = self.data[x_series]
+
+        self._calculate_axis_properties(x_series, [y_series_1, y_series_2])
+        x_divisions = self._calculate_divisions(self.min_x, self.max_x, self.div_x)
+        y_divisions = self._calculate_divisions(self.min_y, self.max_y, self.div_y)
+
+        self._determine_plotting_functions(x_divisions, y_divisions)
+        self._add_background()
+        self._add_axes()
+        self._draw_axis_units(x_divisions, y_divisions)
+        self._draw_gridlines(x_divisions, y_divisions)
+        self._plot_area(x_series, self.data[y_series_1], self.data[y_series_2], 0)
 
     def _create_graph(self, x_series, y_series):
         self._calculate_axis_properties(x_series, y_series)
@@ -331,21 +347,39 @@ class Graph(SVG):
     def _plot_data(self, x_data, y_data, series_n):
         """ Create <path> of straight lines for each series of data """
 
-        # If there's too much data, such that there would be < 1 px between points on the chart
-        # then bin the data
-        bin_size = int(len(x_data) / self.chart_width)
-
-        def bin_data(arr):
-            max_n = math.floor(len(arr) / bin_size)
-            return [float(sum(arr[n * bin_size:(n + 1) * bin_size])) / bin_size for n in range(max_n)]
-
-        if bin_size > 1:
-            x_data = bin_data(x_data)
-            y_data = bin_data(y_data)
+        bin_data = self._get_bin_function(len(x_data))
+        x_data = bin_data(x_data)
+        y_data = bin_data(y_data)
 
         classname = f'data-series {self.series_classes[series_n]}'
         path = 'M' + ' '.join(f'{self.f_x(x):.1f},{self.f_y(y):.1f}' for x, y in zip(x_data, y_data))
         self.add('path', {'class': classname, 'd': path})
+
+    def _plot_area(self, x_data, y_data_1, y_data_2, series_n):
+        """ Create <path> of straight lines for each series of data """
+
+        bin_data = self._get_bin_function(len(x_data))
+        x_data = bin_data(x_data)
+        y_data_1 = bin_data(y_data_1)
+        y_data_2 = bin_data(y_data_2)
+
+        classname = f'data-series {self.series_classes[series_n]}'
+        path = 'M' + ' '.join(f'{self.f_x(x):.1f},{self.f_y(y):.1f}' for x, y in zip(x_data, y_data_1))
+        path += ' ' + ' '.join(f'{self.f_x(x):.1f},{self.f_y(y):.1f}' for x, y in zip(x_data[::-1], y_data_2[::-1])) + ' Z'
+        self.add('path', {'class': classname, 'd': path})
+
+    def _get_bin_function(self, data_length):
+        """
+        If there's too much data, such that there would be < 1 px between points on the chart
+        then bin the data
+        """
+        bin_size = int(data_length / self.chart_width)
+
+        def bin_data(arr):
+            max_n = math.floor(len(arr) / bin_size)
+            return [float(sum(arr[n * bin_size:(n + 1) * bin_size])) / bin_size for n in range(max_n)]
+        
+        return bin_data if bin_size > 1 else lambda x: x
 
     def add_label(self, text, x, y, options):
         """Add a text element at x, y to label a line."""

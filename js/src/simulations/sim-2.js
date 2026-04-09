@@ -23,7 +23,9 @@ function start(params) {
         Time: world => world.time,
         Food: world => world.food.length,
         Creatures: world => world.creatures.length,
-        Size: world => mean(world.creatures, 'size'),
+        MeanSize: world => mean(world.creatures, 'size'),
+        MinSize: world => min(world.creatures, 'size'),
+        MaxSize: world => max(world.creatures, 'size'),
     }, 100);
 
     // Record mean cell size on simulation toolbar

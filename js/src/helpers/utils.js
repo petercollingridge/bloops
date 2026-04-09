@@ -31,6 +31,30 @@ function mean(arr, accessor) {
     return sum(arr, accessor) / arr.length;
 }
 
+function min(arr, accessor) {
+    if (arr.length === 0) { return null; }
+    let minValue = accessor ? arr[0][accessor] : arr[0];
+    for (let i = 1; i < arr.length; i++) {
+        const value = accessor ? arr[i][accessor] : arr[i];
+        if (value < minValue) {
+            minValue = value;
+        }
+    }
+    return minValue;
+}
+
+function max(arr, accessor) {
+    if (arr.length === 0) { return null; }
+    let maxValue = accessor ? arr[0][accessor] : arr[0];
+    for (let i = 1; i < arr.length; i++) {
+        const value = accessor ? arr[i][accessor] : arr[i];
+        if (value > maxValue) {
+            maxValue = value;
+        }
+    }
+    return maxValue;
+}
+
 function stdev(arr) {
     if (arr.length < 1) { return null; }
     const meanValue = mean(arr);
