@@ -19,12 +19,14 @@ function start(params = {}) {
     const sim = new Simulation('bloop-sim', world);
 
     // Record the number of creatures and food so they can be downloaded
-    sim.addRecorder('world', {
+    sim.addRecorder('population', {
         Time: world => world.time,
         Food: world => world.food.length,
         Creatures: world => world.creatures.length,
         Size: world => mean(world.creatures, 'size'),
-        'Size std': world => stdev(world.creatures.map(creature => creature.genome[0])),
+        // 'Size std': world => stdev(world.creatures.map(creature => creature.genome[0])),
+        MinSize: world => min(world.creatures, 'size'),
+        MaxSize: world => max(world.creatures, 'size'),
     }, 100);
 
     // Record mean cell size on simulation toolbar

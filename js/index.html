@@ -16,6 +16,7 @@
     <script src="src/interface/Toolbar.js"></script>
     <script src="src/interface/Infobox.js"></script>
     <script src="src/interface/utils.js"></script>
+    <script src="src/helpers/defaults.js"></script>
     <script src="src/helpers/utils.js"></script>
     <script src="src/helpers/display.js"></script>
     <script src="src/organisms/utils.js"></script>
@@ -23,11 +24,12 @@
     <script src="src/organisms/Food.js"></script>
     <script src="src/simulations/simulation.js"></script>
     <script src="src/organisms/bloops/Bloop.js"></script>
-    <!-- <script src="src/organisms/bloops/Bloop5.js"></script> -->
+    <script src="src/organisms/bloops/Bloop3.js"></script>
     <script src="src/worlds/utils.js"></script>
     <script src="src/worlds/world.js"></script>
     
-    <script src="src/simulations/sim-1.js"></script>
+    <!-- <script src="src/simulations/sim-1.js"></script> -->
+    <script src="src/simulations/sim-3.js"></script>
     <!-- <script src="src/simulations/sim-5.js"></script> -->
 
     <script>
@@ -35,7 +37,7 @@
         // start({ width: 600, height: 400 });
 
         // Stable
-        // /start({ width: 600, height: 400, initialFoodNum: 312, initialCreatureNum: 50, });
+        start({ width: 600, height: 400, initialFoodNum: 312, initialCreatureNum: 50, });
 
         // Fast food
         // start({
@@ -48,13 +50,13 @@
         // });
 
         // Slow creatures in a big world
-        start({
-            width: 1200,
-            height: 800,
-            initialFoodNum: 1200,
-            initialCreatureNum: 200,
-            foodGrowthRate: 0.4,
-        });
+        // start({
+        //     width: 1200,
+        //     height: 800,
+        //     initialFoodNum: 1200,
+        //     initialCreatureNum: 200,
+        //     foodGrowthRate: 0.4,
+        // });
         
     </script>
 

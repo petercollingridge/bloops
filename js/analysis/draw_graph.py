@@ -22,11 +22,11 @@ def basic_sim(folder, filename, **kwargs):
     g.x_axis_label = 'Time (1000 ticks)'
     g.y_axis_label = 'Population size'
     # g.plot_x_on_y('Time', 'Food', 'Creatures', 'Size')
-    g.plot_x_on_y('Time', 'MeanSize')
+    g.plot_x_on_y('Time', 'MeanSize', 'MinSize', 'MaxSize')
 
     label_props = {'text-anchor': 'end', 'fill': 'currentColor', 'font-weight': 600}
-    g.add_label('Food', WIDTH - 24, 90, {**label_props, 'class': g.series_classes[0]})
-    g.add_label('Creatures', WIDTH - 24, 248, {**label_props,'class': g.series_classes[1]})
+    # g.add_label('Food', WIDTH - 24, 90, {**label_props, 'class': g.series_classes[0]})
+    # g.add_label('Creatures', WIDTH - 24, 248, {**label_props,'class': g.series_classes[1]})
 
     g.output_to_file(svg_file)
 
@@ -47,6 +47,7 @@ def graph_area(folder, filename, **kwargs):
     g.x_axis_label = 'Time (1000 ticks)'
     g.y_axis_label = 'Creature size'
     g.plot_area('Time', 'MaxSize', 'MinSize')
+    g._plot_data(g.data['Time'], g.data['MeanSize'], 0)
 
     # label_props = {'text-anchor': 'end', 'fill': 'currentColor', 'font-weight': 600}
     # g.add_label('Food', WIDTH - 24, 90, {**label_props, 'class': g.series_classes[0]})
@@ -66,4 +67,6 @@ if __name__ == '__main__':
     # basic_sim('bloops1', 'data (12)')
 
     # graph_area('data', 'bloops2_initial_long_1', max_x=2000000, div_x=100000, max_y=180)
-    basic_sim('data', 'bloops2_10_percentb', max_x=2000000, div_x=100000, max_y=180)
+    # basic_sim('data', 'bloops2_10_percentb', max_x=2000000, div_x=100000, max_y=180)
+    # basic_sim('data', 'bloops3', max_x=1000000, div_x=100000)
+    graph_area('data', 'bloops3', max_x=1000000, div_x=100000)
