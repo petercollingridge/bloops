@@ -21,11 +21,11 @@ class Bloop2 extends Bloop {
     }
 
     getChildGenome() {
-        // Mutations 25% chance of getting smaller and 25% chance of getting bigger
+        // Mutations 30% chance of getting smaller and 20% chance of getting bigger
         const mutation = Math.random();
-        if (mutation < 0.25 && this.genome[0] > 1) {
+        if (mutation < 0.40 && this.genome[0] > 1) {
             return [this.genome[0] - 1];
-        } else if (mutation > 0.75) {
+        } else if (mutation > 0.9) {
             return [this.genome[0] + 1];
         }
         return [this.genome[0]];
